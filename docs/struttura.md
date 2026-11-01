@@ -64,4 +64,37 @@ progetto/
                 └── index.html              ─── HTML generato dal capitolo MDX
 ```
 
-`capitolo.mdx` viene trasformato in HTML durante la build; i componenti interattivi vengono caricati separatamente nelle pagine che li utilizzano. `dist/` è il risultato generato, mentre `src/` contiene i file da modificare.
+## File e cartelle principali
+
+### `src/`
+Contiene i file sorgente da modificare: contenuti, componenti, stili e codice dell'applicazione. Durante la build, questi file vengono trasformati nei file finali del sito.
+
+### `src/contenuti/argomenti/Argomento1/argomento.ts`
+Contiene le informazioni generali dell'argomento, come titolo, descrizione e ordine dei capitoli. Il sito usa questi dati per creare l'indice e la navigazione.
+
+### `src/contenuti/argomenti/Argomento1/capitoli/Capitolo1/capitolo.mdx`
+Contiene il testo del capitolo. Le sezioni si scrivono come titoli Markdown, per esempio `## Sezione`; nel testo si possono anche richiamare componenti interattivi.
+
+### `src/contenuti/argomenti/Argomento1/assets-condivisi/`
+Qui vanno le risorse statiche usate in più capitoli dello stesso argomento. Ad esempio, una copertina o uno schema SVG riutilizzato in più punti. Una risorsa condivisa si salva una volta sola e viene richiamata dai capitoli che la usano.
+
+### `src/contenuti/argomenti/Argomento1/capitoli/Capitolo1/assets/`
+In `assets/` vanno le risorse statiche usate solo da quel capitolo: immagini PNG, JPG o WebP, SVG statici, schemi non interattivi, audio e video. Se una risorsa serve a più capitoli, va invece in `assets-condivisi/`.
+
+### `src/features/Argomento1/`
+Qui vanno i componenti React con codice e logica interattiva: diagrammi che reagiscono ai clic, grafici modificabili con cursori o pulsanti, visualizzazioni che cambiano in base ai dati e animazioni controllate dall'utente. Il file `.mdx` richiama il componente nel punto in cui deve apparire; il componente non va messo in `assets/`.
+
+### `src/components/layout/` e `src/components/contenuti/`
+`layout/` contiene gli elementi comuni delle pagine, come testata e piè di pagina. `contenuti/` contiene elementi didattici riutilizzabili, come figure con didascalia, formule, quiz e riquadri esplicativi.
+
+### `src/entry-server.tsx`, `src/entry-client.tsx` e `scripts/prerender.ts`
+Durante la build, `scripts/prerender.ts` prepara le pagine da generare e `entry-server.tsx` produce il loro HTML. `entry-client.tsx` avvia nel browser il codice necessario alle interazioni.
+
+### `src/styles/`
+Contiene gli stili condivisi. `tokens.css` raccoglie i valori grafici, `themes.css` gestisce tema chiaro e scuro, mentre `base.css` definisce gli stili generali.
+
+### `public/`
+Contiene file statici serviti con un indirizzo fisso, come favicon e file scaricabili. Le immagini specifiche dei capitoli si tengono invece accanto al capitolo, in `assets/`.
+
+### `dist/`
+Contiene il sito generato dalla build, con le pagine HTML finali e le risorse compilate. Non è una cartella da modificare a mano: si rigenera a partire dai file sorgente.
