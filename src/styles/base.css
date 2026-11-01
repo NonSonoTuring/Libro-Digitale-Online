@@ -1,0 +1,9 @@
+@layer base {
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: var(--desk); color: var(--ink); font-family: var(--font-body); font-feature-settings: "kern", "liga", "onum", "pnum"; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; transition: background-color .5s ease, color .5s ease; }
+  button { font: inherit; color: inherit; cursor: pointer; }
+  img { display: block; max-width: 100%; }
+  ::selection { background: color-mix(in oklab, var(--accent) 28%, transparent); }
+  * { scrollbar-width: thin; scrollbar-color: var(--rule) transparent; }
+}
