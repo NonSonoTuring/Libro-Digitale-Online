@@ -1,3 +1,5 @@
+# Struttura del progetto
+
 ```text
 src/
 ├── contenuti/
