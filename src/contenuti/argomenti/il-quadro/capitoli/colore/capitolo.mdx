@@ -1,0 +1,90 @@
+<section className="book-section" id="sec-cerchio">
+
+<h2>Il cerchio cromatico</h2>
+
+<p>
+  Nel 1704 Isaac Newton, nell'<em>Opticks</em>, chiude lo spettro su se stesso congiungendo il violetto al rosso attraverso la porpora — un colore che non esiste nell'arcobaleno — e ottiene il primo <strong>cerchio cromatico</strong>. Da allora il cerchio è lo strumento con cui si ragiona sulle relazioni fra le tinte: la vicinanza indica parentela, l'opposizione indica contrasto.
+</p>
+<Figure n="2.1" caption={<>Il cerchio a ventiquattro tinte con gli schemi armonici classici. Il complementare è la tinta opposta; la triade divide il cerchio in tre parti uguali; gli analoghi sono tinte contigue; i complementari divisi sostituiscono al complementare le due tinte adiacenti, meno brutali. La linea tratteggiata separa, per convenzione, i colori caldi dai freddi.</>}>
+  <ColorWheel />
+</Figure>
+<p>
+  Nella tradizione pittorica le <em>primarie</em> sono rosso, giallo e blu, le <em>secondarie</em> arancio, verde e viola, ottenute mescolando due primarie, e le <em>terziarie</em> le sei intermedie: è il cerchio a dodici tinte codificato da Johannes Itten al Bauhaus (<em>Arte del colore</em>, 1961). La fisica racconta una storia diversa — le primarie additive della luce sono rosso, verde e blu; quelle sottrattive della stampa ciano, magenta e giallo — ma per chi dipinge il cerchio di Itten resta una mappa efficace delle mescolanze.
+</p>
+<Note title="Perché i complementari si annullano">
+  <p>
+    Due pigmenti complementari mescolati danno un grigio: ciascuno assorbe le lunghezze d'onda che l'altro riflette. Il pittore usa questa proprietà per <em>abbassare</em> la saturazione di un colore senza sporcarlo con il nero — un arancio si spegne con una punta di blu, non con il grigio.
+  </p>
+</Note>
+
+</section>
+
+<section className="book-section" id="sec-dimensioni">
+
+<h2>Tinta, saturazione, luminosità</h2>
+
+<p>
+  Il cerchio descrive una sola dimensione del colore. Munsell ne distinse tre, e le dispose in un solido: la <strong>tinta</strong> (<em>hue</em>) gira attorno all'asse, il <strong>valore</strong> (<em>value</em>) sale lungo l'asse dal nero al bianco, il <strong>croma</strong> (<em>chroma</em>, o saturazione) si allontana dall'asse grigio verso la massima purezza. I modelli informatici HSL e HSV sono semplificazioni cilindriche dello stesso spazio.
+</p>
+<Figure n="2.2" caption={<>Le tre dimensioni separate. Ogni cursore muove il campione lungo una sola dimensione mentre le altre restano fisse; le strisce sottostanti mostrano il percorso che si sta compiendo nello spazio del colore. Osserva come, a saturazione zero, la tinta perda ogni significato.</>}>
+  <ColorLab />
+</Figure>
+<p>
+  La lezione per chi dipinge è che le tre dimensioni si governano <em>separatamente</em>. Un errore tipico del principiante è schiarire un colore aggiungendo bianco: il valore sale, ma il croma crolla e la tinta vira verso il freddo. Un pittore esperto schiarisce un rosso con un arancio chiaro, uno scuro con il suo complementare scurito, e tiene il bianco per gli ultimi lumi.
+</p>
+<DataTable
+  head={["Dimensione", "Munsell", "HSL", "Che cosa governa"]}
+  rows={[
+    ["Tinta", "hue", "H, 0–360°", "la famiglia cromatica"],
+    ["Valore", "value, 0–10", "L, 0–100%", "la struttura chiaroscurale"],
+    ["Croma", "chroma, 0–∞", "S, 0–100%", "l'intensità, la distanza dal grigio"],
+  ]}
+  caption="Le tre dimensioni nei due sistemi. In Munsell il croma non ha un massimo fisso: dipende dai pigmenti disponibili."
+  numeric={false}
+/>
+
+</section>
+
+<section className="book-section" id="sec-contrasto">
+
+<h2>Contrasto simultaneo e temperatura</h2>
+
+<p>
+  Nel 1839 Michel-Eugène Chevreul, direttore delle tinture ai Gobelins, indagò le lamentele dei clienti sui neri che «sembravano» diversi a seconda dei fili vicini e formulò la legge del <strong>contrasto simultaneo</strong>: due colori accostati si modificano a vicenda, ciascuno spingendo l'altro verso il proprio complementare. Josef Albers ne fece, in <em>Interazione del colore</em> (1963), un intero metodo didattico.
+</p>
+<Figure n="2.3" caption={<>I due quadrati centrali sono identici in ogni pannello. Su fondo blu il grigio sembra caldo, su fondo arancio sembra freddo; su fondo scuro sembra chiaro, su fondo chiaro sembra scuro. Il pulsante li congiunge con una banda dello stesso colore: la prova che l'occhio non misura, ma confronta.</>}>
+  <SimultaneousContrast />
+</Figure>
+<p>
+  Dal contrasto discende la nozione di <strong>temperatura</strong>. I colori dalla parte del rosso-arancio sono percepiti come <em>caldi</em>, quelli dalla parte del blu come <em>freddi</em>; ma la temperatura è relativa: un viola è freddo accanto a un rosso e caldo accanto a un blu. I caldi tendono ad <em>avanzare</em> verso l'osservatore, i freddi a <em>recedere</em> — un effetto che Leonardo aveva già descritto come <em>prospettiva aerea</em>: le montagne lontane sono azzurre perché l'aria interposta diffonde la luce blu.
+</p>
+<Example title="Nella natura morta">
+  <p>
+    Il panno blu oltremare è l'unico colore freddo del dipinto. Per contrasto simultaneo rende le pere e la brocca ancora più calde di quanto siano, e viceversa il suo blu appare più intenso circondato dalle terre. Un solo accento complementare organizza l'intera tavolozza.
+  </p>
+</Example>
+
+</section>
+
+<section className="book-section" id="sec-tavolozze">
+
+<h2>Le tavolozze dei maestri</h2>
+
+<p>
+  Contrariamente a quanto si crede, i grandi coloristi hanno quasi sempre usato <em>pochi</em> pigmenti. Una tavolozza limitata garantisce l'armonia per costruzione: ogni mescolanza condivide gli stessi ingredienti, e il quadro acquista un'unità tonale che nessuna teoria potrebbe imporre a posteriori.
+</p>
+<Palettes />
+<p>
+  La tavolozza attribuita ad Anders Zorn — ocra gialla, vermiglione, nero avorio e bianco — copre un cerchio cromatico sorprendentemente ampio: il nero avorio, leggermente bluastro, mescolato all'ocra dà verdi oliva credibili, e con il bianco dà grigi freddi che fungono da blu. Velázquez, nei <em>bodegones</em> giovanili, lavora con terre e un solo rosso. La nostra natura morta segue la stessa logica: terre e ocre per il novanta per cento della superficie, un unico pigmento costoso — l'oltremare, che fino all'Ottocento si ricavava dal lapislazzuli — per l'accento.
+</p>
+<History title="Il prezzo del blu">
+  <p>
+    Nel Seicento l'oltremare naturale costava più dell'oro; i contratti specificavano quanti grammi il pittore dovesse impiegare e dove. Vermeer lo usò con una prodigalità che contribuì ai suoi debiti. L'oltremare sintetico, scoperto da Guimet nel 1826, lo rese accessibile a tutti — e con esso cambiò la tavolozza dell'Impressionismo.
+  </p>
+</History>
+
+</section>
+
+<Takeaways items={["Il cerchio cromatico organizza le relazioni fra tinte: complementari, triadi, analoghi; i complementari mescolati si neutralizzano.","Il colore ha tre dimensioni — tinta, valore, croma — che il pittore governa separatamente; il valore comanda.","Per contrasto simultaneo i colori accostati si modificano a vicenda; la temperatura è relativa e governa la profondità.","Le tavolozze limitate producono armonia per costruzione: pochi pigmenti, un solo accento."]} />
+
+<Quiz items={[{"question":"Per ridurre la saturazione di un arancio senza «sporcarlo», un pittore esperto aggiunge preferibilmente:","options":["Nero","Grigio neutro","Una piccola quantità di blu, il suo complementare","Bianco"],"answer":2,"explanation":"Il complementare neutralizza il croma mantenendo la vitalità della mescolanza; nero e bianco alterano anche il valore e spesso la tinta."},{"question":"Secondo la legge di Chevreul, un grigio neutro posto su un fondo arancio intenso tende ad apparire:","options":["Più caldo","Leggermente bluastro, cioè più freddo","Più scuro ma della stessa tinta","Più saturo"],"answer":1,"explanation":"Ogni colore spinge il vicino verso il proprio complementare: il complementare dell'arancio è il blu."}]} />

@@ -62,7 +62,7 @@ export default function App() {
           ) : route.view === "topic" ? (
             <CourseIndex topic={topic} onHome={home} onOpenChapter={(id) => openChapter(topic.id, id)} />
           ) : chapter ? (
-            <ChapterPage topic={topic} chapter={chapter} onIndex={() => openTopic(topic.id)} />
+            <ChapterPage topic={topic} chapter={chapter} onIndex={() => openTopic(topic.id)} onOpenChapter={(id) => openChapter(topic.id, id)} />
           ) : (
             <Home theme={theme} onOpenTopic={openTopic} onOpenChapter={openChapter} />
           )}

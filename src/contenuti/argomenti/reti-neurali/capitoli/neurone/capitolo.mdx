@@ -1,0 +1,123 @@
+<section className="book-section" id="sec-astrazione">
+
+<h2>Un'astrazione del neurone biologico</h2>
+
+<p>
+  Un neurone biologico riceve segnali elettrochimici attraverso i <Term def="Ramificazioni della cellula nervosa che ricevono i segnali in ingresso dalle sinapsi di altri neuroni.">dendriti</Term>, li integra nel corpo cellulare e, se la somma supera una soglia, emette un potenziale d'azione lungo l'assone. La rete neurale artificiale nasce da una semplificazione radicale di questo meccanismo: si trattiene la <em>somma pesata</em> degli ingressi e la <em>soglia</em>, si lascia cadere tutto il resto.
+</p>
+<Figure n="1.1" caption={<>Una rete di neuroni artificiali in funzione. Gli impulsi si propagano dagli ingressi verso l'uscita attraversando gli strati nascosti; lo spessore delle connessioni è proporzionale al modulo del peso, il colore ne indica il segno. Passa il cursore su un nodo per isolarne le connessioni.</>}>
+  <NeuralNet layers={[3, 5, 4, 2]} labels={["ingressi", "strato 1", "strato 2", "uscite"]} height={330} />
+</Figure>
+<p>
+  Il primo modello formale è dovuto a Warren McCulloch e Walter Pitts (1943). Il loro neurone è un'unità a <em>logica di soglia</em>: riceve ingressi binari <M>{"x_i \\in \\{0,1\\}"}</M>, ciascuno moltiplicato per un peso <M>{"w_i"}</M>, e produce un'uscita binaria quando la somma raggiunge la soglia <M>{"\\theta"}</M>.
+</p>
+<Eq tex={String.raw`y \;=\; \mathbb{1}\!\left[\;\sum_{i=1}^{n} w_i\,x_i \;\ge\; \theta\;\right]`} label="1.1" note="unità di McCulloch–Pitts" />
+<p>
+  Con pesi e soglie opportuni l'unità realizza le porte logiche elementari: per l'AND di due ingressi bastano <M>{"w_1 = w_2 = 1"}</M> e <M>{"\\theta = 2"}</M>; per l'OR, <M>{"\\theta = 1"}</M>; una connessione inibitoria con peso negativo realizza il NOT. Poiché ogni funzione booleana è esprimibile con AND, OR e NOT, una rete di tali unità può calcolare qualunque funzione logica finita — risultato notevole, che però tace su un punto decisivo: <strong>i pesi vanno fissati a mano</strong>. Il modello non apprende.
+</p>
+<History title="1943 — Un calcolo logico delle idee immanenti nell'attività nervosa">
+  <p>
+    L'articolo di McCulloch e Pitts apparve sul <em>Bulletin of Mathematical Biophysics</em> e influenzò direttamente John von Neumann nella progettazione dell'architettura dei calcolatori. Pitts, autodidatta, aveva diciannove anni.
+  </p>
+</History>
+
+</section>
+
+<section className="book-section" id="sec-percettrone">
+
+<h2>Il percettrone di Rosenblatt</h2>
+
+<p>
+  Nel 1958 Frank Rosenblatt propone il <strong>percettrone</strong>, che differisce dall'unità di McCulloch–Pitts per due aspetti: gli ingressi sono reali e, soprattutto, i pesi vengono <em>appresi</em> dagli esempi attraverso una regola di correzione dell'errore.
+</p>
+<Definition term="Percettrone">
+  <p>
+    Dati un vettore di pesi <M>{"\\mathbf{w} \\in \\mathbb{R}^n"}</M> e un bias <M>{"b \\in \\mathbb{R}"}</M>, il percettrone calcola <M>{"\\hat{y} = H(\\mathbf{w}^{\\!\\top}\\mathbf{x} + b)"}</M>, dove <M>{"H"}</M> è la funzione gradino di Heaviside. L'insieme dei punti con <M>{"\\mathbf{w}^{\\!\\top}\\mathbf{x} + b = 0"}</M> è un iperpiano che separa lo spazio degli ingressi in due semispazi: il <em>confine di decisione</em>.
+  </p>
+</Definition>
+<p>
+  Il vettore <M>{"\\mathbf{w}"}</M> è ortogonale al confine e punta verso il semispazio della classe positiva; il bias ne regola la distanza dall'origine. Apprendere significa spostare e ruotare questo iperpiano finché gli esempi sono classificati correttamente. La regola di apprendimento, applicata a ogni esempio <M>{"(\\mathbf{x}, t)"}</M> con <M>{"t \\in \\{0,1\\}"}</M>, è di una semplicità disarmante:
+</p>
+<Eq tex={String.raw`\mathbf{w} \leftarrow \mathbf{w} + \eta\,(t - \hat{y})\,\mathbf{x}, \qquad b \leftarrow b + \eta\,(t - \hat{y})`} label="1.2" note="regola del percettrone" />
+<p>
+  Se la previsione è corretta, <M>{"t - \\hat{y} = 0"}</M> e nulla cambia. Se un esempio positivo è stato scartato, <M>{"\\mathbf{w}"}</M> viene spinto <em>verso</em> <M>{"\\mathbf{x}"}</M>; se un negativo è stato accettato, viene spinto <em>via</em> da <M>{"\\mathbf{x}"}</M>. Il parametro <M>{"\\eta > 0"}</M>, il tasso di apprendimento, controlla l'entità della correzione.
+</p>
+<Figure n="1.2" caption={<>Laboratorio del percettrone. Regola i pesi a mano, oppure premi «Allena» per osservare la regola (1.2) all'opera: a ogni passo viene corretto il primo esempio classificato male (cerchiato in rosso). Con il dataset XOR l'algoritmo non converge mai.</>}>
+  <Perceptron />
+</Figure>
+<Theorem name="di convergenza del percettrone (Novikoff, 1962)">
+  <p>
+    Se gli esempi sono linearmente separabili con margine <M>{"\\gamma > 0"}</M> e sono contenuti in una sfera di raggio <M>{"R"}</M>, la regola del percettrone compie al più <M>{"(R/\\gamma)^2"}</M> aggiornamenti prima di trovare un iperpiano separatore, qualunque sia l'ordine di presentazione degli esempi.
+  </p>
+</Theorem>
+<p>
+  Il teorema garantisce la convergenza ma non dice nulla sulla <em>qualità</em> della soluzione: tra gli infiniti iperpiani separatori, il percettrone si ferma al primo che incontra. L'idea di scegliere quello di margine massimo porterà, trent'anni dopo, alle macchine a vettori di supporto.
+</p>
+
+</section>
+
+<section className="book-section" id="sec-attivazioni">
+
+<h2>Funzioni di attivazione</h2>
+
+<p>
+  Il gradino di Heaviside ha un difetto grave: la sua derivata è nulla ovunque, tranne nell'origine dove non esiste. Per addestrare reti con più strati occorre sostituirlo con una funzione <Term def="Una funzione che, applicata alla somma pesata degli ingressi, determina l'uscita del neurone. Introduce la non linearità necessaria alla rete.">di attivazione</Term> <M>{"\\varphi"}</M> derivabile, in modo che l'uscita <M>{"a = \\varphi(\\mathbf{w}^{\\!\\top}\\mathbf{x} + b)"}</M> vari con continuità al variare dei pesi.
+</p>
+<Note title="Perché serve una non linearità">
+  <p>
+    La composizione di due mappe affini è ancora affine: <M>{"W_2(W_1\\mathbf{x} + \\mathbf{b}_1) + \\mathbf{b}_2 = (W_2W_1)\\mathbf{x} + (W_2\\mathbf{b}_1 + \\mathbf{b}_2)"}</M>. Senza una <M>{"\\varphi"}</M> non lineare fra gli strati, una rete profonda quanto si vuole equivarrebbe a un singolo strato lineare.
+  </p>
+</Note>
+<Figure n="1.3" caption={<>Le principali funzioni di attivazione e le loro derivate. Osserva come sigmoide e tangente iperbolica si appiattiscano agli estremi (derivata prossima a zero), mentre la ReLU mantiene pendenza unitaria per ogni <M>{"z > 0"}</M>.</>}>
+  <ActivationChart />
+</Figure>
+<p>
+  La <strong>sigmoide logistica</strong> fu a lungo la scelta canonica: schiaccia la retta reale nell'intervallo <M>{"(0,1)"}</M>, il che consente di leggerne l'uscita come una probabilità, e ha una derivata elegante:
+</p>
+<Eq tex={String.raw`\sigma'(z) = \sigma(z)\bigl(1-\sigma(z)\bigr) \;\le\; \tfrac{1}{4}`} label="1.3" />
+<p>
+  Proprio quel limite superiore di <M>{"1/4"}</M> è il suo tallone d'Achille. Nella retropropagazione (capitolo 3) i gradienti si moltiplicano strato dopo strato: con dieci strati sigmoidali il segnale può ridursi di un fattore <M>{"4^{-10} \\approx 10^{-6}"}</M>. È il problema del <em>gradiente evanescente</em>, che per anni ha impedito di addestrare reti davvero profonde. La <strong>ReLU</strong> — <em>rectified linear unit</em>, proposta in questo contesto da Nair e Hinton nel 2010 — lo aggira con una derivata che vale esattamente 1 per ogni ingresso positivo.
+</p>
+
+</section>
+
+<section className="book-section" id="sec-xor">
+
+<h2>Il limite: la funzione XOR</h2>
+
+<p>
+  Nel 1969 Marvin Minsky e Seymour Papert pubblicano <em>Perceptrons</em>, un'analisi matematica rigorosa di che cosa un singolo percettrone possa e non possa calcolare. L'esempio divenuto emblematico è l'<strong>OR esclusivo</strong>:
+</p>
+<DataTable
+  head={["x₁", "x₂", "x₁ XOR x₂"]}
+  rows={[
+    ["0", "0", "0"],
+    ["0", "1", "1"],
+    ["1", "0", "1"],
+    ["1", "1", "0"],
+  ]}
+  caption="Tabella di verità dello XOR: i punti positivi (0,1) e (1,0) stanno su una diagonale, i negativi sull'altra."
+/>
+<p>
+  Nessuna retta separa i due positivi dai due negativi. La dimostrazione è immediata: se esistessero <M>{"w_1, w_2, b"}</M> tali che <M>{"b < 0"}</M>, <M>{"w_1 + b > 0"}</M>, <M>{"w_2 + b > 0"}</M> e <M>{"w_1 + w_2 + b < 0"}</M>, sommando la seconda e la terza si avrebbe <M>{"w_1 + w_2 + 2b > 0"}</M>, cioè <M>{"w_1 + w_2 + b > -b > 0"}</M>, in contraddizione con la quarta.
+</p>
+<p>
+  La soluzione è altrettanto istruttiva: basta uno strato intermedio. Due neuroni nascosti calcolano rispettivamente l'OR e l'AND degli ingressi, e un neurone d'uscita calcola «OR ma non AND»:
+</p>
+<Eq tex={String.raw`h_1 = H(x_1 + x_2 - 0{,}5),\quad h_2 = H(x_1 + x_2 - 1{,}5),\quad y = H(h_1 - h_2 - 0{,}5)`} label="1.4" />
+<Example title="Verifica">
+  <p>
+    Per <M>{"(1,1)"}</M>: <M>{"h_1 = H(1{,}5) = 1"}</M>, <M>{"h_2 = H(0{,}5) = 1"}</M>, quindi <M>{"y = H(-0{,}5) = 0"}</M>. Per <M>{"(1,0)"}</M>: <M>{"h_1 = 1"}</M>, <M>{"h_2 = H(-0{,}5) = 0"}</M>, quindi <M>{"y = H(0{,}5) = 1"}</M>. Lo strato nascosto ha <em>trasformato</em> lo spazio degli ingressi in uno in cui il problema è linearmente separabile.
+  </p>
+</Example>
+<History title="Il primo inverno">
+  <p>
+    Minsky e Papert sapevano che le reti multistrato superavano il limite, ma nel 1969 non esisteva un algoritmo per addestrarle. Il loro libro contribuì a prosciugare i finanziamenti alla ricerca connessionista per oltre un decennio; la svolta arriverà nel 1986 con la retropropagazione dell'errore.
+  </p>
+</History>
+
+</section>
+
+<Takeaways items={["Il neurone artificiale è una somma pesata seguita da una non linearità: tutta la biologia è stata ridotta a questo.","Il percettrone apprende correggendo i pesi in proporzione all'errore; se i dati sono linearmente separabili, converge in un numero finito di passi.","Le funzioni di attivazione devono essere derivabili e non lineari; la loro derivata determina quanto bene il gradiente attraversa gli strati.","Un singolo strato non può calcolare lo XOR; uno strato nascosto cambia la rappresentazione degli ingressi e rende il problema separabile."]} />
+
+<Quiz items={[{"question":"Perché una rete con molti strati ma senza funzioni di attivazione non lineari è equivalente a un solo strato?","options":["Perché i bias si annullano a vicenda","Perché la composizione di mappe affini è ancora una mappa affine","Perché il gradiente diventa nullo","Perché i pesi degli strati interni non possono essere appresi"],"answer":1,"explanation":"Il prodotto di matrici è una matrice: W₂(W₁x + b₁) + b₂ si riscrive come W'x + b'. Senza non linearità la profondità non aggiunge capacità espressiva."},{"question":"Secondo il teorema di Novikoff, da che cosa dipende il numero massimo di aggiornamenti del percettrone?","options":["Dal numero di esempi nel dataset","Dal tasso di apprendimento η","Dal rapporto fra il raggio dei dati e il margine di separazione","Dalla dimensione dello spazio degli ingressi"],"answer":2,"explanation":"Il limite è (R/γ)²: dati più «larghi» o un margine più stretto richiedono più correzioni. Sorprendentemente il numero di esempi e la dimensione non compaiono."}]} />

@@ -9,5 +9,6 @@ export function CourseIndex({ topic, onHome, onOpenChapter }: { topic: Topic; on
       <div className="prerequisites"><h2>Prerequisiti</h2><ul>{topic.prerequisites.map((p)=><li key={p}>{p}</li>)}</ul></div>
     </section>
     <section className="index-chapters"><span className="eyebrow">Indice</span><h2>Capitoli</h2><ol>{topic.chapters.map((c,i)=><motion.li key={c.id} initial={{opacity:0,y:10}} animate={{opacity:1,y:0}} transition={{delay:i*.08}}><button onClick={()=>onOpenChapter(c.id)}><span className="index-number">0{i+1}</span><span><strong>{c.title}</strong><small>{c.sections.join(" · ")}</small></span><span className="index-minutes">{c.minutes} min →</span></button></motion.li>)}</ol></section>
+    <section className="index-references"><span className="eyebrow">Letture</span><h2>Riferimenti</h2><ol>{topic.references.map((reference) => <li key={reference}>{reference}</li>)}</ol></section>
   </div>;
 }

@@ -1,0 +1,90 @@
+<section className="book-section" id="sec-estrusione">
+
+<h2>Dal punto all'ipercubo</h2>
+
+<p>
+  Un punto che si sposta traccia un segmento. Un segmento che si sposta perpendicolarmente a se stesso spazza un quadrato; un quadrato, un cubo. La costruzione non ha ragione di fermarsi: un cubo spostato in una direzione perpendicolare a tutte e tre le precedenti genera un <strong>ipercubo</strong> quadridimensionale, o <em>tesseratto</em>. Che non possiamo visualizzare quella direzione è un limite dei nostri sensi, non della geometria.
+</p>
+<Definition term="n-cubo">
+  <p>
+    L'<M>{"n"}</M>-cubo unitario è l'insieme <M>{"[0,1]^n = \\{(x_1, \\dots, x_n) : 0 \\le x_i \\le 1\\}"}</M>. I suoi vertici sono i punti a coordinate in <M>{"\\{0,1\\}"}</M>, e sono dunque <M>{"2^n"}</M>: 2 per il segmento, 4 per il quadrato, 8 per il cubo, 16 per il tesseratto.
+  </p>
+</Definition>
+<p>
+  Ogni passaggio di dimensione <em>raddoppia</em> i vertici (quelli della copia di partenza e quelli della copia d'arrivo) e trasforma ogni elemento in uno di dimensione superiore: ogni vertice spazzato produce uno spigolo, ogni spigolo una faccia, ogni faccia una cella cubica. Ne discende una ricorsione per il numero <M>{"f_k(n)"}</M> di facce <M>{"k"}</M>-dimensionali dell'<M>{"n"}</M>-cubo:
+</p>
+<Eq tex={String.raw`f_k(n) = 2\,f_k(n-1) + f_{k-1}(n-1)`} label="3.1" note="due copie del vecchio, più ciò che viene spazzato" />
+
+</section>
+
+<section className="book-section" id="sec-tesseratto">
+
+<h2>Il tesseratto in rotazione</h2>
+
+<p>
+  Il tesseratto ha vertici in <M>{"(\\pm 1, \\pm 1, \\pm 1, \\pm 1)"}</M> e uno spigolo congiunge due vertici che differiscono in una sola coordinata. Per mostrarlo su uno schermo bidimensionale occorrono due proiezioni in cascata: dalla quarta dimensione alla terza, poi dalla terza alla seconda. Usando per entrambe la prospettiva della (2.4), le parti dell'ipercubo con <M>{"w"}</M> maggiore appaiono più grandi — «più vicine» a noi lungo la direzione invisibile.
+</p>
+<Figure n="3.1" caption={<>Il tesseratto proiettato in prospettiva. In quattro dimensioni una rotazione non avviene attorno a un asse ma <em>in un piano</em>, e i piani coordinati sono sei. Le rotazioni nei piani che coinvolgono <M>{"w"}</M> producono l'effetto «cubo che si rovescia»: la cella interna scorre all'esterno e viceversa. Il colore codifica la coordinata <M>{"w"}</M>.</>}>
+  <Tesseract />
+</Figure>
+<p>
+  Il fatto che le rotazioni avvengano in piani e non attorno ad assi merita una riflessione. Nel piano, una rotazione fissa un punto; nello spazio fissa una retta (l'asse); in quattro dimensioni fissa un intero piano. Il numero di piani coordinati è <M>{"\\binom{n}{2}"}</M>: 1 in due dimensioni, 3 in tre (da cui l'illusione che «asse» e «piano di rotazione» coincidano), 6 in quattro. Esistono inoltre <em>doppie rotazioni</em>, in due piani ortogonali simultaneamente, che non hanno alcun analogo tridimensionale.
+</p>
+
+</section>
+
+<section className="book-section" id="sec-contare">
+
+<h2>Contare le facce dell'ipercubo</h2>
+
+<p>
+  La ricorsione (3.1) si risolve in forma chiusa con un argomento combinatorio diretto. Una faccia <M>{"k"}</M>-dimensionale dell'<M>{"n"}</M>-cubo si ottiene lasciando libere <M>{"k"}</M> coordinate e fissando le altre <M>{"n-k"}</M> al valore 0 oppure 1. Le coordinate libere si scelgono in <M>{"\\binom{n}{k}"}</M> modi, e i valori fissati in <M>{"2^{n-k}"}</M> modi:
+</p>
+<Eq tex={String.raw`f_k(n) = 2^{\,n-k}\binom{n}{k}`} label="3.2" />
+<DataTable
+  head={["n-cubo", "Vertici f₀", "Spigoli f₁", "Facce f₂", "Celle f₃", "Ipercelle f₄", "Σ(−1)ᵏ fₖ"]}
+  rows={[
+    ["Punto (n = 0)", "1", "—", "—", "—", "—", "1"],
+    ["Segmento (n = 1)", "2", "1", "—", "—", "—", "1"],
+    ["Quadrato (n = 2)", "4", "4", "1", "—", "—", "1"],
+    ["Cubo (n = 3)", "8", "12", "6", "1", "—", "1"],
+    ["Tesseratto (n = 4)", "16", "32", "24", "8", "1", "1"],
+  ]}
+  highlightRow={4}
+  caption="Gli elementi degli n-cubi fino al tesseratto. L'ultima colonna include il solido stesso come faccia n-dimensionale: la somma alternata vale sempre 1."
+/>
+<p>
+  L'ultima colonna generalizza la formula di Eulero. Contando anche l'<M>{"n"}</M>-cubo stesso come faccia di dimensione <M>{"n"}</M>, la somma alternata <M>{"\\sum_k (-1)^k f_k"}</M> vale sempre 1, perché è lo sviluppo di <M>{"(2-1)^n"}</M> per il teorema binomiale. Escludendo l'interno, per il tesseratto si trova <M>{"16 - 32 + 24 - 8 = 0"}</M>: la sua superficie è una <em>3-sfera</em>, e la caratteristica di Eulero delle sfere di dimensione dispari è nulla — così come era 2 per la sfera ordinaria del capitolo 1.
+</p>
+<Example title="Verifica sul tesseratto">
+  <p>
+    Spigoli: <M>{"2^{3}\\binom{4}{1} = 8 \\cdot 4 = 32"}</M>. Facce: <M>{"2^{2}\\binom{4}{2} = 4 \\cdot 6 = 24"}</M>. Celle: <M>{"2^{1}\\binom{4}{3} = 2 \\cdot 4 = 8"}</M>. Il tesseratto è delimitato da otto cubi, come il cubo è delimitato da sei quadrati.
+  </p>
+</Example>
+
+</section>
+
+<section className="book-section" id="sec-ombre">
+
+<h2>Ombre e proiezioni</h2>
+
+<p>
+  Come può un abitante di <em>Flatlandia</em> farsi un'idea del cubo? Guardandone l'<strong>ombra</strong>. Un cubo di fil di ferro illuminato da una lampada vicina a una faccia proietta sul tavolo un quadrato dentro un quadrato, con i vertici corrispondenti collegati. Il quadrato interno è la faccia lontana, rimpicciolita dalla prospettiva; i quattro trapezi sono le facce laterali, deformate. Nessuna faccia è davvero più piccola delle altre: è l'ombra a mentire, in modo controllato.
+</p>
+<Figure n="3.2" caption={<>Diagrammi di Schlegel. A sinistra, l'ombra del cubo vista da un punto vicino a una faccia; a destra, quella del tesseratto vista da un punto vicino a una cella: un cubo dentro un cubo. La cella interna e quella esterna sono entrambi cubi perfetti, e così i sei «tronchi di piramide» che li collegano.</>}>
+  <Schlegel />
+</Figure>
+<p>
+  Lo stesso ragionamento, elevato di una dimensione, produce la figura più famosa del tesseratto: un cubo piccolo dentro un cubo grande. È ciò che la figura 3.1 mostra quando la rotazione si arresta. Noi, abitanti di Spaziolandia, vediamo in quell'immagine un'ombra tridimensionale (a sua volta proiettata sullo schermo) di un oggetto che non potremo mai contenere nel nostro spazio.
+</p>
+<History title="Il nome e l'arte">
+  <p>
+    Il termine <em>tesseract</em> fu coniato da Charles Howard Hinton in <em>A New Era of Thought</em> (1888), dal greco <em>téssereis aktínes</em>, «quattro raggi». Salvador Dalí, nel <em>Corpus Hypercubus</em> (1954), dipinse la croce come uno sviluppo tridimensionale del tesseratto: otto cubi disposti a croce, l'analogo esatto dei sei quadrati della croce latina del §1.4. Lo sviluppo del tesseratto si ripiega in quattro dimensioni come la croce di carta si ripiega in tre.
+  </p>
+</History>
+
+</section>
+
+<Takeaways items={["L'n-cubo si costruisce per estrusione: ogni passo raddoppia i vertici, che sono 2ⁿ.","Le facce k-dimensionali dell'n-cubo sono 2ⁿ⁻ᵏ · C(n,k): il tesseratto ha 16 vertici, 32 spigoli, 24 facce e 8 celle cubiche.","In quattro dimensioni le rotazioni avvengono in piani (sei piani coordinati) e non attorno ad assi.","Proiezioni e ombre sono il nostro unico accesso alla quarta dimensione: il cubo dentro il cubo è il diagramma di Schlegel del tesseratto."]} />
+
+<Quiz items={[{"question":"Quanti spigoli ha l'ipercubo a cinque dimensioni?","options":["40","64","80","160"],"answer":2,"explanation":"f₁(5) = 2⁴ · C(5,1) = 16 · 5 = 80. In alternativa, con la ricorsione: 2 · 32 + 16 = 80."},{"question":"Nel diagramma di Schlegel del tesseratto, che cosa rappresenta il cubo piccolo al centro?","options":["Una faccia quadrata vista in prospettiva","La cella cubica più lontana dall'osservatore lungo la quarta dimensione","Il centro geometrico dell'ipercubo","Un artefatto della proiezione privo di significato"],"answer":1,"explanation":"Come il quadrato interno nell'ombra del cubo è la faccia lontana rimpicciolita, il cubo interno è la cella opposta al punto di osservazione, ridotta dalla prospettiva quadridimensionale."}]} />

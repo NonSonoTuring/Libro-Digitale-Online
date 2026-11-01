@@ -1,0 +1,89 @@
+{
+  "reti-neurali": {
+    "neurone": {
+      "title": "Il neurone artificiale",
+      "subtitle": "Dal modello di McCulloch–Pitts al percettrone di Rosenblatt",
+      "minutes": 18,
+      "epigraph": {
+        "text": "Che cos'è un numero, perché un uomo possa conoscerlo; e che cos'è un uomo, perché possa conoscere un numero?",
+        "author": "Warren S. McCulloch, 1961"
+      }
+    },
+    "architettura": {
+      "title": "Architettura e propagazione in avanti",
+      "subtitle": "Strati, matrici e il teorema di approssimazione universale",
+      "minutes": 16,
+      "epigraph": {
+        "text": "Tutti i modelli sono sbagliati, ma alcuni sono utili.",
+        "author": "George E. P. Box, 1976"
+      }
+    },
+    "apprendimento": {
+      "title": "Apprendimento",
+      "subtitle": "Funzione di perdita, discesa del gradiente e retropropagazione",
+      "minutes": 22,
+      "epigraph": {
+        "text": "Il procedimento regola ripetutamente i pesi delle connessioni in modo da minimizzare la differenza tra il vettore di uscita effettivo e quello desiderato.",
+        "author": "Rumelhart, Hinton e Williams, Nature, 1986"
+      }
+    }
+  },
+  "il-cubo": {
+    "anatomia": {
+      "title": "Anatomia di un solido",
+      "subtitle": "Vertici, spigoli, facce e la formula di Eulero",
+      "minutes": 17,
+      "epigraph": {
+        "text": "Non entri chi non conosce la geometria.",
+        "author": "Iscrizione attribuita all'ingresso dell'Accademia di Platone"
+      }
+    },
+    "simmetria": {
+      "title": "Simmetria e rotazioni",
+      "subtitle": "Il gruppo del cubo, le matrici di rotazione e la dualità",
+      "minutes": 19,
+      "epigraph": {
+        "text": "La simmetria è l'idea con cui l'uomo, attraverso i secoli, ha cercato di comprendere e creare ordine, bellezza e perfezione.",
+        "author": "Hermann Weyl, Symmetry, 1952"
+      }
+    },
+    "ipercubo": {
+      "title": "Oltre la terza dimensione",
+      "subtitle": "Dal punto all'ipercubo: il tesseratto e le sue ombre",
+      "minutes": 18,
+      "epigraph": {
+        "text": "Verso l'alto, non verso nord.",
+        "author": "Edwin A. Abbott, Flatland, 1884"
+      }
+    }
+  },
+  "il-quadro": {
+    "luce": {
+      "title": "La luce e il valore",
+      "subtitle": "Chiaroscuro, forma e la grammatica delle ombre",
+      "minutes": 19,
+      "epigraph": {
+        "text": "Ombra è privazione di luce.",
+        "author": "Leonardo da Vinci, Trattato della pittura"
+      }
+    },
+    "colore": {
+      "title": "Il colore",
+      "subtitle": "Il cerchio cromatico, le tre dimensioni e il contrasto simultaneo",
+      "minutes": 18,
+      "epigraph": {
+        "text": "Il colore è il luogo in cui il nostro cervello e l'universo si incontrano.",
+        "author": "Paul Cézanne, riportato da Maurice Merleau-Ponty"
+      }
+    },
+    "composizione": {
+      "title": "La composizione",
+      "subtitle": "Griglie, percorso dello sguardo e peso visivo",
+      "minutes": 20,
+      "epigraph": {
+        "text": "La composizione è l'arte di disporre in maniera decorativa i diversi elementi di cui il pittore dispone per esprimere i suoi sentimenti.",
+        "author": "Henri Matisse, Note di un pittore, 1908"
+      }
+    }
+  }
+}

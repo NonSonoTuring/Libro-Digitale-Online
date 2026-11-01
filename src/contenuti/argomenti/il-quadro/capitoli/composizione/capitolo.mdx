@@ -1,0 +1,88 @@
+<section className="book-section" id="sec-griglie">
+
+<h2>Griglie: terzi, sezione aurea, armatura</h2>
+
+<p>
+  Comporre significa decidere <em>dove</em> mettere le cose dentro il rettangolo. Le griglie sono strumenti per prendere quella decisione in modo consapevole, non formule magiche. La più nota è la <strong>regola dei terzi</strong>, enunciata da John Thomas Smith nel 1797: dividere il rettangolo in nove parti e collocare gli elementi importanti sulle linee o alle loro intersezioni.
+</p>
+<p>
+  Più antica e più discussa è la <strong>sezione aurea</strong>, la divisione di un segmento in due parti tali che il rapporto fra l'intero e la maggiore eguagli quello fra la maggiore e la minore:
+</p>
+<Eq tex={String.raw`\frac{a+b}{a} = \frac{a}{b} = \varphi = \frac{1+\sqrt{5}}{2} \approx 1{,}618`} label="3.1" />
+<Figure n="3.1" caption={<>Le griglie sovrapposte alla natura morta. Le linee dei terzi e quelle auree (a 0,382 e 0,618 del lato) cadono vicine; il bordo del tavolo coincide quasi esattamente con la sezione aurea orizzontale. L'<em>armatura</em> aggiunge le diagonali e le loro perpendicolari dai vertici: i quattro «occhi» del rettangolo. Prova la spirale nelle sue quattro orientazioni e giudica tu quanto si adatti.</>}>
+  <Painting groups={["grid"]} initialGrid={["thirds"]} />
+</Figure>
+<p>
+  Occorre onestà intellettuale. Le prove che i maestri del passato usassero <em>consapevolmente</em> la sezione aurea sono deboli (Mario Livio, <em>La sezione aurea</em>, 2002): la spirale si può sempre far combaciare con qualcosa, specie se la si può ruotare e specchiare. Ciò che è documentato è l'uso dell'<Term def="Reticolo costruito con le diagonali del rettangolo e le perpendicolari ad esse condotte dai vertici; descritto da Charles Bouleau in «La geometria segreta dei pittori» (1963).">armatura del rettangolo</Term> e del <em>rabattimento</em> (il quadrato costruito sul lato minore), che i pittori conoscevano dalla pratica di bottega. Le griglie servono a vedere; non sostituiscono il giudizio.
+</p>
+
+</section>
+
+<section className="book-section" id="sec-sguardo">
+
+<h2>Il percorso dello sguardo</h2>
+
+<p>
+  Lo sguardo non abbraccia un quadro tutto insieme: salta da un punto all'altro in rapide <Term def="Movimenti oculari rapidi e balistici con cui l'occhio sposta la fovea da un punto di fissazione al successivo, circa tre volte al secondo.">saccadi</Term>, sostando dove trova informazione. Alfred Yarbus, negli anni Sessanta, registrò questi percorsi e mostrò che non sono casuali: l'occhio è attratto dal <strong>contrasto</strong> — di valore prima di tutto, poi di croma, di nitidezza dei bordi, di dettaglio — e dai volti e dalle mani, quando ci sono.
+</p>
+<Figure n="3.2" caption={<>Un percorso di lettura plausibile. L'ingresso è la finestra, la zona più chiara; da lì lo sguardo scende lungo la brocca alle pere — il <em>fuoco</em>, dove il contrasto fra i gialli illuminati e il fondo scuro è massimo — prosegue verso il pane e si arresta sul panno blu, il cui colore freddo e saturo funge da punto fermo prima di riportare l'occhio verso l'interno.</>}>
+  <Painting groups={["analysis"]} initialAnalysis={["path"]} />
+</Figure>
+<p>
+  Il pittore governa il percorso con tre leve. Concentra il massimo contrasto di valore nel punto focale e lo attenua altrove; dispone gli oggetti lungo linee che si rincorrono (la diagonale discendente brocca–pere–pane); e colloca ai margini elementi che riportino lo sguardo verso l'interno — il panno che cade, nel nostro caso, piega verso sinistra e non fuori dal quadro. Un bordo luminoso vicino alla cornice, al contrario, è una via di fuga: lo sguardo lo segue ed esce.
+</p>
+
+</section>
+
+<section className="book-section" id="sec-peso">
+
+<h2>Peso visivo ed equilibrio</h2>
+
+<p>
+  Rudolf Arnheim, in <em>Arte e percezione visiva</em> (1954), descrive la composizione come un sistema di <strong>forze</strong>: ogni elemento possiede un peso, e il quadro è in equilibrio quando i pesi si bilanciano attorno al centro. Il peso cresce con la dimensione, con il contrasto di valore, con la saturazione, con l'isolamento; ed è maggiore a destra che a sinistra e in alto che in basso, per ragioni che hanno a che fare con la direzione della lettura e con la gravità percepita.
+</p>
+<Eq tex={String.raw`p_1 \, d_1 = p_2 \, d_2`} label="3.2" note="equilibrio dei momenti attorno al centro" />
+<Figure n="3.3" caption={<>La bilancia dei pesi visivi. Un elemento piccolo ma lontano dal centro, o ad alto contrasto, bilancia un elemento grande vicino al fulcro: è il principio della leva applicato alla percezione. Cerca una configurazione di equilibrio con pesi molto diversi.</>}>
+  <Balance />
+</Figure>
+<Figure n="3.4" caption={<>I pesi nella natura morta. A sinistra una massa grande (la brocca) con poco contrasto, vicina al centro; a destra masse minori ma più lontane e, nel panno, il colore più saturo del quadro. Le due metà si equilibrano senza simmetria: è l'<em>equilibrio asimmetrico</em>, più vivo di quello speculare.</>}>
+  <Painting groups={["analysis"]} initialAnalysis={["weights"]} />
+</Figure>
+<p>
+  L'equilibrio non è l'immobilità. Un quadro perfettamente simmetrico è stabile e spesso inerte; uno sbilanciato è dinamico ma scomodo. La composizione classica cerca la tensione risolta: pesi diversi, distanze diverse, momenti uguali.
+</p>
+
+</section>
+
+<section className="book-section" id="sec-analisi">
+
+<h2>Analisi guidata di un'opera</h2>
+
+<p>
+  Riuniamo gli strumenti dei tre capitoli in una lettura completa della natura morta, procedendo nell'ordine in cui il pittore stesso avrebbe lavorato: valori, luce, colore, composizione.
+</p>
+<Figure n="3.5" caption={<>La natura morta con tutti gli strumenti di analisi disponibili. Attiva e disattiva i livelli mentre leggi la scheda qui sotto.</>}>
+  <Painting initialGrid={["golden"]} initialAnalysis={["path"]} />
+</Figure>
+<DataTable
+  head={["Livello", "Osservazione", "Effetto"]}
+  rows={[
+    ["Valori", "Notan a due valori: un grande scuro, una costellazione di chiari concentrata nella fascia centrale.", "Lettura immediata, fuoco inequivocabile."],
+    ["Luce", "Unica sorgente laterale alta a sinistra; ombre portate coerenti verso destra e in basso; riflessi caldi nelle ombre proprie.", "Volume e credibilità spaziale."],
+    ["Colore", "Tavolozza di terre e ocre; un solo accento freddo (oltremare) in basso a destra.", "Armonia per costruzione; il complementare esalta i caldi."],
+    ["Griglia", "Bordo del tavolo sulla sezione aurea orizzontale; pera centrale presso la verticale di sinistra; pane presso quella di destra.", "Ordine percepito senza rigidità."],
+    ["Sguardo", "Ingresso dalla finestra, diagonale discendente brocca → pere → pane, arresto sul panno.", "Percorso guidato, chiuso dentro il quadro."],
+    ["Pesi", "Massa grande e poco contrastata a sinistra, masse minori ma sature e lontane a destra.", "Equilibrio asimmetrico."],
+  ]}
+  caption="Scheda di analisi della natura morta."
+  numeric={false}
+/>
+<p>
+  L'analisi non esaurisce il quadro; lo rende <em>leggibile</em>. Ciò che resta — perché quelle pere e non altre, perché quel blu così trattenuto, perché il pane spezzato — appartiene alla parte dell'arte che la teoria accompagna e non spiega. Ma chi sa vedere i valori, la luce, il colore e i pesi guarda un dipinto come chi conosce la musica ascolta una fuga: sentendo la struttura sotto la superficie.
+</p>
+
+</section>
+
+<Takeaways items={["Le griglie — terzi, sezione aurea, armatura — servono a vedere e a decidere, non a certificare la bellezza a posteriori.","Lo sguardo segue il contrasto: il punto focale è dove il contrasto di valore è massimo, e i margini devono riportare l'occhio dentro.","Il peso visivo dipende da dimensione, contrasto, saturazione, isolamento e posizione; l'equilibrio è quello dei momenti, non della simmetria.","Una lettura completa procede per livelli: valori, luce, colore, griglia, sguardo, pesi."]} />
+
+<Quiz items={[{"question":"Quale fattore attira più fortemente lo sguardo, secondo gli studi sui movimenti oculari?","options":["La posizione al centro geometrico","Il contrasto di valore","La dimensione dell'oggetto","La presenza di linee rette"],"answer":1,"explanation":"Il contrasto chiaro–scuro è il richiamo più potente, seguito dal croma, dalla nitidezza dei bordi e dal dettaglio; il centro geometrico, di per sé, non attrae."},{"question":"Un piccolo elemento molto saturo posto vicino al bordo destro può equilibrare una grande massa scura vicina al centro perché:","options":["Il colore saturo pesa sempre più della dimensione","Il peso visivo si moltiplica per la distanza dal centro, come in una leva","Il lato destro del quadro è sempre più leggero","La massa scura non ha peso visivo"],"answer":1,"explanation":"È il principio di Arnheim: conta il momento, peso × distanza. Un peso minore a distanza maggiore può equilibrare un peso maggiore vicino al fulcro."}]} />

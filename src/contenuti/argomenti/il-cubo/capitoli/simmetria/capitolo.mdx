@@ -1,0 +1,98 @@
+<section className="book-section" id="sec-gruppo">
+
+<h2>Il gruppo delle rotazioni</h2>
+
+<p>
+  Una <strong>simmetria</strong> di un solido è un movimento rigido che lo riporta su se stesso: dopo il movimento il solido occupa esattamente la posizione di prima, anche se le singole facce si sono scambiate di posto. Per il cubo le rotazioni di questo tipo sono sorprendentemente numerose.
+</p>
+<Figure n="2.1" caption={<>Le tre famiglie di rotazioni del cubo. Ogni pulsante applica una rotazione attorno all'asse mostrato; le rotazioni si compongono, e dopo ciascuna il cubo torna a occupare la stessa regione di spazio con le facce permutate. Osserva che l'ordine conta: faccia poi vertice non dà lo stesso risultato di vertice poi faccia.</>}>
+  <Cube3D mode="symmetry" />
+</Figure>
+<p>Contiamole. Oltre all'identità, che lascia tutto fermo, abbiamo:</p>
+<ul>
+  <li>rotazioni attorno ai <strong>3 assi</strong> che passano per i centri di facce opposte, di 90°, 180° e 270°: <M>{"3 \\times 3 = 9"}</M>;</li>
+  <li>rotazioni attorno alle <strong>4 diagonali spaziali</strong>, di 120° e 240°: <M>{"4 \\times 2 = 8"}</M>;</li>
+  <li>rotazioni di 180° attorno ai <strong>6 assi</strong> che passano per i punti medi di spigoli opposti: <M>{"6"}</M>.</li>
+</ul>
+<Eq tex={String.raw`1 + 9 + 8 + 6 = 24`} label="2.1" note="ordine del gruppo delle rotazioni del cubo" />
+<Definition term="Gruppo">
+  <p>
+    Un insieme <M>{"G"}</M> con un'operazione di composizione è un <em>gruppo</em> se la composizione è associativa, esiste un elemento neutro e ogni elemento ha un inverso. Le simmetrie di qualsiasi oggetto formano un gruppo: comporre due simmetrie dà una simmetria, l'identità è neutra e ogni rotazione si annulla ruotando all'indietro.
+  </p>
+</Definition>
+<p>
+  Il gruppo delle rotazioni del cubo ha dunque 24 elementi. Ma 24 è anche il numero di permutazioni di quattro oggetti, e la coincidenza non è casuale: ogni rotazione permuta le <em>quattro diagonali spaziali</em> del cubo, e rotazioni diverse danno permutazioni diverse. Il gruppo delle rotazioni del cubo è <em>isomorfo</em> al gruppo simmetrico <M>{"S_4"}</M>. Includendo anche le riflessioni, il gruppo completo di simmetria raddoppia: 48 elementi.
+</p>
+
+</section>
+
+<section className="book-section" id="sec-assi">
+
+<h2>Tredici assi</h2>
+
+<p>
+  Le rotazioni del paragrafo precedente avvengono attorno a <M>{"3 + 4 + 6 = 13"}</M> assi, tutti passanti per il centro del cubo. La figura seguente li mostra una famiglia alla volta.
+</p>
+<Figure n="2.2" caption={<>I tredici assi di rotazione del cubo in proiezione isometrica. Assi di faccia (ordine 4), assi di vertice (ordine 3), assi di spigolo (ordine 2): l'<em>ordine</em> di un asse è il numero di rotazioni distinte, identità compresa, che esso genera.</>}>
+  <SymmetryAxes />
+</Figure>
+<p>
+  L'ordine di un asse è legato all'angolo minimo di rotazione: <M>{"360°/4 = 90°"}</M> per gli assi di faccia, <M>{"360°/3 = 120°"}</M> per quelli di vertice, <M>{"360°/2 = 180°"}</M> per quelli di spigolo. Si noti una verifica incrociata del conteggio: ogni asse di ordine <M>{"k"}</M> contribuisce con <M>{"k - 1"}</M> rotazioni non banali, e <M>{"3 \\cdot 3 + 4 \\cdot 2 + 6 \\cdot 1 = 23"}</M>, più l'identità, dà 24.
+</p>
+<Note title="Gli stessi assi dell'ottaedro">
+  <p>
+    Gli assi di faccia del cubo sono gli assi di vertice dell'ottaedro, e viceversa; gli assi di spigolo coincidono. I due solidi condividono quindi lo stesso gruppo di simmetria, detto per questo <em>gruppo ottaedrico</em>. Vedremo nel §2.4 che ciò discende da una relazione più profonda.
+  </p>
+</Note>
+
+</section>
+
+<section className="book-section" id="sec-matrici">
+
+<h2>Matrici di rotazione e proiezioni</h2>
+
+<p>
+  Per far ruotare un cubo sullo schermo — come fa questa stessa pagina — occorre descrivere le rotazioni con numeri. Fissato un sistema di coordinate con origine nel centro, una rotazione è una trasformazione lineare dello spazio, e dunque una matrice <M>{"3 \\times 3"}</M>. Attorno all'asse <M>{"z"}</M>, per un angolo <M>{"\\theta"}</M>:
+</p>
+<Eq tex={String.raw`R_z(\theta) = \begin{pmatrix} \cos\theta & -\sin\theta & 0 \\ \sin\theta & \cos\theta & 0 \\ 0 & 0 & 1 \end{pmatrix}`} label="2.2" />
+<p>
+  Le matrici di rotazione sono <em>ortogonali</em> (<M>{"R^{\\top}R = I"}</M>, quindi conservano lunghezze e angoli) e hanno determinante <M>{"+1"}</M> (conservano l'orientazione; le riflessioni hanno determinante <M>{"-1"}</M>). Formano il gruppo <M>{"SO(3)"}</M>, di cui il gruppo del cubo è un sottogruppo finito. La composizione di rotazioni è il prodotto delle matrici, e il prodotto di matrici <strong>non è commutativo</strong>: ecco perché l'ordine dei pulsanti nella figura 2.1 conta.
+</p>
+<p>
+  Per una rotazione di angolo <M>{"\\theta"}</M> attorno a un asse unitario qualsiasi <M>{"\\mathbf{u}"}</M> vale la formula di Rodrigues, che applicata a un vettore <M>{"\\mathbf{v}"}</M> dà
+</p>
+<Eq tex={String.raw`R_{\mathbf{u}}(\theta)\,\mathbf{v} = \mathbf{v}\cos\theta + (\mathbf{u} \times \mathbf{v})\sin\theta + \mathbf{u}\,(\mathbf{u}\cdot\mathbf{v})(1 - \cos\theta).`} label="2.3" note="formula di Rodrigues (1840)" />
+<p>
+  Resta il passaggio dalle tre dimensioni alle due dello schermo: la <strong>proiezione</strong>. Quella <em>ortografica</em> ignora semplicemente la profondità; nella sua variante <em>isometrica</em>, usata nei disegni tecnici e nelle figure 2.2 e 2.3, i tre assi formano angoli di 120° sul foglio e le lunghezze lungo ciascuno sono ridotte dello stesso fattore <M>{"\\sqrt{2/3} \\approx 0{,}816"}</M>. La proiezione <em>prospettica</em>, più fedele alla visione, divide le coordinate per la distanza:
+</p>
+<Eq tex={String.raw`x' = \frac{d\,x}{d - z}, \qquad y' = \frac{d\,y}{d - z}`} label="2.4" note="prospettiva centrale con osservatore a distanza d" />
+<Example title="Dietro le quinte">
+  <p>
+    Il cubo della figura 2.1 è disegnato esattamente così: una matrice <M>{"4 \\times 4"}</M> accumula le rotazioni applicate (<code>matrix3d</code>), una proiezione prospettica con <M>{"d"}</M> di circa 1100 pixel produce l'immagine (<code>perspective</code>). Ogni pressione di un pulsante moltiplica la matrice corrente per una matrice di Rodrigues, animando l'angolo da 0 al valore finale.
+  </p>
+</Example>
+
+</section>
+
+<section className="book-section" id="sec-dualita">
+
+<h2>Dualità</h2>
+
+<p>
+  Congiungendo i centri delle sei facce del cubo si ottiene un ottaedro regolare. Congiungendo i centri delle otto facce dell'ottaedro si ottiene di nuovo un cubo. I due solidi sono <strong>duali</strong>: i vertici dell'uno corrispondono alle facce dell'altro, e gli spigoli agli spigoli.
+</p>
+<Figure n="2.3" caption={<>Il cubo e il suo duale. L'ottaedro ha tanti vertici quante sono le facce del cubo (6) e tante facce quanti sono i vertici del cubo (8); i dodici spigoli si corrispondono uno a uno, incrociandosi ad angolo retto.</>}>
+  <IsoDual />
+</Figure>
+<p>
+  La dualità scambia <M>{"V"}</M> con <M>{"F"}</M> e lascia <M>{"E"}</M> invariato — coerentemente con la formula di Eulero, che è simmetrica in <M>{"V"}</M> e <M>{"F"}</M>. Nel simbolo di Schläfli si legge come un'inversione: il duale di <M>{"\\{p,q\\}"}</M> è <M>{"\\{q,p\\}"}</M>. Così <M>{"\\{4,3\\} \\leftrightarrow \\{3,4\\}"}</M>, <M>{"\\{5,3\\} \\leftrightarrow \\{3,5\\}"}</M>, mentre il tetraedro <M>{"\\{3,3\\}"}</M> è duale di se stesso.
+</p>
+<p>
+  Poiché ogni simmetria del cubo manda centri di facce in centri di facce, essa è anche una simmetria dell'ottaedro inscritto: solidi duali hanno lo <em>stesso</em> gruppo di simmetria. Le cinque forme platoniche si riducono così a tre gruppi — tetraedrico (ordine 12), ottaedrico (24), icosaedrico (60) — e il cubo, con la sua faccia quadrata così poco «platonica», condivide la propria simmetria con il più elegante degli ottaedri.
+</p>
+
+</section>
+
+<Takeaways items={["Le rotazioni del cubo sono 24 (1 + 9 + 8 + 6) e formano un gruppo isomorfo a S₄, perché permutano le quattro diagonali spaziali.","Gli assi di rotazione sono 13: tre di ordine 4, quattro di ordine 3, sei di ordine 2.","Le rotazioni sono matrici ortogonali di determinante +1; la loro composizione non è commutativa.","Il cubo e l'ottaedro sono duali: V e F si scambiano, E resta 12, e il gruppo di simmetria è lo stesso."]} />
+
+<Quiz items={[{"question":"Quante sono le rotazioni del cubo di ordine 3, cioè che riportano il cubo su se stesso dopo tre applicazioni ma non prima?","options":["4","6","8","9"],"answer":2,"explanation":"Le rotazioni di 120° e 240° attorno alle quattro diagonali spaziali: 4 × 2 = 8."},{"question":"Quale proprietà distingue una matrice di rotazione da una matrice di riflessione?","options":["La rotazione non è ortogonale","La rotazione ha determinante +1, la riflessione −1","La riflessione non conserva le lunghezze","La rotazione è sempre simmetrica"],"answer":1,"explanation":"Entrambe sono ortogonali e conservano lunghezze e angoli; solo la rotazione conserva l'orientazione, il che si traduce in det R = +1."}]} />

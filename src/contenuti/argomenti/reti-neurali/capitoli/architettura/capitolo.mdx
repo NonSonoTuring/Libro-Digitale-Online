@@ -1,0 +1,92 @@
+<section className="book-section" id="sec-strati">
+
+<h2>Strati, pesi e bias</h2>
+
+<p>
+  Un <strong>percettrone multistrato</strong> (MLP) organizza i neuroni in strati successivi: uno strato di ingresso che si limita a ricevere i dati, uno o più strati <em>nascosti</em> e uno strato di uscita. In un'architettura <em>densa</em> ogni neurone di uno strato è collegato a tutti i neuroni dello strato seguente, e l'informazione fluisce in una sola direzione: è la <em>propagazione in avanti</em>.
+</p>
+<Figure n="2.1" caption={<>Un percettrone multistrato 4–6–6–3. La <em>larghezza</em> è il numero di neuroni per strato, la <em>profondità</em> il numero di strati con pesi. Ogni freccia porta un peso appreso; ogni neurone nascosto ha inoltre un bias proprio.</>}>
+  <NeuralNet layers={[4, 6, 6, 3]} height={380} density={7} />
+</Figure>
+<p>
+  Due numeri descrivono l'architettura: la <strong>larghezza</strong> di ciascuno strato e la <strong>profondità</strong> complessiva. Che cosa faccia esattamente uno strato nascosto è la domanda che accompagna tutta la disciplina; la risposta più onesta è che ogni strato calcola una nuova <em>rappresentazione</em> dei dati, nella quale si spera che il compito finale diventi più semplice — come lo strato nascosto dello XOR, che rendeva separabile l'inseparabile.
+</p>
+
+</section>
+
+<section className="book-section" id="sec-matrici">
+
+<h2>La notazione matriciale</h2>
+
+<p>
+  Scrivere la rete neurone per neurone diventa presto ingestibile. Raccogliendo i pesi dello strato <M>{"l"}</M> in una matrice <M>{"W^{(l)}"}</M> e i bias in un vettore <M>{"\\mathbf{b}^{(l)}"}</M>, la propagazione in avanti si scrive in due righe:
+</p>
+<Eq tex={String.raw`\mathbf{z}^{(l)} = W^{(l)}\,\mathbf{a}^{(l-1)} + \mathbf{b}^{(l)}, \qquad \mathbf{a}^{(l)} = \varphi\!\left(\mathbf{z}^{(l)}\right), \qquad \mathbf{a}^{(0)} = \mathbf{x}`} label="2.1" note="propagazione in avanti" />
+<p>
+  Qui <M>{"\\mathbf{z}^{(l)}"}</M> è la <em>pre-attivazione</em> e <M>{"\\mathbf{a}^{(l)}"}</M> l'<em>attivazione</em> dello strato. Se lo strato <M>{"l-1"}</M> ha <M>{"n_{l-1}"}</M> neuroni e lo strato <M>{"l"}</M> ne ha <M>{"n_l"}</M>, allora <M>{"W^{(l)} \\in \\mathbb{R}^{n_l \\times n_{l-1}}"}</M>: la riga <M>{"j"}</M> contiene i pesi in ingresso al neurone <M>{"j"}</M>. La funzione <M>{"\\varphi"}</M> agisce componente per componente.
+</p>
+<Example title="Contare i parametri">
+  <p>
+    Una rete per cifre manoscritte con ingressi di <M>{"28 \\times 28 = 784"}</M> pixel, uno strato nascosto di 128 neuroni e 10 uscite possiede
+    <M>{"\\;784 \\cdot 128 + 128 = 100\\,480\\;"}</M> parametri nel primo strato e <M>{"\\;128 \\cdot 10 + 10 = 1\\,290\\;"}</M> nel secondo: in totale <strong>101 770</strong> numeri reali da apprendere.
+  </p>
+</Example>
+<p>
+  Per un problema di classificazione a <M>{"K"}</M> classi lo strato di uscita adotta la funzione <strong>softmax</strong>, che trasforma <M>{"K"}</M> numeri reali in una distribuzione di probabilità:
+</p>
+<Eq tex={String.raw`\operatorname{softmax}(\mathbf{z})_k = \frac{e^{z_k}}{\sum_{j=1}^{K} e^{z_j}}, \qquad \sum_k \operatorname{softmax}(\mathbf{z})_k = 1`} label="2.2" />
+<Note>
+  <p>
+    La notazione matriciale non è solo elegante: è il motivo per cui le reti neurali girano bene sulle GPU, progettate proprio per moltiplicare grandi matrici in parallelo. Un intero <em>batch</em> di esempi si propaga con un'unica moltiplicazione <M>{"W^{(l)} A^{(l-1)}"}</M>, dove le colonne di <M>{"A"}</M> sono gli esempi.
+  </p>
+</Note>
+
+</section>
+
+<section className="book-section" id="sec-universale">
+
+<h2>Il teorema di approssimazione universale</h2>
+
+<p>
+  Quanto è espressiva una rete con un solo strato nascosto? La risposta, sorprendente, è: <em>arbitrariamente</em>.
+</p>
+<Theorem name="di approssimazione universale (Cybenko 1989; Hornik 1991)">
+  <p>
+    Sia <M>{"\\varphi"}</M> una funzione continua, limitata e non costante. Per ogni funzione continua <M>{"f : K \\to \\mathbb{R}"}</M> definita su un compatto <M>{"K \\subset \\mathbb{R}^n"}</M> e per ogni <M>{"\\varepsilon > 0"}</M>, esistono un intero <M>{"N"}</M>, pesi <M>{"\\mathbf{w}_i \\in \\mathbb{R}^n"}</M>, <M>{"v_i, b_i \\in \\mathbb{R}"}</M> tali che
+  </p>
+  <Eq tex={String.raw`\sup_{\mathbf{x} \in K}\;\Bigl|\, f(\mathbf{x}) - \sum_{i=1}^{N} v_i\, \varphi\!\left(\mathbf{w}_i^{\!\top}\mathbf{x} + b_i\right) \Bigr| \;<\; \varepsilon .`} label="2.3" />
+</Theorem>
+<p>
+  L'intuizione, in una dimensione, è semplice: la differenza di due sigmoidi traslate è un «gradino morbido», e con gradini abbastanza stretti si approssima qualsiasi curva continua, come un istogramma approssima una densità. Leshno e collaboratori (1993) hanno poi mostrato che la sola condizione davvero necessaria su <M>{"\\varphi"}</M> è che <em>non sia un polinomio</em>: la ReLU, illimitata, va benissimo.
+</p>
+<p>
+  Occorre però leggere il teorema per quello che dice. Garantisce l'<strong>esistenza</strong> di una rete, non che la discesa del gradiente la trovi; e non dice nulla su <M>{"N"}</M>, che in casi sfavorevoli cresce esponenzialmente con la dimensione <M>{"n"}</M>. È un risultato sulla capacità, non sull'apprendibilità né sull'efficienza.
+</p>
+
+</section>
+
+<section className="book-section" id="sec-profondita">
+
+<h2>Profondità contro larghezza</h2>
+
+<p>
+  Se uno strato basta, perché le reti moderne ne hanno decine o centinaia? Perché la profondità compra espressività a un prezzo molto più basso. Telgarsky (2016) ha esibito famiglie di funzioni che una rete profonda <M>{"k"}</M> strati rappresenta con un numero di neuroni polinomiale, mentre una rete poco profonda ne richiede un numero esponenziale in <M>{"k"}</M>. Il motivo è la <em>composizione</em>: ogni strato può riutilizzare le caratteristiche calcolate dal precedente, costruendo una gerarchia — bordi, poi forme, poi oggetti, per dirla con le reti visive.
+</p>
+<DataTable
+  head={["Architettura", "Parametri", "Strati con pesi"]}
+  rows={[
+    ["784 – 128 – 10", "101 770", "2"],
+    ["784 – 256 – 10", "203 530", "2"],
+    ["784 – 64 – 64 – 10", "55 050", "3"],
+  ]}
+  caption="A parità di compito, due strati stretti costano meno della metà di uno strato largo. Che la rete più profonda sia anche migliore dipende dai dati — ma spesso lo è."
+/>
+<p>
+  La profondità ha però un costo di addestramento: il gradiente deve attraversare molti strati e tende a svanire o esplodere. Tre idee lo hanno reso gestibile — la ReLU (§1.3), le <Term def="Collegamenti che saltano uno o più strati sommando l'ingresso all'uscita: y = F(x) + x. Introdotte nelle ResNet (He et al., 2015).">connessioni residue</Term>, che offrono al gradiente una scorciatoia, e la normalizzazione delle attivazioni fra uno strato e l'altro. Con questi strumenti, nel 2015, si sono addestrate reti di oltre cento strati.
+</p>
+
+</section>
+
+<Takeaways items={["La propagazione in avanti è una sequenza di prodotti matrice–vettore intervallati da non linearità: z = Wa + b, a = φ(z).","Il numero di parametri di uno strato denso è n_l · n_{l−1} + n_l; saperlo contare è il primo passo per dimensionare un modello.","Un solo strato nascosto è universale in linea di principio, ma può richiedere un numero esponenziale di neuroni.","La profondità sfrutta la composizione: rappresentazioni gerarchiche, più economiche, al prezzo di un addestramento più delicato."]} />
+
+<Quiz items={[{"question":"Quale forma ha la matrice dei pesi W⁽ˡ⁾ fra uno strato di 20 neuroni e uno di 5?","options":["20 × 5","5 × 20","25 × 25","5 × 5"],"answer":1,"explanation":"Con la convenzione z = Wa + b, W ha tante righe quanti sono i neuroni d'arrivo (5) e tante colonne quanti quelli di partenza (20)."},{"question":"Che cosa NON garantisce il teorema di approssimazione universale?","options":["Che esista una rete a uno strato nascosto vicina quanto si vuole a f","Che la rete abbia un numero ragionevole di neuroni","Che la funzione di attivazione possa essere una sigmoide","Che l'approssimazione valga su un insieme compatto"],"answer":1,"explanation":"Il teorema è un risultato di esistenza: il numero N di neuroni può essere enorme e nulla dice su come trovare i pesi."}]} />

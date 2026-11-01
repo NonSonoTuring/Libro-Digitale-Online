@@ -1,0 +1,92 @@
+<section className="book-section" id="sec-valore">
+
+<h2>La scala dei valori</h2>
+
+<p>
+  Prima del colore, prima del disegno stesso, un quadro è una distribuzione di chiari e di scuri. Il <strong>valore</strong> di una zona è la sua luminosità percepita, indipendentemente dalla tinta: un giallo e un blu possono avere lo stesso valore, e in una fotografia in bianco e nero risulterebbero indistinguibili. Albert Munsell, nel 1905, propose di misurarlo su una scala da 0 (nero) a 10 (bianco); i pittori usano comunemente nove gradini.
+</p>
+<ValueScale />
+<p>
+  L'occhio non misura valori assoluti: li confronta. Un mezzo tono sembra chiaro accanto a un nero e scuro accanto a un bianco, e il pittore sfrutta questa relatività per costruire la luce con pigmenti che, misurati con uno strumento, sono tutti molto più scuri del sole che pretendono di rappresentare. La prima decisione compositiva è perciò la <Term def="Termine giapponese (濃淡) che indica l'organizzazione di un'immagine in masse di chiaro e di scuro, indipendentemente dal dettaglio.">struttura dei valori</Term>: quante masse, di che chiarezza, dove.
+</p>
+<Figure n="1.1" caption={<>La natura morta ridotta ai soli valori. Con cinque gradini la struttura resta perfettamente leggibile; con due (il <em>notan</em>) emerge il disegno delle masse: un grande scuro che avvolge una costellazione di chiari. Se un quadro «funziona» a due valori, funzionerà anche a colori.</>}>
+  <Painting groups={["value"]} initialFilter="five" />
+</Figure>
+<Note title="Socchiudere gli occhi">
+  <p>
+    Il consiglio più antico delle accademie: guardare il soggetto a occhi socchiusi. Le ciglia sfocano il dettaglio e riducono il colore, lasciando visibili soltanto le masse di valore — lo stesso effetto del filtro «5 valori» della figura.
+  </p>
+</Note>
+
+</section>
+
+<section className="book-section" id="sec-direzione">
+
+<h2>La direzione della luce e la forma</h2>
+
+<p>
+  Perché una sfera dipinta appare rotonda? Perché la quantità di luce che una superficie riflette dipende dall'angolo con cui la luce la colpisce. Johann Heinrich Lambert formalizzò la relazione nel 1760: l'intensità è proporzionale al coseno dell'angolo fra la <Term def="Vettore perpendicolare alla superficie in un punto; descrive l'orientazione locale della forma.">normale</Term> alla superficie e la direzione della sorgente.
+  </p>
+<Eq tex={String.raw`I = I_0 \cdot \max\bigl(0,\; \mathbf{n}\cdot\mathbf{l}\bigr) = I_0 \cdot \max(0, \cos\theta)`} label="1.1" note="legge del coseno di Lambert" />
+<p>
+  Sulla sfera la normale ruota con continuità, e con essa il coseno: dalla zona rivolta alla sorgente (<M>{"\\cos\\theta = 1"}</M>) a quella in cui la luce arriva radente (<M>{"\\cos\\theta = 0"}</M>). Questa linea di confine, dove la luce cessa, è il <strong>terminatore</strong>; oltre di essa la superficie è in <em>ombra propria</em>, rischiarata soltanto dalla luce che rimbalza dall'ambiente.
+</p>
+<Figure n="1.2" caption={<>La sfera di Lambert resa con un retino di punti: il raggio di ogni punto cresce dove il valore si abbassa. Sposta la sorgente e osserva il terminatore ruotare, il riflesso comparire sul lato opposto alla luce e l'ombra portata allungarsi sul piano.</>}>
+  <HalftoneSphere />
+</Figure>
+<p>
+  La tradizione accademica distingue cinque zone, che la figura etichetta: il <strong>lume</strong> (la luce piena, con eventuale riflesso speculare), il <strong>mezzotono</strong> (la gradazione verso il terminatore), il <strong>terminatore</strong> stesso, spesso la zona più scura della forma, il <strong>riflesso</strong> (luce di rimbalzo nell'ombra propria) e l'<strong>ombra portata</strong> sul piano d'appoggio. Chi sa dipingere una sfera sa dipingere qualunque cosa: una brocca, una pera, un volto sono sfere e cilindri travestiti.
+</p>
+
+</section>
+
+<section className="book-section" id="sec-ombre">
+
+<h2>Ombre proprie e ombre portate</h2>
+
+<Definition term="Ombra propria e ombra portata">
+  <p>
+    L'<em>ombra propria</em> è la parte di un oggetto che non riceve luce diretta perché rivolta altrove; nasce dalla forma dell'oggetto stesso. L'<em>ombra portata</em> è quella che l'oggetto proietta su altre superfici, interponendosi fra esse e la sorgente; nasce dalla posizione dell'oggetto nello spazio.
+  </p>
+</Definition>
+<p>
+  Le due ombre obbediscono a logiche diverse. L'ombra propria è <em>morbida</em>: il passaggio dalla luce al terminatore è graduale, perché il coseno di Lambert varia con continuità. L'ombra portata è più netta — tanto più quanto la sorgente è piccola e vicina — e possiede una <Term def="Zona di transizione ai bordi di un'ombra portata, dove la sorgente luminosa è solo parzialmente occultata.">penombra</Term> che si allarga allontanandosi dall'oggetto. Nel punto di contatto fra l'oggetto e il piano si forma infine l'<em>ombra di occlusione</em>, la più scura di tutte, dove nemmeno la luce riflessa riesce a penetrare.
+</p>
+<Figure n="1.3" caption={<>La luce nella natura morta. La sorgente è la finestra in alto a sinistra; le frecce indicano la direzione dei raggi. Sono annotati il lume sulla brocca, il mezzotono sulla pera di sinistra, il terminatore sul fianco destro della pera centrale, il riflesso sul fianco in ombra della brocca e l'ombra portata delle pere sul tavolo.</>}>
+  <Painting groups={["analysis"]} initialAnalysis={["light"]} />
+</Figure>
+<p>
+  Si noti come, nel dipinto, ogni ombra portata cada <em>coerentemente</em> verso destra e verso il basso: un'unica sorgente, un'unica direzione. La coerenza della luce è ciò che rende credibile uno spazio dipinto molto più di qualsiasi precisione prospettica — e la sua incoerenza è il primo segno che tradisce un collage.
+</p>
+<History title="Il tenebrismo">
+  <p>
+    L'illuminazione laterale con fondo scuro è la cifra di Caravaggio e dei suoi seguaci: una sola fonte, radente, che scolpisce le forme e inghiotte tutto il resto nell'ombra. I pittori olandesi del Seicento la addomesticheranno nella luce quieta che entra da una finestra, come nella nostra natura morta.
+  </p>
+</History>
+
+</section>
+
+<section className="book-section" id="sec-retino">
+
+<h2>Il retino: ombre a puntini</h2>
+
+<p>
+  Come si stampa un'ombra? Una macchina tipografica depone inchiostro oppure no: non conosce i mezzi toni. La soluzione, intuita da William Fox Talbot nel 1852 e resa industriale da Georg Meisenbach nel 1881, è il <strong>retino</strong>: l'immagine viene scomposta in una griglia di punti il cui <em>diametro</em> varia con il valore. Punti grandi e quasi contigui dove l'originale è scuro, punti minuscoli dove è chiaro. Osservata da lontano, la griglia si fonde e l'occhio ricostruisce il tono continuo.
+</p>
+<Figure n="1.4" caption={<>La natura morta retinata. La frequenza misura i punti per riga (nelle stampe si esprime in linee per pollice: 85 per i quotidiani, 150–200 per i libri d'arte); l'angolo di 45° è quello tradizionale per il nero, perché il reticolo diagonale è meno percepibile dall'occhio. Riduci la frequenza per vedere i punti emergere, come in una serigrafia di Lichtenstein.</>}>
+  <HalftoneImage />
+</Figure>
+<p>
+  L'area coperta dall'inchiostro deve essere proporzionale alla scurezza: se un punto deve coprire una frazione <M>{"1 - v"}</M> della sua cella (con <M>{"v"}</M> il valore da 0 a 1), il suo raggio deve crescere come la radice quadrata, <M>{"r \\propto \\sqrt{1 - v}"}</M>. È la stessa legge usata per la sfera della figura 1.2: le «ombre a puntini» di questo corso non sono una scelta decorativa, ma un modo di rendere visibile il valore come quantità.
+</p>
+<Note title="Dalla tecnica allo stile">
+  <p>
+    I punti <em>Ben-Day</em> (brevettati da Benjamin Day nel 1879) servivano a economizzare inchiostro nei fumetti; Roy Lichtenstein li ingrandì fino a farne il soggetto stesso della pittura. Prima ancora, Georges Seurat aveva scomposto il tono in punti di colore puro, affidando all'occhio la <em>mescolanza ottica</em>: il retino, in fondo, è un pointillisme senza colore.
+  </p>
+</Note>
+
+</section>
+
+<Takeaways items={["Il valore è la luminosità percepita indipendentemente dalla tinta; la struttura dei valori (notan) è la prima decisione di un quadro.","La legge di Lambert lega la luce riflessa al coseno dell'angolo fra normale e sorgente: da qui lume, mezzotono, terminatore, riflesso.","L'ombra propria nasce dalla forma ed è morbida; l'ombra portata nasce dalla posizione ed è più netta, con penombra.","Il retino rende il valore con l'area dei punti: raggio proporzionale alla radice di (1 − valore)."]} />
+
+<Quiz items={[{"question":"Due colori di tinta diversa ma uguale valore, fotografati in bianco e nero, appaiono:","options":["Nettamente distinti","Indistinguibili","Il più saturo appare più chiaro","Il più caldo appare più scuro"],"answer":1,"explanation":"Il valore è proprio la componente che sopravvive alla rimozione della tinta: a parità di valore, la fotografia in bianco e nero li rende con lo stesso grigio."},{"question":"Dove si trova, di norma, la zona più scura di una sfera illuminata da una sola sorgente?","options":["Nel punto più lontano dalla sorgente","Lungo il terminatore, appena oltre il confine della luce","Nel centro dell'ombra portata","Sul riflesso"],"answer":1,"explanation":"Oltre il terminatore la superficie non riceve luce diretta e la luce riflessa dall'ambiente non è ancora arrivata a rischiararla; più in là, il riflesso alza di nuovo il valore."}]} />

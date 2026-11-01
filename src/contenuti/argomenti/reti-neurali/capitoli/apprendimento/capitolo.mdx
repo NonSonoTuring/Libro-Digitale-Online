@@ -1,0 +1,99 @@
+<section className="book-section" id="sec-perdita">
+
+<h2>La funzione di perdita</h2>
+
+<p>
+  Addestrare una rete significa scegliere i parametri <M>{"\\theta = \\{W^{(l)}, \\mathbf{b}^{(l)}\\}"}</M> che la rendono «buona». Per dare un senso operativo alla parola occorre una <strong>funzione di perdita</strong> <M>{"\\ell(\\hat{y}, t)"}</M> che misuri quanto la previsione si discosta dal bersaglio, e un criterio che aggreghi le perdite sui dati disponibili.
+</p>
+<Definition term="Rischio empirico">
+  <p>
+    Dato un insieme di addestramento <M>{"\\{(\\mathbf{x}_i, t_i)\\}_{i=1}^{N}"}</M>, il rischio empirico è la perdita media <M>{"\\mathcal{L}(\\theta) = \\frac{1}{N}\\sum_{i=1}^{N} \\ell\\bigl(f_\\theta(\\mathbf{x}_i), t_i\\bigr)"}</M>. L'apprendimento è il problema di ottimizzazione <M>{"\\theta^* = \\arg\\min_\\theta \\mathcal{L}(\\theta)"}</M>.
+  </p>
+</Definition>
+<p>Per la regressione si usa l'errore quadratico medio; per la classificazione, l'entropia incrociata fra la distribuzione vera e quella prevista dal softmax:</p>
+<Eq tex={String.raw`\mathcal{L}_{\mathrm{MSE}} = \frac{1}{N}\sum_{i}\bigl(\hat{y}_i - t_i\bigr)^2, \qquad \mathcal{L}_{\mathrm{CE}} = -\frac{1}{N}\sum_{i}\sum_{k=1}^{K} t_{ik}\,\log \hat{y}_{ik}`} label="3.1" />
+<p>
+  Le due scelte non sono arbitrarie. Se si assume che i bersagli siano affetti da rumore gaussiano, massimizzare la verosimiglianza dei dati equivale a minimizzare l'errore quadratico; se i bersagli sono etichette categoriche, equivale a minimizzare l'entropia incrociata. La funzione di perdita codifica, in forma implicita, un'ipotesi statistica sui dati.
+</p>
+
+</section>
+
+<section className="book-section" id="sec-gradiente">
+
+<h2>La discesa del gradiente</h2>
+
+<p>
+  Il paesaggio di <M>{"\\mathcal{L}(\\theta)"}</M> ha milioni di dimensioni e nessuna formula chiusa per il minimo. L'unica informazione locale a disposizione è il <Term def="Vettore delle derivate parziali; punta nella direzione di massima crescita della funzione e il suo modulo misura la pendenza.">gradiente</Term> <M>{"\\nabla_\\theta \\mathcal{L}"}</M>, che indica la direzione di massima salita. La strategia più semplice è muoversi nella direzione opposta, a piccoli passi:
+</p>
+<Eq tex={String.raw`\theta_{k+1} = \theta_k - \eta\,\nabla_\theta \mathcal{L}(\theta_k)`} label="3.2" note="discesa del gradiente" />
+<Figure n="3.1" caption={<>Discesa del gradiente su una funzione di perdita unidimensionale. La linea tratteggiata è la tangente nel punto corrente, la freccia il passo <M>{"-\\eta\\,L'(w)"}</M>. Prova un tasso di apprendimento troppo alto per vedere il metodo oscillare e divergere; aggiungi momento per uscire dal minimo locale di destra.</>}>
+  <GradientDescent />
+</Figure>
+<p>
+  Il tasso di apprendimento <M>{"\\eta"}</M> è l'iperparametro più delicato: troppo piccolo e l'addestramento richiede un'eternità, troppo grande e i passi scavalcano il minimo fino a divergere. Nelle reti reali il paesaggio non è convesso — presenta minimi locali, altopiani e soprattutto <em>punti di sella</em>, che in alta dimensione sono di gran lunga più numerosi dei minimi.
+</p>
+<p>
+  In pratica il gradiente non si calcola su tutti gli <M>{"N"}</M> esempi, ma su un piccolo <em>mini-batch</em> estratto a caso: è la <strong>discesa stocastica del gradiente</strong> (SGD). La stima è rumorosa, ma costa una frazione del calcolo e il rumore stesso aiuta a sfuggire ai punti di sella. Il <strong>momento</strong> aggiunge inerzia alla traiettoria accumulando una media mobile dei gradienti:
+</p>
+<Eq tex={String.raw`\mathbf{v}_{k+1} = \beta\,\mathbf{v}_k + \nabla_\theta \mathcal{L}(\theta_k), \qquad \theta_{k+1} = \theta_k - \eta\,\mathbf{v}_{k+1}`} label="3.3" note="SGD con momento" />
+
+</section>
+
+<section className="book-section" id="sec-backprop">
+
+<h2>La retropropagazione dell'errore</h2>
+
+<p>
+  Resta da calcolare il gradiente rispetto a <em>ogni</em> peso di <em>ogni</em> strato. Farlo per differenze finite richiederebbe una propagazione in avanti per parametro: proibitivo. La <strong>retropropagazione</strong> (Rumelhart, Hinton e Williams, 1986; anticipata da Linnainmaa nel 1970 e da Werbos nel 1974) sfrutta la regola della catena per ottenere tutte le derivate con un costo pari a circa due propagazioni in avanti.
+</p>
+<p>
+  Si definisce l'<em>errore</em> dello strato <M>{"l"}</M> come la sensibilità della perdita alla sua pre-attivazione, <M>{"\\boldsymbol{\\delta}^{(l)} = \\partial \\mathcal{L} / \\partial \\mathbf{z}^{(l)}"}</M>. Le quattro equazioni fondamentali sono:
+</p>
+<Eq tex={String.raw`\boldsymbol{\delta}^{(L)} = \nabla_{\mathbf{a}} \mathcal{L} \;\odot\; \varphi'\!\left(\mathbf{z}^{(L)}\right)`} label="3.4a" note="errore dello strato di uscita" />
+<Eq tex={String.raw`\boldsymbol{\delta}^{(l)} = \left(W^{(l+1)}\right)^{\!\top} \boldsymbol{\delta}^{(l+1)} \;\odot\; \varphi'\!\left(\mathbf{z}^{(l)}\right)`} label="3.4b" note="l'errore si propaga all'indietro" />
+<Eq tex={String.raw`\frac{\partial \mathcal{L}}{\partial W^{(l)}} = \boldsymbol{\delta}^{(l)} \left(\mathbf{a}^{(l-1)}\right)^{\!\top}, \qquad \frac{\partial \mathcal{L}}{\partial \mathbf{b}^{(l)}} = \boldsymbol{\delta}^{(l)}`} label="3.4c" note="gradienti rispetto ai parametri" />
+<p>
+  L'equazione (3.4b) spiega il nome: l'errore dello strato <M>{"l"}</M> si ottiene da quello dello strato successivo moltiplicando per la <em>trasposta</em> dei pesi — la stessa matrice usata in avanti, percorsa a ritroso — e per la derivata dell'attivazione. È qui che una derivata piccola, come quella della sigmoide saturata, attenua il segnale a ogni passaggio.
+</p>
+<Example title="Un solo neurone, a mano">
+  <p>
+    Per <M>{"\\hat{y} = \\sigma(wx + b)"}</M> e perdita <M>{"\\ell = \\tfrac{1}{2}(\\hat{y} - t)^2"}</M>, la regola della catena dà
+    <M>{"\\;\\partial \\ell/\\partial w = (\\hat{y} - t)\\,\\sigma'(z)\\,x\\;"}</M>: il prodotto di tre fattori — quanto si sbaglia, quanto l'attivazione è sensibile, quanto vale l'ingresso. Un ingresso nullo non modifica il peso che lo moltiplica, per quanto grande sia l'errore.
+  </p>
+</Example>
+<Note title="Differenziazione automatica">
+  <p>
+    Le librerie moderne (PyTorch, JAX) costruiscono il grafo delle operazioni durante la propagazione in avanti e lo percorrono a ritroso automaticamente. La retropropagazione è il caso particolare della differenziazione automatica in modalità inversa applicato alle reti a strati.
+  </p>
+</Note>
+
+</section>
+
+<section className="book-section" id="sec-generalizzazione">
+
+<h2>Ottimizzatori, regolarizzazione e generalizzazione</h2>
+
+<p>
+  Minimizzare il rischio empirico non è il vero obiettivo: lo è prevedere bene su dati <em>mai visti</em>. Una rete con milioni di parametri può memorizzare l'insieme di addestramento, rumore compreso, e fallire su quello di prova: è il <strong>sovradattamento</strong>. Per diagnosticarlo si tiene da parte un insieme di <em>validazione</em> e se ne osserva la perdita durante l'addestramento.
+</p>
+<Figure n="3.2" caption={<>Curve di apprendimento tipiche. Fino all'epoca <M>{"e^*"}</M> entrambe le perdite scendono; oltre, quella di addestramento continua a calare mentre quella di validazione risale. Fermarsi a <M>{"e^*"}</M> è l'<em>arresto anticipato</em>, la forma di regolarizzazione più semplice.</>}>
+  <LossCurves />
+</Figure>
+<p>
+  Le tecniche di <strong>regolarizzazione</strong> limitano la capacità effettiva del modello. Il <em>decadimento dei pesi</em> aggiunge alla perdita un termine <M>{"\\tfrac{\\lambda}{2}\\lVert\\theta\\rVert^2"}</M> che penalizza pesi grandi; il <em>dropout</em> (Srivastava et al., 2014) spegne a caso una frazione dei neuroni a ogni passo, costringendo la rete a non dipendere da nessuno in particolare; l'<em>aumento dei dati</em> genera varianti plausibili degli esempi.
+</p>
+<p>
+  Sul fronte dell'ottimizzazione, <strong>Adam</strong> (Kingma e Ba, 2015) adatta il tasso di apprendimento parametro per parametro, dividendo il momento del gradiente per la radice della media mobile dei suoi quadrati:
+</p>
+<Eq tex={String.raw`\mathbf{m}_k = \beta_1 \mathbf{m}_{k-1} + (1-\beta_1)\,\mathbf{g}_k,\quad \mathbf{v}_k = \beta_2 \mathbf{v}_{k-1} + (1-\beta_2)\,\mathbf{g}_k^{2},\quad \theta_{k+1} = \theta_k - \eta\,\frac{\hat{\mathbf{m}}_k}{\sqrt{\hat{\mathbf{v}}_k} + \epsilon}`} label="3.5" note="Adam, con m̂ e v̂ corretti per la distorsione iniziale" />
+<Note title="Il paradosso della sovra-parametrizzazione">
+  <p>
+    La teoria classica prevede che modelli troppo grandi generalizzino male. Le reti profonde, con più parametri che esempi, spesso generalizzano <em>meglio</em> dei modelli piccoli — il fenomeno della «doppia discesa» (Belkin et al., 2019). Perché accada è una delle questioni aperte più studiate della disciplina.
+  </p>
+</Note>
+
+</section>
+
+<Takeaways items={["La funzione di perdita traduce un'ipotesi statistica sui dati in un obiettivo da minimizzare: gaussiana → MSE, categorica → entropia incrociata.","La discesa del gradiente segue la direzione di massima discesa; il tasso di apprendimento governa stabilità e velocità, il momento aggiunge inerzia.","La retropropagazione calcola tutti i gradienti con la regola della catena a un costo paragonabile a quello della propagazione in avanti.","L'obiettivo è generalizzare: validazione, arresto anticipato, decadimento dei pesi e dropout tengono il sovradattamento sotto controllo."]} />
+
+<Quiz items={[{"question":"Durante l'addestramento la perdita di validazione comincia a salire mentre quella di addestramento continua a scendere. Che cosa sta accadendo?","options":["Il tasso di apprendimento è troppo basso","Il modello sta sovradattando i dati","Il gradiente è svanito","La funzione di perdita è sbagliata"],"answer":1,"explanation":"È la firma del sovradattamento: la rete sta memorizzando il rumore dell'insieme di addestramento. L'arresto anticipato ferma l'addestramento nel punto di minimo della perdita di validazione."},{"question":"Nell'equazione (3.4b) l'errore si propaga all'indietro moltiplicando per quale oggetto?","options":["L'inversa della matrice dei pesi","La trasposta della matrice dei pesi dello strato successivo","Il gradiente della perdita rispetto all'ingresso","La matrice dei pesi dello strato precedente"],"answer":1,"explanation":"δ⁽ˡ⁾ = (W⁽ˡ⁺¹⁾)ᵀ δ⁽ˡ⁺¹⁾ ⊙ φ′(z⁽ˡ⁾): la stessa matrice usata in avanti, percorsa a ritroso. Nessuna inversione è necessaria."}]} />

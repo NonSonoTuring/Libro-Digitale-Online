@@ -1,0 +1,116 @@
+<section className="book-section" id="sec-elementi">
+
+<h2>Vertici, spigoli, facce</h2>
+
+<p>
+  Il cubo è l'oggetto geometrico più familiare e, forse per questo, il meno osservato. Prima di parlare di simmetrie e di dimensioni superiori conviene guardarlo come lo guarderebbe un geometra: un <Term def="Solido delimitato da un numero finito di poligoni piani (facce), che si incontrano lungo segmenti (spigoli) e in punti (vertici).">poliedro</Term> convesso con sei facce quadrate, dodici spigoli e otto vertici, in ciascuno dei quali concorrono tre facce.
+</p>
+<Figure n="1.1" caption={<>Il cubo come insieme di elementi. Trascina per ruotarlo; i pulsanti evidenziano i tre tipi di elementi. Le facce opposte portano numeri romani la cui somma è sette, come su un dado.</>}>
+  <Cube3D mode="anatomy" />
+</Figure>
+<Definition term="Poliedro regolare">
+  <p>
+    Un poliedro convesso è <em>regolare</em> se le sue facce sono poligoni regolari congruenti e in ogni vertice concorre lo stesso numero di facce. Si indica con il <em>simbolo di Schläfli</em> <M>{"\\{p, q\\}"}</M>: facce con <M>{"p"}</M> lati, <M>{"q"}</M> facce per vertice. Il cubo è <M>{"\\{4, 3\\}"}</M>.
+  </p>
+</Definition>
+<p>
+  Dal lato <M>{"a"}</M> discendono tutte le misure. La diagonale di una faccia è <M>{"a\\sqrt{2}"}</M>, per il teorema di Pitagora; la diagonale spaziale, che congiunge due vertici opposti attraversando l'interno, si ottiene applicando Pitagora una seconda volta:
+</p>
+<Eq tex={String.raw`d = \sqrt{a^2 + a^2 + a^2} = a\sqrt{3}, \qquad V = a^3, \qquad S = 6a^2`} label="1.1" />
+<p>
+  Il rapporto fra superficie e volume, <M>{"S/V = 6/a"}</M>, decresce con la dimensione: un cubo grande ha proporzionalmente meno «pelle» di uno piccolo. È la ragione per cui gli animali di taglia maggiore disperdono meno calore, e per cui un cubetto di zucchero si scioglie più in fretta di una zolletta compatta.
+</p>
+
+</section>
+
+<section className="book-section" id="sec-eulero">
+
+<h2>La formula di Eulero</h2>
+
+<p>
+  Contiamo: <M>{"V = 8"}</M>, <M>{"E = 12"}</M>, <M>{"F = 6"}</M>. Allora <M>{"V - E + F = 2"}</M>. Ripetiamo l'esercizio con un tetraedro (<M>{"4 - 6 + 4"}</M>), con un ottaedro (<M>{"6 - 12 + 8"}</M>), con una piramide a base quadrata (<M>{"5 - 8 + 5"}</M>): sempre due. Non è un caso.
+</p>
+<Theorem name="di Eulero per i poliedri (1752)">
+  <p>Per ogni poliedro convesso — e più in generale per ogni poliedro la cui superficie sia deformabile con continuità in una sfera — vale</p>
+  <Eq tex={String.raw`V - E + F = 2 .`} label="1.2" />
+</Theorem>
+<DataTable
+  head={["Solido", "Simbolo", "V", "E", "F", "V − E + F"]}
+  rows={[
+    ["Tetraedro", "{3,3}", "4", "6", "4", "2"],
+    ["Cubo (esaedro)", "{4,3}", "8", "12", "6", "2"],
+    ["Ottaedro", "{3,4}", "6", "12", "8", "2"],
+    ["Dodecaedro", "{5,3}", "20", "30", "12", "2"],
+    ["Icosaedro", "{3,5}", "12", "30", "20", "2"],
+  ]}
+  highlightRow={1}
+  caption="I cinque solidi platonici. Si noti lo scambio di V e F fra cubo e ottaedro e fra dodecaedro e icosaedro: è la dualità del capitolo 2."
+/>
+<p>
+  La dimostrazione classica, dovuta a Cauchy (1813), è un piccolo capolavoro. Si rimuove una faccia e si «spiana» la superficie rimanente su un piano, ottenendo un grafo con <M>{"V"}</M> vertici, <M>{"E"}</M> spigoli e <M>{"F - 1"}</M> regioni. Si triangola ogni regione aggiungendo diagonali: ogni diagonale aumenta di uno sia <M>{"E"}</M> sia <M>{"F"}</M>, lasciando invariata la quantità <M>{"V - E + F"}</M>. Si eliminano poi i triangoli uno alla volta dal bordo: ogni rimozione toglie o uno spigolo e una faccia, o un vertice, due spigoli e una faccia — e ancora <M>{"V - E + F"}</M> non cambia. Alla fine resta un solo triangolo: <M>{"3 - 3 + 1 = 1"}</M>. Riaggiungendo la faccia tolta all'inizio si ottiene 2.
+</p>
+<Note title="Quando la formula fallisce">
+  <p>
+    Per una cornice quadrata, la cui superficie è un toro, si trova <M>{"V - E + F = 0"}</M>. La quantità <M>{"\\chi = V - E + F"}</M>, detta <em>caratteristica di Eulero</em>, non dipende dal poliedro ma dalla forma della sua superficie: vale <M>{"2 - 2g"}</M> per una superficie con <M>{"g"}</M> «buchi». È il primo esempio di invariante topologico.
+  </p>
+</Note>
+
+</section>
+
+<section className="book-section" id="sec-cinque">
+
+<h2>Perché solo cinque solidi</h2>
+
+<p>
+  Che i poliedri regolari convessi siano esattamente cinque è il risultato con cui Euclide chiude gli <em>Elementi</em> (libro XIII). L'argomento è elementare e riposa su un'osservazione sola: in un vertice di un poliedro convesso devono concorrere almeno tre facce, e la somma dei loro angoli deve essere <strong>minore di 360°</strong>, altrimenti le facce giacerebbero su un piano o si sovrapporrebbero.
+</p>
+<Figure n="1.2" caption={<>Le facce che concorrono in un vertice, spianate. L'arco tratteggiato misura il «difetto angolare», ciò che manca ai 360°: è quel difetto a permettere alle facce di chiudersi nello spazio. Con sei triangoli — o quattro quadrati, o tre esagoni — il difetto è nullo e si ottiene una tassellazione del piano, non un solido.</>}>
+  <VertexAngles />
+</Figure>
+<p>
+  L'angolo interno di un <M>{"p"}</M>-gono regolare è <M>{"180° (p-2)/p"}</M>. Con <M>{"q"}</M> facce per vertice la condizione diventa <M>{"q \\cdot 180°(p-2)/p < 360°"}</M>, che si riscrive in una forma memorabile:
+</p>
+<Eq tex={String.raw`(p-2)(q-2) < 4, \qquad p, q \ge 3 .`} label="1.3" note="condizione di esistenza di {p, q}" />
+<p>
+  Le soluzioni intere sono cinque: <M>{"\\{3,3\\}"}</M>, <M>{"\\{3,4\\}"}</M>, <M>{"\\{3,5\\}"}</M>, <M>{"\\{4,3\\}"}</M>, <M>{"\\{5,3\\}"}</M>. Il caso <M>{"(p-2)(q-2) = 4"}</M> dà le tre tassellazioni regolari del piano — triangoli, quadrati, esagoni — e il caso <M>{"> 4"}</M> le tassellazioni del piano iperbolico. Il cubo è l'unico solido platonico a facce quadrate e l'unico, insieme al dodecaedro e al tetraedro, con tre facce per vertice.
+</p>
+<History title="Il Timeo">
+  <p>
+    Platone associa quattro solidi ai quattro elementi: il tetraedro al fuoco, il cubo alla terra («il più stabile»), l'ottaedro all'aria, l'icosaedro all'acqua. Il dodecaedro, «che il dio usò per decorare l'universo», rappresenta il cosmo. Keplero, nel <em>Mysterium Cosmographicum</em> (1596), tenterà di spiegare le distanze dei pianeti inscrivendo i cinque solidi l'uno nell'altro.
+  </p>
+</History>
+
+</section>
+
+<section className="book-section" id="sec-sviluppo">
+
+<h2>Lo sviluppo piano</h2>
+
+<p>
+  Tagliando un cubo di carta lungo sette dei suoi dodici spigoli — non uno di più, non uno di meno — lo si può aprire e distendere sul piano senza sovrapposizioni. La figura ottenuta è uno <strong>sviluppo</strong> (in inglese <em>net</em>). Il più noto è la croce latina, ma non è l'unico.
+</p>
+<Figure n="1.3" caption={<>Lo sviluppo a croce si ripiega in un cubo. Le cerniere sono gli spigoli che non vengono tagliati: cinque, perché un albero che collega sei facce ha sempre cinque archi. Ruota e inclina il piano per osservare la chiusura da diverse angolazioni.</>}>
+  <CubeNet />
+</Figure>
+<p>
+  Perché proprio sette tagli? Le sei facce devono restare collegate fra loro formando un albero, e un albero con sei nodi ha esattamente cinque archi: cinque spigoli restano quindi come cerniere e i rimanenti <M>{"12 - 5 = 7"}</M> vengono tagliati. Scegliendo alberi diversi si ottengono sviluppi diversi.
+</p>
+<Figure n="1.4" caption={<>Gli undici sviluppi del cubo, raggruppati per famiglia secondo il numero di quadrati nelle righe. Il quadrato in accento è una faccia di riferimento; passa il cursore per isolare una famiglia. Esistono <M>{"11"}</M> sviluppi distinti a meno di rotazioni e riflessioni.</>}>
+  <CubeNets />
+</Figure>
+<Example title="Il dado">
+  <p>
+    Su un dado le facce opposte sommano a sette. Sullo sviluppo a croce ciò significa che, se la faccia centrale della colonna è l'1, la faccia all'estremo della colonna deve essere il 6, e le due coppie laterali devono essere 2–5 e 3–4. Provate a numerare uno sviluppo qualsiasi della figura 1.4 rispettando il vincolo: è un buon esercizio di visualizzazione spaziale.
+  </p>
+</Example>
+<History>
+  <p>
+    Gli sviluppi dei poliedri compaiono per la prima volta a stampa nell'<em>Underweysung der Messung</em> di Albrecht Dürer (1525), un trattato di geometria pratica per artisti e artigiani. Che <em>ogni</em> poliedro convesso ammetta uno sviluppo senza sovrapposizioni è tuttora una congettura aperta (Shephard, 1975).
+  </p>
+</History>
+
+</section>
+
+<Takeaways items={["Il cubo è il poliedro regolare {4,3}: 6 facce quadrate, 12 spigoli, 8 vertici, tre facce per vertice.","V − E + F = 2 per ogni poliedro convesso; la quantità è un invariante topologico che dipende solo dalla forma della superficie.","I solidi platonici sono cinque perché gli angoli delle facce in un vertice devono sommare a meno di 360°: (p − 2)(q − 2) < 4.","Uno sviluppo si ottiene tagliando 7 spigoli e lasciandone 5 come cerniere; gli sviluppi distinti del cubo sono 11."]} />
+
+<Quiz items={[{"question":"Un poliedro convesso ha 12 vertici e 30 spigoli. Quante facce ha?","options":["18","20","22","Non è determinabile"],"answer":1,"explanation":"Dalla formula di Eulero F = 2 − V + E = 2 − 12 + 30 = 20: è l'icosaedro."},{"question":"Perché non esiste un poliedro regolare con facce esagonali?","options":["Perché l'esagono non è un poligono regolare","Perché tre esagoni in un vertice sommano esattamente a 360° e tassellano il piano","Perché la formula di Eulero darebbe un valore negativo","Perché servirebbero più di 20 facce"],"answer":1,"explanation":"L'angolo interno dell'esagono è 120°; tre esagoni riempiono completamente il piano attorno al vertice e non lasciano alcun difetto angolare per «chiudere» il solido."}]} />
