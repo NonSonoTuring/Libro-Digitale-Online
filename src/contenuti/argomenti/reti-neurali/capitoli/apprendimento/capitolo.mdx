@@ -11,7 +11,7 @@
   </p>
 </Definition>
 <p>Per la regressione si usa l'errore quadratico medio; per la classificazione, l'entropia incrociata fra la distribuzione vera e quella prevista dal softmax:</p>
-<Eq tex={String.raw`\mathcal{L}_{\mathrm{MSE}} = \frac{1}{N}\sum_{i}\bigl(\hat{y}_i - t_i\bigr)^2, \qquad \mathcal{L}_{\mathrm{CE}} = -\frac{1}{N}\sum_{i}\sum_{k=1}^{K} t_{ik}\,\log \hat{y}_{ik}`} label="3.1" />
+<Eq tex={String.raw`\mathcal{L}_{\mathrm{MSE}} = \frac{1}{N}\sum_{i}\bigl(\hat{y}_i - t_i\bigr)^2, \qquad \mathcal{L}_{\mathrm{CE}} = -\frac{1}{N}\sum_{i}\sum_{k=1}^{K} t_{ik}\,\log \hat{y}_{ik}`} note="Funzioni di perdita MSE e cross-entropy" terms={[{ symbol: "N", description: "numero di esempi" }, { symbol: "\\hat{y}_i", description: "previsione del modello per l'esempio i" }, { symbol: "t_i", description: "valore corretto dell'esempio i" }, { symbol: "K", description: "numero di classi" }, { symbol: "\\mathcal{L}_{\\mathrm{MSE}}, \\mathcal{L}_{\\mathrm{CE}}", description: "perdita quadratica media e cross-entropy media" }]} />
 <p>
   Le due scelte non sono arbitrarie. Se si assume che i bersagli siano affetti da rumore gaussiano, massimizzare la verosimiglianza dei dati equivale a minimizzare l'errore quadratico; se i bersagli sono etichette categoriche, equivale a minimizzare l'entropia incrociata. La funzione di perdita codifica, in forma implicita, un'ipotesi statistica sui dati.
 </p>
@@ -25,7 +25,7 @@
 <p>
   Il paesaggio di <M>{"\\mathcal{L}(\\theta)"}</M> ha milioni di dimensioni e nessuna formula chiusa per il minimo. L'unica informazione locale a disposizione è il <Term def="Vettore delle derivate parziali; punta nella direzione di massima crescita della funzione e il suo modulo misura la pendenza.">gradiente</Term> <M>{"\\nabla_\\theta \\mathcal{L}"}</M>, che indica la direzione di massima salita. La strategia più semplice è muoversi nella direzione opposta, a piccoli passi:
 </p>
-<Eq tex={String.raw`\theta_{k+1} = \theta_k - \eta\,\nabla_\theta \mathcal{L}(\theta_k)`} label="3.2" note="discesa del gradiente" />
+<Eq tex={String.raw`\theta_{k+1} = \theta_k - \eta\,\nabla_\theta \mathcal{L}(\theta_k)`} note="Discesa del gradiente" terms={[{ symbol: "\\theta_k", description: "parametri al passo k" }, { symbol: "\\theta_{k+1}", description: "parametri aggiornati" }, { symbol: "\\eta", description: "tasso di apprendimento" }, { symbol: "\\nabla_\\theta \\mathcal{L}", description: "gradiente della perdita rispetto ai parametri" }]} />
 <Figure n="3.1" caption={<>Discesa del gradiente su una funzione di perdita unidimensionale. La linea tratteggiata è la tangente nel punto corrente, la freccia il passo <M>{"-\\eta\\,L'(w)"}</M>. Prova un tasso di apprendimento troppo alto per vedere il metodo oscillare e divergere; aggiungi momento per uscire dal minimo locale di destra.</>}>
   <GradientDescent />
 </Figure>
@@ -35,7 +35,7 @@
 <p>
   In pratica il gradiente non si calcola su tutti gli <M>{"N"}</M> esempi, ma su un piccolo <em>mini-batch</em> estratto a caso: è la <strong>discesa stocastica del gradiente</strong> (SGD). La stima è rumorosa, ma costa una frazione del calcolo e il rumore stesso aiuta a sfuggire ai punti di sella. Il <strong>momento</strong> aggiunge inerzia alla traiettoria accumulando una media mobile dei gradienti:
 </p>
-<Eq tex={String.raw`\mathbf{v}_{k+1} = \beta\,\mathbf{v}_k + \nabla_\theta \mathcal{L}(\theta_k), \qquad \theta_{k+1} = \theta_k - \eta\,\mathbf{v}_{k+1}`} label="3.3" note="SGD con momento" />
+<Eq tex={String.raw`\mathbf{v}_{k+1} = \beta\,\mathbf{v}_k + \nabla_\theta \mathcal{L}(\theta_k), \qquad \theta_{k+1} = \theta_k - \eta\,\mathbf{v}_{k+1}`} note="Discesa stocastica con momento" terms={[{ symbol: "\\mathbf{v}_k", description: "momento accumulato al passo k" }, { symbol: "\\beta", description: "coefficiente del momento" }, { symbol: "\\nabla_\\theta \\mathcal{L}", description: "gradiente della perdita" }, { symbol: "\\eta", description: "tasso di apprendimento" }, { symbol: "\\theta_k", description: "parametri del modello al passo k" }]} />
 
 </section>
 
@@ -49,9 +49,9 @@
 <p>
   Si definisce l'<em>errore</em> dello strato <M>{"l"}</M> come la sensibilità della perdita alla sua pre-attivazione, <M>{"\\boldsymbol{\\delta}^{(l)} = \\partial \\mathcal{L} / \\partial \\mathbf{z}^{(l)}"}</M>. Le quattro equazioni fondamentali sono:
 </p>
-<Eq tex={String.raw`\boldsymbol{\delta}^{(L)} = \nabla_{\mathbf{a}} \mathcal{L} \;\odot\; \varphi'\!\left(\mathbf{z}^{(L)}\right)`} label="3.4a" note="errore dello strato di uscita" />
-<Eq tex={String.raw`\boldsymbol{\delta}^{(l)} = \left(W^{(l+1)}\right)^{\!\top} \boldsymbol{\delta}^{(l+1)} \;\odot\; \varphi'\!\left(\mathbf{z}^{(l)}\right)`} label="3.4b" note="l'errore si propaga all'indietro" />
-<Eq tex={String.raw`\frac{\partial \mathcal{L}}{\partial W^{(l)}} = \boldsymbol{\delta}^{(l)} \left(\mathbf{a}^{(l-1)}\right)^{\!\top}, \qquad \frac{\partial \mathcal{L}}{\partial \mathbf{b}^{(l)}} = \boldsymbol{\delta}^{(l)}`} label="3.4c" note="gradienti rispetto ai parametri" />
+<Eq tex={String.raw`\boldsymbol{\delta}^{(L)} = \nabla_{\mathbf{a}} \mathcal{L} \;\odot\; \varphi'\!\left(\mathbf{z}^{(L)}\right)`} note="Errore dello strato di uscita" terms={[{ symbol: "\\boldsymbol{\\delta}^{(L)}", description: "errore dello strato di uscita" }, { symbol: "\\nabla_{\\mathbf{a}} \\mathcal{L}", description: "derivata della perdita rispetto alle attivazioni" }, { symbol: "\\varphi'", description: "derivata della funzione di attivazione" }, { symbol: "\\odot", description: "prodotto componente per componente" }]} />
+<Eq tex={String.raw`\boldsymbol{\delta}^{(l)} = \left(W^{(l+1)}\right)^{\!\top} \boldsymbol{\delta}^{(l+1)} \;\odot\; \varphi'\!\left(\mathbf{z}^{(l)}\right)`} note="Propagazione all'indietro dell'errore" terms={[{ symbol: "\\boldsymbol{\\delta}^{(l)}", description: "errore dello strato l" }, { symbol: "W^{(l+1)}", description: "matrice dei pesi dello strato successivo" }, { symbol: "\\varphi'", description: "derivata della funzione di attivazione" }, { symbol: "\\odot", description: "prodotto componente per componente" }]} />
+<Eq tex={String.raw`\frac{\partial \mathcal{L}}{\partial W^{(l)}} = \boldsymbol{\delta}^{(l)} \left(\mathbf{a}^{(l-1)}\right)^{\!\top}, \qquad \frac{\partial \mathcal{L}}{\partial \mathbf{b}^{(l)}} = \boldsymbol{\delta}^{(l)}`} note="Gradienti rispetto ai parametri" terms={[{ symbol: "\\mathcal{L}", description: "funzione di perdita" }, { symbol: "W^{(l)}", description: "matrice dei pesi dello strato l" }, { symbol: "\\mathbf{b}^{(l)}", description: "vettore dei bias dello strato l" }, { symbol: "\\boldsymbol{\\delta}^{(l)}", description: "errore dello strato l" }, { symbol: "\\mathbf{a}^{(l-1)}", description: "attivazioni dello strato precedente" }]} />
 <p>
   L'equazione (3.4b) spiega il nome: l'errore dello strato <M>{"l"}</M> si ottiene da quello dello strato successivo moltiplicando per la <em>trasposta</em> dei pesi — la stessa matrice usata in avanti, percorsa a ritroso — e per la derivata dell'attivazione. È qui che una derivata piccola, come quella della sigmoide saturata, attenua il segnale a ogni passaggio.
 </p>
@@ -85,7 +85,7 @@
 <p>
   Sul fronte dell'ottimizzazione, <strong>Adam</strong> (Kingma e Ba, 2015) adatta il tasso di apprendimento parametro per parametro, dividendo il momento del gradiente per la radice della media mobile dei suoi quadrati:
 </p>
-<Eq tex={String.raw`\mathbf{m}_k = \beta_1 \mathbf{m}_{k-1} + (1-\beta_1)\,\mathbf{g}_k,\quad \mathbf{v}_k = \beta_2 \mathbf{v}_{k-1} + (1-\beta_2)\,\mathbf{g}_k^{2},\quad \theta_{k+1} = \theta_k - \eta\,\frac{\hat{\mathbf{m}}_k}{\sqrt{\hat{\mathbf{v}}_k} + \epsilon}`} label="3.5" note="Adam, con m̂ e v̂ corretti per la distorsione iniziale" />
+<Eq tex={String.raw`\mathbf{m}_k = \beta_1 \mathbf{m}_{k-1} + (1-\beta_1)\,\mathbf{g}_k,\quad \mathbf{v}_k = \beta_2 \mathbf{v}_{k-1} + (1-\beta_2)\,\mathbf{g}_k^{2},\quad \theta_{k+1} = \theta_k - \eta\,\frac{\hat{\mathbf{m}}_k}{\sqrt{\hat{\mathbf{v}}_k} + \epsilon}`} note="Aggiornamento dei parametri con Adam" terms={[{ symbol: "\\mathbf{g}_k", description: "gradiente al passo k" }, { symbol: "\\mathbf{m}_k, \\mathbf{v}_k", description: "medie mobili del gradiente e del suo quadrato" }, { symbol: "\\beta_1, \\beta_2", description: "coefficienti delle medie mobili" }, { symbol: "\\hat{\\mathbf{m}}_k, \\hat{\\mathbf{v}}_k", description: "medie corrette per la distorsione iniziale" }, { symbol: "\\eta, \\epsilon", description: "tasso di apprendimento e piccola costante numerica" }, { symbol: "\\theta_k", description: "parametri del modello" }]} />
 <Note title="Il paradosso della sovra-parametrizzazione">
   <p>
     La teoria classica prevede che modelli troppo grandi generalizzino male. Le reti profonde, con più parametri che esempi, spesso generalizzano <em>meglio</em> dei modelli piccoli — il fenomeno della «doppia discesa» (Belkin et al., 2019). Perché accada è una delle questioni aperte più studiate della disciplina.

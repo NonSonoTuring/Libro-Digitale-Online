@@ -13,7 +13,7 @@
 <p>
   Ogni passaggio di dimensione <em>raddoppia</em> i vertici (quelli della copia di partenza e quelli della copia d'arrivo) e trasforma ogni elemento in uno di dimensione superiore: ogni vertice spazzato produce uno spigolo, ogni spigolo una faccia, ogni faccia una cella cubica. Ne discende una ricorsione per il numero <M>{"f_k(n)"}</M> di facce <M>{"k"}</M>-dimensionali dell'<M>{"n"}</M>-cubo:
 </p>
-<Eq tex={String.raw`f_k(n) = 2\,f_k(n-1) + f_{k-1}(n-1)`} label="3.1" note="due copie del vecchio, più ciò che viene spazzato" />
+<Eq tex={String.raw`f_k(n) = 2\,f_k(n-1) + f_{k-1}(n-1)`} note="Ricorrenza per il numero di facce" terms={[{ symbol: "f_k(n)", description: "numero di facce k-dimensionali dell'n-cubo" }, { symbol: "n", description: "dimensione del cubo" }, { symbol: "k", description: "dimensione delle facce contate" }, { symbol: "2f_k(n-1)", description: "contributo delle due copie dell'oggetto precedente" }, { symbol: "f_{k-1}(n-1)", description: "contributo delle facce spazzate durante la costruzione" }]} />
 
 </section>
 
@@ -40,7 +40,7 @@
 <p>
   La ricorsione (3.1) si risolve in forma chiusa con un argomento combinatorio diretto. Una faccia <M>{"k"}</M>-dimensionale dell'<M>{"n"}</M>-cubo si ottiene lasciando libere <M>{"k"}</M> coordinate e fissando le altre <M>{"n-k"}</M> al valore 0 oppure 1. Le coordinate libere si scelgono in <M>{"\\binom{n}{k}"}</M> modi, e i valori fissati in <M>{"2^{n-k}"}</M> modi:
 </p>
-<Eq tex={String.raw`f_k(n) = 2^{\,n-k}\binom{n}{k}`} label="3.2" />
+<Eq tex={String.raw`f_k(n) = 2^{\,n-k}\binom{n}{k}`} note="Numero di facce dell'n-cubo" terms={[{ symbol: "f_k(n)", description: "numero di facce k-dimensionali" }, { symbol: "n", description: "dimensione del cubo" }, { symbol: "k", description: "dimensione delle facce" }, { symbol: "\\binom{n}{k}", description: "modi di scegliere le k coordinate libere" }]} />
 <DataTable
   head={["n-cubo", "Vertici f₀", "Spigoli f₁", "Facce f₂", "Celle f₃", "Ipercelle f₄", "Σ(−1)ᵏ fₖ"]}
   rows={[

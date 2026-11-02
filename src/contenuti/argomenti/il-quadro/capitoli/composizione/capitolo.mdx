@@ -8,7 +8,7 @@
 <p>
   Più antica e più discussa è la <strong>sezione aurea</strong>, la divisione di un segmento in due parti tali che il rapporto fra l'intero e la maggiore eguagli quello fra la maggiore e la minore:
 </p>
-<Eq tex={String.raw`\frac{a+b}{a} = \frac{a}{b} = \varphi = \frac{1+\sqrt{5}}{2} \approx 1{,}618`} label="3.1" />
+<Eq tex={String.raw`\frac{a+b}{a} = \frac{a}{b} = \varphi = \frac{1+\sqrt{5}}{2} \approx 1{,}618`} note="Proporzione aurea" terms={[{ symbol: "a, b", description: "parti maggiore e minore del segmento" }, { symbol: "\\varphi", description: "rapporto aureo, circa 1,618" }]} />
 <Figure n="3.1" caption={<>Le griglie sovrapposte alla natura morta. Le linee dei terzi e quelle auree (a 0,382 e 0,618 del lato) cadono vicine; il bordo del tavolo coincide quasi esattamente con la sezione aurea orizzontale. L'<em>armatura</em> aggiunge le diagonali e le loro perpendicolari dai vertici: i quattro «occhi» del rettangolo. Prova la spirale nelle sue quattro orientazioni e giudica tu quanto si adatti.</>}>
   <Painting groups={["grid"]} initialGrid={["thirds"]} />
 </Figure>
@@ -41,7 +41,7 @@
 <p>
   Rudolf Arnheim, in <em>Arte e percezione visiva</em> (1954), descrive la composizione come un sistema di <strong>forze</strong>: ogni elemento possiede un peso, e il quadro è in equilibrio quando i pesi si bilanciano attorno al centro. Il peso cresce con la dimensione, con il contrasto di valore, con la saturazione, con l'isolamento; ed è maggiore a destra che a sinistra e in alto che in basso, per ragioni che hanno a che fare con la direzione della lettura e con la gravità percepita.
 </p>
-<Eq tex={String.raw`p_1 \, d_1 = p_2 \, d_2`} label="3.2" note="equilibrio dei momenti attorno al centro" />
+<Eq tex={String.raw`p_1 \, d_1 = p_2 \, d_2`} note="Equilibrio dei momenti attorno al centro" terms={[{ symbol: "p_1, p_2", description: "pesi visivi dei due elementi" }, { symbol: "d_1, d_2", description: "distanze dei due elementi dal centro" }]} />
 <Figure n="3.3" caption={<>La bilancia dei pesi visivi. Un elemento piccolo ma lontano dal centro, o ad alto contrasto, bilancia un elemento grande vicino al fulcro: è il principio della leva applicato alla percezione. Cerca una configurazione di equilibrio con pesi molto diversi.</>}>
   <Balance />
 </Figure>

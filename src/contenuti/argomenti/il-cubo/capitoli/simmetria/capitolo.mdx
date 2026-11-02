@@ -14,7 +14,7 @@
   <li>rotazioni attorno alle <strong>4 diagonali spaziali</strong>, di 120° e 240°: <M>{"4 \\times 2 = 8"}</M>;</li>
   <li>rotazioni di 180° attorno ai <strong>6 assi</strong> che passano per i punti medi di spigoli opposti: <M>{"6"}</M>.</li>
 </ul>
-<Eq tex={String.raw`1 + 9 + 8 + 6 = 24`} label="2.1" note="ordine del gruppo delle rotazioni del cubo" />
+<Eq tex={String.raw`1 + 9 + 8 + 6 = 24`} note="Numero delle rotazioni del cubo" terms={[{ symbol: "1", description: "rotazione identità" }, { symbol: "9", description: "rotazioni attorno agli assi delle facce" }, { symbol: "8", description: "rotazioni attorno agli assi dei vertici" }, { symbol: "6", description: "rotazioni attorno agli assi degli spigoli" }, { symbol: "24", description: "rotazioni totali" }]} />
 <Definition term="Gruppo">
   <p>
     Un insieme <M>{"G"}</M> con un'operazione di composizione è un <em>gruppo</em> se la composizione è associativa, esiste un elemento neutro e ogni elemento ha un inverso. Le simmetrie di qualsiasi oggetto formano un gruppo: comporre due simmetrie dà una simmetria, l'identità è neutra e ogni rotazione si annulla ruotando all'indietro.
@@ -54,18 +54,18 @@
 <p>
   Per far ruotare un cubo sullo schermo — come fa questa stessa pagina — occorre descrivere le rotazioni con numeri. Fissato un sistema di coordinate con origine nel centro, una rotazione è una trasformazione lineare dello spazio, e dunque una matrice <M>{"3 \\times 3"}</M>. Attorno all'asse <M>{"z"}</M>, per un angolo <M>{"\\theta"}</M>:
 </p>
-<Eq tex={String.raw`R_z(\theta) = \begin{pmatrix} \cos\theta & -\sin\theta & 0 \\ \sin\theta & \cos\theta & 0 \\ 0 & 0 & 1 \end{pmatrix}`} label="2.2" />
+<Eq tex={String.raw`R_z(\theta) = \begin{pmatrix} \cos\theta & -\sin\theta & 0 \\ \sin\theta & \cos\theta & 0 \\ 0 & 0 & 1 \end{pmatrix}`} note="Matrice di rotazione attorno all'asse z" terms={[{ symbol: "R_z(\\theta)", description: "matrice che ruota un vettore attorno all'asse z" }, { symbol: "\\theta", description: "angolo di rotazione" }, { symbol: "\\sin, \\cos", description: "funzioni seno e coseno dell'angolo" }]} />
 <p>
   Le matrici di rotazione sono <em>ortogonali</em> (<M>{"R^{\\top}R = I"}</M>, quindi conservano lunghezze e angoli) e hanno determinante <M>{"+1"}</M> (conservano l'orientazione; le riflessioni hanno determinante <M>{"-1"}</M>). Formano il gruppo <M>{"SO(3)"}</M>, di cui il gruppo del cubo è un sottogruppo finito. La composizione di rotazioni è il prodotto delle matrici, e il prodotto di matrici <strong>non è commutativo</strong>: ecco perché l'ordine dei pulsanti nella figura 2.1 conta.
 </p>
 <p>
   Per una rotazione di angolo <M>{"\\theta"}</M> attorno a un asse unitario qualsiasi <M>{"\\mathbf{u}"}</M> vale la formula di Rodrigues, che applicata a un vettore <M>{"\\mathbf{v}"}</M> dà
 </p>
-<Eq tex={String.raw`R_{\mathbf{u}}(\theta)\,\mathbf{v} = \mathbf{v}\cos\theta + (\mathbf{u} \times \mathbf{v})\sin\theta + \mathbf{u}\,(\mathbf{u}\cdot\mathbf{v})(1 - \cos\theta).`} label="2.3" note="formula di Rodrigues (1840)" />
+<Eq tex={String.raw`R_{\mathbf{u}}(\theta)\,\mathbf{v} = \mathbf{v}\cos\theta + (\mathbf{u} \times \mathbf{v})\sin\theta + \mathbf{u}\,(\mathbf{u}\cdot\mathbf{v})(1 - \cos\theta).`} note="Formula di Rodrigues" terms={[{ symbol: "\\mathbf{u}", description: "versore che indica l'asse di rotazione" }, { symbol: "\\mathbf{v}", description: "vettore da ruotare" }, { symbol: "\\theta", description: "angolo di rotazione" }, { symbol: "\\times", description: "prodotto vettoriale" }, { symbol: "\\cdot", description: "prodotto scalare" }]} />
 <p>
   Resta il passaggio dalle tre dimensioni alle due dello schermo: la <strong>proiezione</strong>. Quella <em>ortografica</em> ignora semplicemente la profondità; nella sua variante <em>isometrica</em>, usata nei disegni tecnici e nelle figure 2.2 e 2.3, i tre assi formano angoli di 120° sul foglio e le lunghezze lungo ciascuno sono ridotte dello stesso fattore <M>{"\\sqrt{2/3} \\approx 0{,}816"}</M>. La proiezione <em>prospettica</em>, più fedele alla visione, divide le coordinate per la distanza:
 </p>
-<Eq tex={String.raw`x' = \frac{d\,x}{d - z}, \qquad y' = \frac{d\,y}{d - z}`} label="2.4" note="prospettiva centrale con osservatore a distanza d" />
+<Eq tex={String.raw`x' = \frac{d\,x}{d - z}, \qquad y' = \frac{d\,y}{d - z}`} note="Proiezione prospettica centrale" terms={[{ symbol: "x, y, z", description: "coordinate del punto nello spazio" }, { symbol: "x', y'", description: "coordinate proiettate sullo schermo" }, { symbol: "d", description: "distanza dell'osservatore dal piano di proiezione" }]} />
 <Example title="Dietro le quinte">
   <p>
     Il cubo della figura 2.1 è disegnato esattamente così: una matrice <M>{"4 \\times 4"}</M> accumula le rotazioni applicate (<code>matrix3d</code>), una proiezione prospettica con <M>{"d"}</M> di circa 1100 pixel produce l'immagine (<code>perspective</code>). Ogni pressione di un pulsante moltiplica la matrice corrente per una matrice di Rodrigues, animando l'angolo da 0 al valore finale.

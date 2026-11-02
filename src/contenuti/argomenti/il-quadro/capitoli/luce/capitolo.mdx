@@ -27,7 +27,7 @@
 <p>
   Perché una sfera dipinta appare rotonda? Perché la quantità di luce che una superficie riflette dipende dall'angolo con cui la luce la colpisce. Johann Heinrich Lambert formalizzò la relazione nel 1760: l'intensità è proporzionale al coseno dell'angolo fra la <Term def="Vettore perpendicolare alla superficie in un punto; descrive l'orientazione locale della forma.">normale</Term> alla superficie e la direzione della sorgente.
   </p>
-<Eq tex={String.raw`I = I_0 \cdot \max\bigl(0,\; \mathbf{n}\cdot\mathbf{l}\bigr) = I_0 \cdot \max(0, \cos\theta)`} label="1.1" note="legge del coseno di Lambert" />
+<Eq tex={String.raw`I = I_0 \cdot \max\bigl(0,\; \mathbf{n}\cdot\mathbf{l}\bigr) = I_0 \cdot \max(0, \cos\theta)`} note="Legge del coseno di Lambert" terms={[{ symbol: "I", description: "intensità luminosa ricevuta dalla superficie" }, { symbol: "I_0", description: "intensità della sorgente" }, { symbol: "\\mathbf{n}", description: "versore normale alla superficie" }, { symbol: "\\mathbf{l}", description: "versore diretto verso la sorgente luminosa" }, { symbol: "\\theta", description: "angolo tra la normale e la luce" }]} />
 <p>
   Sulla sfera la normale ruota con continuità, e con essa il coseno: dalla zona rivolta alla sorgente (<M>{"\\cos\\theta = 1"}</M>) a quella in cui la luce arriva radente (<M>{"\\cos\\theta = 0"}</M>). Questa linea di confine, dove la luce cessa, è il <strong>terminatore</strong>; oltre di essa la superficie è in <em>ombra propria</em>, rischiarata soltanto dalla luce che rimbalza dall'ambiente.
 </p>

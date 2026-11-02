@@ -11,7 +11,7 @@
 <p>
   Il primo modello formale è dovuto a Warren McCulloch e Walter Pitts (1943). Il loro neurone è un'unità a <em>logica di soglia</em>: riceve ingressi binari <M>{"x_i \\in \\{0,1\\}"}</M>, ciascuno moltiplicato per un peso <M>{"w_i"}</M>, e produce un'uscita binaria quando la somma raggiunge la soglia <M>{"\\theta"}</M>.
 </p>
-<Eq tex={String.raw`y \;=\; \mathbb{1}\!\left[\;\sum_{i=1}^{n} w_i\,x_i \;\ge\; \theta\;\right]`} label="1.1" note="unità di McCulloch–Pitts" />
+<Eq tex={String.raw`y \;=\; \mathbb{1}\!\left[\;\sum_{i=1}^{n} w_i\,x_i \;\ge\; \theta\;\right]`} note="Unità di McCulloch–Pitts" terms={[{ symbol: "y", description: "uscita binaria del neurone" }, { symbol: "w_i", description: "peso dell'ingresso i" }, { symbol: "x_i", description: "valore dell'ingresso i" }, { symbol: "\\theta", description: "soglia di attivazione" }, { symbol: "\\mathbb{1}[\\cdot]", description: "vale 1 se la condizione è vera, altrimenti 0" }]} />
 <p>
   Con pesi e soglie opportuni l'unità realizza le porte logiche elementari: per l'AND di due ingressi bastano <M>{"w_1 = w_2 = 1"}</M> e <M>{"\\theta = 2"}</M>; per l'OR, <M>{"\\theta = 1"}</M>; una connessione inibitoria con peso negativo realizza il NOT. Poiché ogni funzione booleana è esprimibile con AND, OR e NOT, una rete di tali unità può calcolare qualunque funzione logica finita — risultato notevole, che però tace su un punto decisivo: <strong>i pesi vanno fissati a mano</strong>. Il modello non apprende.
 </p>
@@ -38,7 +38,7 @@
 <p>
   Il vettore <M>{"\\mathbf{w}"}</M> è ortogonale al confine e punta verso il semispazio della classe positiva; il bias ne regola la distanza dall'origine. Apprendere significa spostare e ruotare questo iperpiano finché gli esempi sono classificati correttamente. La regola di apprendimento, applicata a ogni esempio <M>{"(\\mathbf{x}, t)"}</M> con <M>{"t \\in \\{0,1\\}"}</M>, è di una semplicità disarmante:
 </p>
-<Eq tex={String.raw`\mathbf{w} \leftarrow \mathbf{w} + \eta\,(t - \hat{y})\,\mathbf{x}, \qquad b \leftarrow b + \eta\,(t - \hat{y})`} label="1.2" note="regola del percettrone" />
+<Eq tex={String.raw`\mathbf{w} \leftarrow \mathbf{w} + \eta\,(t - \hat{y})\,\mathbf{x}, \qquad b \leftarrow b + \eta\,(t - \hat{y})`} note="Regola di apprendimento del percettrone" terms={[{ symbol: "\\mathbf{w}", description: "vettore dei pesi aggiornati" }, { symbol: "b", description: "bias aggiornato insieme ai pesi" }, { symbol: "\\eta", description: "tasso di apprendimento" }, { symbol: "t", description: "uscita corretta desiderata" }, { symbol: "\\hat{y}", description: "uscita prevista dal percettrone" }, { symbol: "\\mathbf{x}", description: "vettore degli ingressi" }]} />
 <p>
   Se la previsione è corretta, <M>{"t - \\hat{y} = 0"}</M> e nulla cambia. Se un esempio positivo è stato scartato, <M>{"\\mathbf{w}"}</M> viene spinto <em>verso</em> <M>{"\\mathbf{x}"}</M>; se un negativo è stato accettato, viene spinto <em>via</em> da <M>{"\\mathbf{x}"}</M>. Il parametro <M>{"\\eta > 0"}</M>, il tasso di apprendimento, controlla l'entità della correzione.
 </p>
@@ -74,7 +74,7 @@
 <p>
   La <strong>sigmoide logistica</strong> fu a lungo la scelta canonica: schiaccia la retta reale nell'intervallo <M>{"(0,1)"}</M>, il che consente di leggerne l'uscita come una probabilità, e ha una derivata elegante:
 </p>
-<Eq tex={String.raw`\sigma'(z) = \sigma(z)\bigl(1-\sigma(z)\bigr) \;\le\; \tfrac{1}{4}`} label="1.3" />
+<Eq tex={String.raw`\sigma'(z) = \sigma(z)\bigl(1-\sigma(z)\bigr) \;\le\; \tfrac{1}{4}`} note="Derivata della sigmoide" terms={[{ symbol: "\\sigma(z)", description: "valore della funzione sigmoide in z" }, { symbol: "\\sigma'(z)", description: "derivata della sigmoide" }, { symbol: "z", description: "ingresso della funzione" }]} />
 <p>
   Proprio quel limite superiore di <M>{"1/4"}</M> è il suo tallone d'Achille. Nella retropropagazione (capitolo 3) i gradienti si moltiplicano strato dopo strato: con dieci strati sigmoidali il segnale può ridursi di un fattore <M>{"4^{-10} \\approx 10^{-6}"}</M>. È il problema del <em>gradiente evanescente</em>, che per anni ha impedito di addestrare reti davvero profonde. La <strong>ReLU</strong> — <em>rectified linear unit</em>, proposta in questo contesto da Nair e Hinton nel 2010 — lo aggira con una derivata che vale esattamente 1 per ogni ingresso positivo.
 </p>
@@ -104,7 +104,7 @@
 <p>
   La soluzione è altrettanto istruttiva: basta uno strato intermedio. Due neuroni nascosti calcolano rispettivamente l'OR e l'AND degli ingressi, e un neurone d'uscita calcola «OR ma non AND»:
 </p>
-<Eq tex={String.raw`h_1 = H(x_1 + x_2 - 0{,}5),\quad h_2 = H(x_1 + x_2 - 1{,}5),\quad y = H(h_1 - h_2 - 0{,}5)`} label="1.4" />
+<Eq tex={String.raw`h_1 = H(x_1 + x_2 - 0{,}5),\quad h_2 = H(x_1 + x_2 - 1{,}5),\quad y = H(h_1 - h_2 - 0{,}5)`} note="Rete a soglia che realizza la funzione XOR" terms={[{ symbol: "x_1, x_2", description: "ingressi binari" }, { symbol: "h_1, h_2", description: "uscite dei neuroni nascosti" }, { symbol: "y", description: "uscita della rete" }, { symbol: "H(z)", description: "funzione gradino: vale 1 se z è positivo, altrimenti 0" }]} />
 <Example title="Verifica">
   <p>
     Per <M>{"(1,1)"}</M>: <M>{"h_1 = H(1{,}5) = 1"}</M>, <M>{"h_2 = H(0{,}5) = 1"}</M>, quindi <M>{"y = H(-0{,}5) = 0"}</M>. Per <M>{"(1,0)"}</M>: <M>{"h_1 = 1"}</M>, <M>{"h_2 = H(-0{,}5) = 0"}</M>, quindi <M>{"y = H(0{,}5) = 1"}</M>. Lo strato nascosto ha <em>trasformato</em> lo spazio degli ingressi in uno in cui il problema è linearmente separabile.

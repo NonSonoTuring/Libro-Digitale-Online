@@ -68,7 +68,15 @@ Struttura del MDX:
 
 <p>Testo con <Term def="Spiegazione">termine</Term> e formula inline <M>{"e = mc^2"}</M>.</p>
 
-<Eq tex={String.raw`E = mc^2`} label="1.1" note="energia a riposo" />
+<Eq
+  tex={String.raw`y = \mathbb{1}[x \ge \theta]`}
+  note="Unità di McCulloch–Pitts"
+  terms={[
+    { symbol: "y", description: "uscita binaria" },
+    { symbol: "x", description: "ingresso" },
+    { symbol: "\\theta", description: "soglia di attivazione" },
+  ]}
+/>
 
 <Figure n="1.1" caption={<>Didascalia.</>}>
   <DiagrammaInterattivo />
@@ -82,18 +90,38 @@ Struttura del MDX:
 
 Componenti disponibili da `src/components/content/common.tsx`: `M`, `Eq`, `Figure`, `Definition`, `Theorem`, `Note`, `History`, `Example`, `Term`, `DataTable`, `Takeaways`, `Quiz`.
 
-## 4. Interattività separata dal testo
+### Scrivere e formattare le formule
 
-- Metti i componenti React interattivi in `src/features/argomento1/*.tsx`.
-- Crea `src/components/content/argomento1.tsx`:
+- Formula breve dentro una frase: usa `<M>{"\\sigma(z)"}</M>`.
+- Formula centrata su più righe o da spiegare: usa `<Eq>` con `tex`, `note` e `terms` come nell'esempio. Scrivi la formula in LaTeX dentro `String.raw`.
+- `note` è il titolo esplicativo **sopra** la formula; usa una frase normale, non tutto maiuscolo. Non aggiungere numeri o `label`.
+- In `terms`, elenca in ordine i simboli e il loro significato: il simbolo è LaTeX, la descrizione è testo. Mantieni ogni spiegazione breve.
+- Non usare `Eq` per formule brevi nel testo: quelle vanno con `M`.
+
+Il rendering e la struttura HTML sono in `src/lib/math.tsx`; **aspetto di riquadro, titolo e legenda** in `src/styles/book.css` (`.display-equation…`). Colori, caratteri e variabili condivise sono in `src/styles/tokens.css`, con i valori del tema scuro in `src/styles/themes.css`. Se cambi lo stile delle formule, modifica le classi CSS lì, non i singoli capitoli.
+
+## 4. Interattività e animazioni
+
+- Scrivi l'interazione in `src/features/argomento1/AnimazioneCapitolo.tsx`.
+- Inseriscila nel capitolo MDX dentro `<Figure>`:
+
+```mdx
+<Figure n="1.1" caption={<>Didascalia dell'animazione.</>}>
+  <AnimazioneCapitolo />
+</Figure>
+```
+
+- Registrala in `src/components/content/argomento1.tsx`:
 
 ```ts
 import { commonComponents } from "./common";
-import { DiagrammaInterattivo } from "../../features/argomento1/DiagrammaInterattivo";
-export const mdxComponents = { ...commonComponents, DiagrammaInterattivo };
+import { AnimazioneCapitolo } from "../../features/argomento1/AnimazioneCapitolo";
+export const mdxComponents = { ...commonComponents, AnimazioneCapitolo };
 ```
 
 - In `ChapterPage.tsx` aggiungi il nuovo `topic.id` nella mappa `componentLoader`, così il MDX riceve i suoi componenti.
+- Le animazioni sono implementate nel componente React, di solito con `framer-motion` (`motion.*`, `animate`, `transition`). Le proprietà grafiche specifiche dell'interazione (forme SVG, dimensioni, movimenti) si impostano lì.
+- Per un'animazione riutilizzabile o condivisa, definisci `@keyframes` e classi in `src/styles/book.css`: qui sono raccolte le animazioni comuni, il rispetto di `prefers-reduced-motion` e la curva condivisa `--ease-book`. Palette e caratteri sono in `src/styles/tokens.css`, con le varianti scure in `src/styles/themes.css`. Non creare una copia delle stesse regole nel capitolo MDX.
 - Le risorse statiche non vanno in `features/`: immagini fisse in `assets-condivisi/` dell'argomento o in `assets/` del capitolo; file globali in `public/`.
 
 ## 5. Verifica

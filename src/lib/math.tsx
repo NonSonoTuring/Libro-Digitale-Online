@@ -20,14 +20,19 @@ export function M({ children }: InlineProps) {
   return <span className="whitespace-nowrap" dangerouslySetInnerHTML={{ __html: html }} />;
 }
 
-interface DisplayProps {
-  tex: string;
-  label?: string;
-  note?: string;
+interface EquationTerm {
+  symbol: string;
+  description: string;
 }
 
-/** Formula centrata con eventuale numerazione a margine. */
-export function Eq({ tex, label, note }: DisplayProps) {
+interface DisplayProps {
+  tex: string;
+  note: string;
+  terms: EquationTerm[];
+}
+
+/** Formula centrata, introdotta dal titolo e seguita dalla legenda dei termini. */
+export function Eq({ tex, note, terms }: DisplayProps) {
   const html = useMemo(
     () =>
       katex.renderToString(tex, {
@@ -39,16 +44,17 @@ export function Eq({ tex, label, note }: DisplayProps) {
     [tex],
   );
   return (
-    <div className="my-6 flex items-center gap-4">
-      <div className="min-w-0 flex-1 py-2 px-4 rounded-md bg-paper-2/70 border border-rule/70">
-        <div dangerouslySetInnerHTML={{ __html: html }} />
-        {note && (
-          <p className="mt-1 text-center font-mono text-[11px] uppercase tracking-wider text-ink-3">{note}</p>
-        )}
-      </div>
-      {label && (
-        <span className="shrink-0 font-mono text-xs text-ink-3 tabular-nums">({label})</span>
-      )}
-    </div>
+    <figure className="display-equation">
+      <figcaption className="display-equation__title">{note}</figcaption>
+      <div className="display-equation__formula" dangerouslySetInnerHTML={{ __html: html }} />
+      <dl className="display-equation__terms">
+        {terms.map((term) => (
+          <div className="display-equation__term" key={term.symbol}>
+            <dt><M>{term.symbol}</M></dt>
+            <dd>{term.description}</dd>
+          </div>
+        ))}
+      </dl>
+    </figure>
   );
 }

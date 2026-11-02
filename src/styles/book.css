@@ -212,7 +212,7 @@ html[data-theme="dark"] {
     color: var(--accent);
   }
 
-  /* KaTeX */
+  /* KaTeX e formule in evidenza */
   .katex {
     font-size: 1.06em;
   }
@@ -221,6 +221,49 @@ html[data-theme="dark"] {
     overflow-x: auto;
     overflow-y: hidden;
     padding: 0.25rem 0;
+  }
+  .display-equation {
+    margin: 1.75rem 0;
+  }
+  .display-equation__title {
+    margin-bottom: 0.55rem;
+    color: var(--ink-2);
+    font-family: var(--font-display);
+    font-size: 0.84rem;
+    font-weight: 600;
+    line-height: 1.45;
+    text-align: center;
+  }
+  .display-equation__formula {
+    min-width: 0;
+    overflow-x: auto;
+    padding: 0.65rem 1rem;
+    border: 1px solid color-mix(in oklab, var(--rule) 70%, transparent);
+    border-radius: 0.375rem;
+    background: color-mix(in oklab, var(--paper-2) 70%, transparent);
+  }
+  .display-equation__terms {
+    display: grid;
+    gap: 0.25rem 0.8rem;
+    margin: 0.65rem auto 0;
+    color: var(--ink-2);
+    font-size: 0.84rem;
+    line-height: 1.45;
+  }
+  .display-equation__term {
+    display: grid;
+    grid-template-columns: minmax(2.5rem, auto) 1fr;
+    gap: 0.65rem;
+    align-items: baseline;
+  }
+  .display-equation__term dt {
+    color: var(--ink);
+    text-align: right;
+    white-space: nowrap;
+  }
+  .display-equation__term dd {
+    min-width: 0;
+    margin: 0;
   }
 
   /* ------------------------------------------- Stili per famiglia visiva */

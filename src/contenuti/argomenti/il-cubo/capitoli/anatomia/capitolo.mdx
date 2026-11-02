@@ -16,7 +16,7 @@
 <p>
   Dal lato <M>{"a"}</M> discendono tutte le misure. La diagonale di una faccia è <M>{"a\\sqrt{2}"}</M>, per il teorema di Pitagora; la diagonale spaziale, che congiunge due vertici opposti attraversando l'interno, si ottiene applicando Pitagora una seconda volta:
 </p>
-<Eq tex={String.raw`d = \sqrt{a^2 + a^2 + a^2} = a\sqrt{3}, \qquad V = a^3, \qquad S = 6a^2`} label="1.1" />
+<Eq tex={String.raw`d = \sqrt{a^2 + a^2 + a^2} = a\sqrt{3}, \qquad V = a^3, \qquad S = 6a^2`} note="Diagonale, volume e superficie del cubo" terms={[{ symbol: "a", description: "lunghezza dello spigolo" }, { symbol: "d", description: "diagonale spaziale" }, { symbol: "V", description: "volume del cubo" }, { symbol: "S", description: "area della superficie" }]} />
 <p>
   Il rapporto fra superficie e volume, <M>{"S/V = 6/a"}</M>, decresce con la dimensione: un cubo grande ha proporzionalmente meno «pelle» di uno piccolo. È la ragione per cui gli animali di taglia maggiore disperdono meno calore, e per cui un cubetto di zucchero si scioglie più in fretta di una zolletta compatta.
 </p>
@@ -32,7 +32,7 @@
 </p>
 <Theorem name="di Eulero per i poliedri (1752)">
   <p>Per ogni poliedro convesso — e più in generale per ogni poliedro la cui superficie sia deformabile con continuità in una sfera — vale</p>
-  <Eq tex={String.raw`V - E + F = 2 .`} label="1.2" />
+  <Eq tex={String.raw`V - E + F = 2 .`} note="Formula di Eulero per i poliedri" terms={[{ symbol: "V", description: "numero di vertici" }, { symbol: "E", description: "numero di spigoli" }, { symbol: "F", description: "numero di facce" }]} />
 </Theorem>
 <DataTable
   head={["Solido", "Simbolo", "V", "E", "F", "V − E + F"]}
@@ -70,7 +70,7 @@
 <p>
   L'angolo interno di un <M>{"p"}</M>-gono regolare è <M>{"180° (p-2)/p"}</M>. Con <M>{"q"}</M> facce per vertice la condizione diventa <M>{"q \\cdot 180°(p-2)/p < 360°"}</M>, che si riscrive in una forma memorabile:
 </p>
-<Eq tex={String.raw`(p-2)(q-2) < 4, \qquad p, q \ge 3 .`} label="1.3" note="condizione di esistenza di {p, q}" />
+<Eq tex={String.raw`(p-2)(q-2) < 4, \qquad p, q \ge 3 .`} note="Condizione per l'esistenza di un solido platonico" terms={[{ symbol: "p", description: "numero di lati di ogni faccia regolare" }, { symbol: "q", description: "numero di facce che si incontrano in ogni vertice" }]} />
 <p>
   Le soluzioni intere sono cinque: <M>{"\\{3,3\\}"}</M>, <M>{"\\{3,4\\}"}</M>, <M>{"\\{3,5\\}"}</M>, <M>{"\\{4,3\\}"}</M>, <M>{"\\{5,3\\}"}</M>. Il caso <M>{"(p-2)(q-2) = 4"}</M> dà le tre tassellazioni regolari del piano — triangoli, quadrati, esagoni — e il caso <M>{"> 4"}</M> le tassellazioni del piano iperbolico. Il cubo è l'unico solido platonico a facce quadrate e l'unico, insieme al dodecaedro e al tetraedro, con tre facce per vertice.
 </p>

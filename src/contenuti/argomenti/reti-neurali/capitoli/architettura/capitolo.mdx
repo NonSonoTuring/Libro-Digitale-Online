@@ -21,7 +21,7 @@
 <p>
   Scrivere la rete neurone per neurone diventa presto ingestibile. Raccogliendo i pesi dello strato <M>{"l"}</M> in una matrice <M>{"W^{(l)}"}</M> e i bias in un vettore <M>{"\\mathbf{b}^{(l)}"}</M>, la propagazione in avanti si scrive in due righe:
 </p>
-<Eq tex={String.raw`\mathbf{z}^{(l)} = W^{(l)}\,\mathbf{a}^{(l-1)} + \mathbf{b}^{(l)}, \qquad \mathbf{a}^{(l)} = \varphi\!\left(\mathbf{z}^{(l)}\right), \qquad \mathbf{a}^{(0)} = \mathbf{x}`} label="2.1" note="propagazione in avanti" />
+<Eq tex={String.raw`\mathbf{z}^{(l)} = W^{(l)}\,\mathbf{a}^{(l-1)} + \mathbf{b}^{(l)}, \qquad \mathbf{a}^{(l)} = \varphi\!\left(\mathbf{z}^{(l)}\right), \qquad \mathbf{a}^{(0)} = \mathbf{x}`} note="Propagazione in avanti" terms={[{ symbol: "\\mathbf{z}^{(l)}", description: "pre-attivazione dello strato l" }, { symbol: "W^{(l)}", description: "matrice dei pesi dello strato l" }, { symbol: "\\mathbf{a}^{(l)}", description: "attivazioni dello strato l" }, { symbol: "\\mathbf{b}^{(l)}", description: "vettore dei bias dello strato l" }, { symbol: "\\varphi", description: "funzione di attivazione" }, { symbol: "\\mathbf{x}", description: "vettore degli ingressi" }]} />
 <p>
   Qui <M>{"\\mathbf{z}^{(l)}"}</M> è la <em>pre-attivazione</em> e <M>{"\\mathbf{a}^{(l)}"}</M> l'<em>attivazione</em> dello strato. Se lo strato <M>{"l-1"}</M> ha <M>{"n_{l-1}"}</M> neuroni e lo strato <M>{"l"}</M> ne ha <M>{"n_l"}</M>, allora <M>{"W^{(l)} \\in \\mathbb{R}^{n_l \\times n_{l-1}}"}</M>: la riga <M>{"j"}</M> contiene i pesi in ingresso al neurone <M>{"j"}</M>. La funzione <M>{"\\varphi"}</M> agisce componente per componente.
 </p>
@@ -34,7 +34,7 @@
 <p>
   Per un problema di classificazione a <M>{"K"}</M> classi lo strato di uscita adotta la funzione <strong>softmax</strong>, che trasforma <M>{"K"}</M> numeri reali in una distribuzione di probabilità:
 </p>
-<Eq tex={String.raw`\operatorname{softmax}(\mathbf{z})_k = \frac{e^{z_k}}{\sum_{j=1}^{K} e^{z_j}}, \qquad \sum_k \operatorname{softmax}(\mathbf{z})_k = 1`} label="2.2" />
+<Eq tex={String.raw`\operatorname{softmax}(\mathbf{z})_k = \frac{e^{z_k}}{\sum_{j=1}^{K} e^{z_j}}, \qquad \sum_k \operatorname{softmax}(\mathbf{z})_k = 1`} note="Funzione softmax" terms={[{ symbol: "z_k", description: "valore in ingresso associato alla classe k" }, { symbol: "K", description: "numero totale di classi" }, { symbol: "\\operatorname{softmax}(\\mathbf{z})_k", description: "probabilità assegnata alla classe k" }]} />
 <Note>
   <p>
     La notazione matriciale non è solo elegante: è il motivo per cui le reti neurali girano bene sulle GPU, progettate proprio per moltiplicare grandi matrici in parallelo. Un intero <em>batch</em> di esempi si propaga con un'unica moltiplicazione <M>{"W^{(l)} A^{(l-1)}"}</M>, dove le colonne di <M>{"A"}</M> sono gli esempi.
@@ -54,7 +54,7 @@
   <p>
     Sia <M>{"\\varphi"}</M> una funzione continua, limitata e non costante. Per ogni funzione continua <M>{"f : K \\to \\mathbb{R}"}</M> definita su un compatto <M>{"K \\subset \\mathbb{R}^n"}</M> e per ogni <M>{"\\varepsilon > 0"}</M>, esistono un intero <M>{"N"}</M>, pesi <M>{"\\mathbf{w}_i \\in \\mathbb{R}^n"}</M>, <M>{"v_i, b_i \\in \\mathbb{R}"}</M> tali che
   </p>
-  <Eq tex={String.raw`\sup_{\mathbf{x} \in K}\;\Bigl|\, f(\mathbf{x}) - \sum_{i=1}^{N} v_i\, \varphi\!\left(\mathbf{w}_i^{\!\top}\mathbf{x} + b_i\right) \Bigr| \;<\; \varepsilon .`} label="2.3" />
+  <Eq tex={String.raw`\sup_{\mathbf{x} \in K}\;\Bigl|\, f(\mathbf{x}) - \sum_{i=1}^{N} v_i\, \varphi\!\left(\mathbf{w}_i^{\!\top}\mathbf{x} + b_i\right) \Bigr| \;<\; \varepsilon .`} note="Teorema di approssimazione universale" terms={[{ symbol: "f(\\mathbf{x})", description: "funzione da approssimare" }, { symbol: "N", description: "numero di neuroni nello strato nascosto" }, { symbol: "\\varphi", description: "funzione di attivazione" }, { symbol: "\\varepsilon", description: "errore massimo consentito" }, { symbol: "K", description: "insieme compatto degli ingressi" }]} />
 </Theorem>
 <p>
   L'intuizione, in una dimensione, è semplice: la differenza di due sigmoidi traslate è un «gradino morbido», e con gradini abbastanza stretti si approssima qualsiasi curva continua, come un istogramma approssima una densità. Leshno e collaboratori (1993) hanno poi mostrato che la sola condizione davvero necessaria su <M>{"\\varphi"}</M> è che <em>non sia un polinomio</em>: la ReLU, illimitata, va benissimo.
