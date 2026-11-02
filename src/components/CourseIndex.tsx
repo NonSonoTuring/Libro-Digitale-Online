@@ -1,8 +1,15 @@
 import { motion } from "framer-motion";
 import type { Topic } from "../data/topics";
 
+const detailCovers: Record<string, string> = {
+  "reti-neurali": `${import.meta.env.BASE_URL}images/topic-covers/neural.jpg`,
+  "il-cubo": `${import.meta.env.BASE_URL}images/topic-covers/cube.jpg`,
+  "il-quadro": `${import.meta.env.BASE_URL}images/topic-covers/painting.jpg`,
+};
+
 export function CourseIndex({ topic, onHome, onOpenChapter }: { topic: Topic; onHome: () => void; onOpenChapter: (id: string) => void }) {
   const sectionCount = topic.chapters.reduce((total, chapter) => total + chapter.sections.length, 0);
+  const cover = detailCovers[topic.id] ?? topic.cover;
 
   return (
     <div className="index-page topic-page">
@@ -11,7 +18,7 @@ export function CourseIndex({ topic, onHome, onOpenChapter }: { topic: Topic; on
       <div className="topic-layout">
         <aside className="topic-sidebar" aria-label={`Informazioni sul corso ${topic.title}`}>
           <div className={`topic-cover ${topic.style}`}>
-            <img src={topic.cover} alt={`Copertina: ${topic.title}`} />
+            <img src={cover} alt={`Copertina: ${topic.title}`} />
             <span className="topic-cover-numeral">{topic.numeral}</span>
           </div>
 
