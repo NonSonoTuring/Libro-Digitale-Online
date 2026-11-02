@@ -1,194 +1,221 @@
-# AGENTS.md — guida operativa per gli agenti AI
+# AGENTS.md — Manuale di orientamento e lavoro per l'IA
 
-## 1. Regola obbligatoria prima di ogni attività
+Questo file spiega a un modello linguistico (LLM) come comprendere, esplorare e modificare il progetto in modo coerente. È una guida di orientamento e di coordinamento: definisce le regole da seguire, chiarisce le responsabilità delle diverse parti del codice e indica come trovare la fonte corretta da modificare.
 
-**Prima di iniziare qualsiasi attività, anche una modifica piccola, leggi per intero tutti i file presenti in `docs/` (incluse eventuali sottocartelle e i file vuoti), poi rileggi questo `AGENTS.md`.** Non limitarti al documento che sembra più pertinente: la documentazione può contenere vincoli trasversali.
+**Non è un inventario del progetto.** Non deve contenere elenchi dettagliati di corsi, capitoli, componenti, interazioni, dipendenze o altre informazioni che possono cambiare durante l'evoluzione del prodotto. Questi dettagli appartengono al codice e alla documentazione specifica. Prima di intervenire, l'IA deve ricavarli dai file effettivi e seguire i collegamenti tra definizioni, utilizzi e registrazioni.
+
+L'LLM deve usare questo documento come punto di partenza, non come sostituto dell'esplorazione del repository. Non deve presumere che nomi, percorsi, funzionalità o tecnologie siano rimasti invariati: deve verificarli ogni volta. Deve privilegiare modifiche mirate, preservare il funzionamento complessivo e non inventare strutture o convenzioni che non trova nel progetto.
+
+# 1. Il progetto
+
+**Prima di iniziare qualsiasi attività descritta in questa sezione, leggi integralmente tutti i file della cartella `docs/` e poi rileggi questo `AGENTS.md`.**
+
+Libro Digitale Online è un ambiente digitale per creare, organizzare e consultare materiali didattici. Il suo scopo è trasformare argomenti di studio in percorsi di apprendimento strutturati, composti da contenuti editoriali e strumenti per esplorare i concetti.
+
+Il progetto combina:
+- organizzazione dei contenuti in percorsi, capitoli e sezioni;
+- testi didattici con una struttura editoriale;
+- immagini, illustrazioni, formule e materiali di supporto;
+- elementi didattici riutilizzabili;
+- visualizzazioni, dimostrazioni e attività interattive;
+- navigazione e presentazione coerenti tra le diverse parti del prodotto.
+
+L'obiettivo non è soltanto mostrare informazioni, ma aiutare chi studia a leggere, osservare, manipolare e comprendere i concetti. Ogni modifica deve quindi rispettare insieme **correttezza dei contenuti, chiarezza didattica, qualità visiva, usabilità, accessibilità e coerenza tecnica**.
+
+L'insieme degli argomenti e delle funzionalità è destinato a evolvere. Non assumere che la selezione dei contenuti, il numero dei capitoli o le esperienze disponibili siano fissi.
+
+# 2. Regola fondamentale: comprendere prima di modificare
+
+**Prima di ogni attività, senza eccezioni, leggi integralmente tutti i file presenti in `docs/`, comprese le eventuali sottocartelle e i file vuoti. Poi rileggi questo `AGENTS.md`.**
+
+Non leggere soltanto il documento che sembra pertinente: le regole di contenuto, stile e interattività possono influenzarsi a vicenda. Se un file è vuoto, prendine atto senza dedurne indicazioni.
 
 Dopo la lettura:
-1. verifica la struttura e i nomi reali dei file interessati;
-2. controlla come la funzionalità viene usata e registrata nel resto dell'applicazione;
-3. modifica il minimo indispensabile;
-4. aggiorna la documentazione solo quando la modifica ne cambia le istruzioni;
-5. esegui le verifiche indicate in questa guida e riferisci chiaramente ciò che non hai potuto verificare.
+1. esplora l'albero del repository e individua i file realmente coinvolti;
+2. parti dal punto d'ingresso o dalla definizione della funzionalità e segui import, utilizzi, registri e dipendenze;
+3. identifica la fonte di verità dei dati, dei contenuti o del comportamento che devi cambiare;
+4. controlla gli effetti della modifica sulle altre parti dell'applicazione;
+5. intervieni soltanto dove serve, evitando duplicazioni e refactoring estranei alla richiesta;
+6. aggiorna la documentazione quando cambiano procedure, convenzioni o architettura;
+7. esegui le verifiche pertinenti e distingui sempre i controlli svolti da quelli non svolti.
 
-**Gerarchia delle informazioni:** il codice attivo e la struttura effettiva del repository sono la fonte di verità sul comportamento attuale. Se un esempio in `docs/` indica percorsi o architetture che non esistono più, non copiarlo alla lettera: adattalo al codice reale e segnala l'incongruenza quando rilevante.
+**Come risolvere eventuali contraddizioni**
+- Il codice effettivamente utilizzato determina il comportamento attuale.
+- I file di configurazione e i manifest determinano le impostazioni e gli strumenti effettivi.
+- I documenti in `docs/` descrivono le convenzioni e le procedure: se non corrispondono più al codice, non applicarli alla cieca.
+- In caso di discrepanza, verifica il flusso reale, adatta il lavoro alla struttura esistente e aggiorna il documento interessato quando opportuno.
+- Non creare file, cartelle, registri, componenti o procedure soltanto perché compaiono in un esempio non più attuale.
 
-## 2. Che cos'è il progetto
+# 3. Come orientarsi nell'architettura
 
-Lectio — Libro Digitale Online è una biblioteca didattica web in italiano. Organizza più corsi in argomenti e capitoli: testi editoriali in MDX, immagini, formule matematiche, verifiche e visualizzazioni React interattive. I corsi attualmente registrati sono **Reti neurali artificiali**, **Il cubo**, **Il quadro** e **Neoclassicismo**.
+**Prima di esplorare o modificare l'architettura, leggi integralmente tutti i file della cartella `docs/` e poi rileggi questo `AGENTS.md`.**
 
-L'applicazione è una SPA React con navigazione tramite hash URL. Viene compilata da Vite e pubblicata su GitHub Pages. Non è un CMS e i contenuti non vengono caricati da un database: la struttura dei corsi è registrata nel codice e i capitoli sono file MDX inclusi nella build.
+Il progetto è organizzato per responsabilità. I nomi e la posizione dei singoli file possono evolvere: usa questa mappa per capire quale parte cercare, poi verifica i percorsi reali nel repository.
 
-**Prima di intervenire su una qualunque parte del progetto, leggi sempre l'intera cartella `docs/`.**
+| Responsabilità | Che cosa contiene | Dove orientare la ricerca |
+|---|---|---|
+| Avvio e applicazione | Inizializzazione, composizione delle pagine, navigazione e stato globale | Punto d'ingresso dell'applicazione e componente radice |
+| Dati e struttura didattica | Definizioni dei percorsi, capitoli, sezioni, metadati e relativi tipi | Moduli dati e modelli condivisi |
+| Contenuti | Testi dei capitoli, sezioni, figure e richiami agli elementi didattici | Cartelle dei contenuti e file MDX |
+| Presentazione | Pagine, layout, navigazione, blocchi e controlli riutilizzabili | Componenti dell'interfaccia |
+| Esperienze interattive | Logica di grafici, modelli, simulazioni, animazioni e controlli specifici | Moduli delle funzionalità e relativi componenti |
+| Registrazione e rendering dei contenuti | Associazione tra nomi usati nei documenti e componenti che li renderizzano | Moduli di registrazione MDX e caricamento dei capitoli |
+| Stile e temi | Aspetto generale, tipografia, colori, variabili, layout e adattamento agli schermi | Fogli di stile e relativi punti d'importazione |
+| Risorse | Immagini, illustrazioni, file statici e materiali locali | Cartelle degli asset, risorse pubbliche e asset dei contenuti |
+| Strumenti e pubblicazione | Dipendenze, script, compilazione, configurazione e distribuzione | Manifest, configurazioni e workflow di automazione |
 
-## 3. Stack, avvio e verifiche
+Il flusso concettuale da seguire è: **definizione dei dati e dei contenuti → caricamento e associazione dei componenti → presentazione nell'interfaccia → applicazione degli stili e delle interazioni**. Verifica sempre il flusso effettivo: una funzionalità può attraversare più livelli.
 
-- React 19 e TypeScript.
-- Vite 7, plugin React, MDX 3 e Tailwind CSS 4.
-- Framer Motion per animazioni e transizioni.
-- KaTeX per le formule; `clsx` e `tailwind-merge` per comporre classi.
-- Node.js 22 nella pipeline GitHub Actions.
+Non presumere che aggiungere un file sia sufficiente. Un nuovo contenuto o componente potrebbe dover essere registrato, importato, associato a un percorso, incluso in un caricatore o referenziato da metadati.
 
-Comandi definiti in `package.json`:
-- `npm ci`: installa le dipendenze dal lockfile.
-- `npm run dev`: avvia il server di sviluppo.
-- `npm run build`: esegue `tsc --noEmit` e poi `vite build`.
-- `npm run preview`: serve localmente la build.
+# 4. Procedure per tipo di attività
 
-Non sono configurati script `test` o `lint`: non dichiarare che siano stati eseguiti. La verifica automatica standard è `npm run build`; completa con un controllo manuale delle pagine e delle interazioni toccate.
+**Prima di svolgere una qualsiasi delle attività elencate qui sotto, leggi integralmente tutti i file della cartella `docs/` e poi rileggi questo `AGENTS.md`.** Questa regola vale anche per modifiche circoscritte a un solo file.
 
-**Prima di modificare configurazione, dipendenze o pipeline, leggi sempre l'intera cartella `docs/`.**
+## 4.1 Aggiungere, rimuovere o modificare un percorso didattico
 
-## 4. Mappa dell'applicazione e flusso dei dati
+**Prima di iniziare, leggi integralmente tutti i file della cartella `docs/` e poi rileggi questo `AGENTS.md`.**
 
-- `index.html`: documento HTML iniziale, lingua italiana e font web.
-- `src/main.tsx`: punto d'ingresso effettivo; crea la root React e importa i fogli CSS.
-- `src/App.tsx`: gestisce tema e routing hash:
-  - `#/` — Home;
-  - `#/t/<topic-id>` — indice del corso;
-  - `#/t/<topic-id>/c/<chapter-id>` — capitolo.
-- `src/data/topics.ts`: registro principale dei corsi e dei capitoli. Definisce ID, ordine, titoli, descrizioni, copertine, accenti, prerequisiti, riferimenti e sezioni.
-- `src/data/chapter-meta.json`: metadati aggiuntivi dei capitoli, come sottotitolo, durata ed epigrafe.
-- `src/data/types.ts`: tipi condivisi per stili visuali, capitoli, sezioni e quiz.
-- `src/components/Home.tsx`: Home e catalogo dei corsi.
-- `src/components/CourseIndex.tsx`: pagina indice di un corso e relative copertine.
-- `src/components/ChapterPage.tsx`: caricamento del capitolo MDX, componenti MDX disponibili, intestazione, avanzamento di lettura e indice laterale delle sezioni.
-- `src/components/layout/Header.tsx`: intestazione, navigazione e selettore del tema.
-- `src/components/ui.tsx`: componenti didattici e di interfaccia condivisi.
-- `src/lib/math.tsx`: rendering KaTeX dei componenti `<M>` e `<Eq>`.
-- `src/utils/cn.ts`: helper per le classi CSS.
+Individua la fonte che definisce la struttura dei percorsi e i dati usati per presentarli. Verifica come la pagina iniziale li recupera, come viene costruito l'indice, come sono identificati i capitoli e come viene caricato il loro contenuto.
 
-I capitoli sono individuati da `ChapterPage.tsx` tramite `import.meta.glob("../contenuti/argomenti/**/capitolo.mdx")`. Il file viene scelto confrontando il suffisso `/argomenti/<topic-id>/capitoli/<chapter-id>/capitolo.mdx`. **Per aggiungere o rinominare un corso o un capitolo, gli ID nel registro, nei percorsi e nei metadati devono restare coerenti.**
+Quando aggiungi, rinomini o rimuovi un elemento:
+- mantieni coerenti identificatori, cartelle, metadati, collegamenti e riferimenti;
+- verifica tutti i punti in cui l'elemento viene cercato, visualizzato o caricato;
+- controlla che la navigazione non rimanga collegata a identificatori eliminati;
+- rimuovi soltanto riferimenti realmente non più utilizzati;
+- conserva l'ordine e le relazioni didattiche intenzionali.
 
-La pagina del capitolo seleziona inoltre il registro dei componenti MDX in base a `topic.id`. Quando si aggiunge una nuova famiglia di corsi, va aggiornata anche questa selezione in `ChapterPage.tsx`: oggi il ramo finale ricade sul registro del quadro, quindi non va lasciato come fallback implicito per un nuovo corso.
+Per la procedura editoriale dettagliata, segui `docs/contenuti.md`.
 
-**Prima di intervenire su routing, caricamento MDX o dati di corso, leggi sempre l'intera cartella `docs/`.**
+## 4.2 Scrivere o modificare testi e capitoli
 
-## 5. Dove intervenire: guida per tipo di modifica
+**Prima di iniziare, leggi integralmente tutti i file della cartella `docs/` e poi rileggi questo `AGENTS.md`.**
 
-### Aggiungere o modificare un corso
-**Prima di iniziare, leggi sempre tutta la cartella `docs/`.**
-- Registro e ordine dei corsi: `src/data/topics.ts`.
-- Metadati specifici dei capitoli: `src/data/chapter-meta.json`.
-- Pagina Home: `src/components/Home.tsx`.
-- Copertine della pagina corso: mappa `detailCovers` in `src/components/CourseIndex.tsx`.
-- Capitoli: `src/contenuti/argomenti/<topic-id>/capitoli/<chapter-id>/capitolo.mdx`.
-- Registro dei componenti MDX: crea/aggiorna `src/components/content/<topic>.tsx` e aggiungi il ramo corrispondente in `src/components/ChapterPage.tsx`.
+Individua il file sorgente del capitolo e i dati che ne descrivono titolo, sezioni, durata e informazioni accessorie. Il testo del capitolo e i dati che alimentano navigazione e intestazioni devono restare coerenti.
 
-Usa ID in kebab-case e mantieni esatta corrispondenza tra `topics.ts`, cartelle, capitoli e `chapter-meta.json`. Per i corsi nuovi non riutilizzare cartelle-segnaposto con nomi o maiuscole diverse.
+Controlla:
+- gerarchia dei titoli e suddivisione in sezioni;
+- identificatori delle sezioni e corrispondenza con l'indice;
+- correttezza, chiarezza e progressione didattica;
+- formule, figure, didascalie, riferimenti e attribuzioni;
+- componenti richiamati dal documento e loro effettiva disponibilità;
+- percorsi e modalità di caricamento delle risorse.
 
-### Scrivere o riorganizzare un capitolo
-**Prima di iniziare, leggi sempre tutta la cartella `docs/`.**
-- Fonte del testo: `src/contenuti/argomenti/<topic-id>/capitoli/<chapter-id>/capitolo.mdx`.
-- Titolo, durata, ordine e titoli delle sezioni: `src/data/topics.ts`.
-- Sottotitolo ed epigrafe: `src/data/chapter-meta.json`.
-- Ogni sezione navigabile deve essere un elemento `<section className="book-section" id="...">` con ID univoco e un `<h2>`. I titoli e l'ordine devono corrispondere all'array `sections` del capitolo in `topics.ts`.
-- Per immagini usate solo in quel capitolo, usa la sua cartella `assets/` e import relativi nel MDX. Per risorse condivise tra capitoli dello stesso corso usa `assets-condivisi/` quando la cartella è prevista.
-- Riutilizza i componenti didattici comuni registrati in `src/components/content/common.tsx`: `M`, `Eq`, `Figure`, `Definition`, `Theorem`, `Note`, `History`, `Example`, `Term`, `DataTable`, `Takeaways`, `Quiz`.
+Non inserire logica applicativa complessa direttamente nel testo: separa i contenuti dalla loro implementazione e riutilizza gli elementi didattici condivisi.
 
-Per le regole dettagliate di struttura MDX, formule, immagini, metadati e verifica consulta soprattutto `docs/contenuti.md`, dopo aver letto anche gli altri file di `docs/`.
+Per struttura MDX, immagini, formule, metadati e convenzioni redazionali, consulta `docs/contenuti.md`.
 
-### Aggiungere o modificare un'interazione
-**Prima di iniziare, leggi sempre tutta la cartella `docs/`.**
-- Implementazione React: cartella tematica in `src/features/`.
-- Componenti condivisi del MDX: `src/components/content/common.tsx`.
-- Registro MDX del corso: `src/components/content/cube.tsx`, `neural.tsx`, `painting.tsx` o `neoclassic.tsx`.
-- Se viene introdotto un nuovo corso, aggiorna anche il selettore del registro in `src/components/ChapterPage.tsx`.
-- Il capitolo richiama il componente MDX registrato nel punto desiderato, normalmente dentro `<Figure>`.
+## 4.3 Creare, modificare o rimuovere un'interazione
 
-Registri attuali:
-- `cube.tsx`: `Cube3D`, `CubeNet`, `CubeNets`, `IsoDual`, `Schlegel`, `SymmetryAxes`, `Tesseract`, `VertexAngles`; implementazioni in `src/features/cube/`.
-- `neural.tsx`: `NeuralNet`, `ActivationChart`, `LossCurves`, `GradientDescent`, `Perceptron`; implementazioni in `src/features/neural/`.
-- `painting.tsx`: `Balance`, `ColorLab`, `ColorWheel`, `HalftoneImage`, `HalftoneSphere`, `Painting`, `Palettes`, `SimultaneousContrast`, `ValueScale`; implementazioni in `src/features/painting/`.
-- `neoclassic.tsx`: al momento espone solo i componenti comuni.
+**Prima di iniziare, leggi integralmente tutti i file della cartella `docs/` e poi rileggi questo `AGENTS.md`.**
 
-Mantieni la logica interattiva nei componenti React, non duplicarla nei capitoli MDX. Per animazioni e visualizzazioni considera accessibilità, input touch, pulizia di listener/timer/animazioni e rispetto di `prefers-reduced-motion`.
+Individua prima il punto in cui l'interazione viene mostrata nel contenuto e il meccanismo con cui il documento la riceve. Poi segui il collegamento fino al componente React che ne implementa il comportamento.
 
-### Modificare formule, quiz o blocchi didattici comuni
-**Prima di iniziare, leggi sempre tutta la cartella `docs/`.**
-- Componenti comuni e controlli: `src/components/ui.tsx`.
-- Registro condiviso da tutti i capitoli: `src/components/content/common.tsx`.
-- Formule KaTeX: `src/lib/math.tsx`.
-- Stile dei blocchi e delle formule: `src/styles/book.css`.
-- Tipi dei quiz e degli stili: `src/data/types.ts`.
+Verifica sempre i passaggi necessari:
+1. implementazione della logica e della visualizzazione;
+2. esportazione e registrazione del componente nel contesto corretto;
+3. caricamento del registro da parte della pagina o del sistema che renderizza il contenuto;
+4. richiamo del componente nel documento;
+5. stili, risorse e dipendenze eventualmente necessarie.
 
-Se un componente deve comparire in MDX, esportalo dal modulo appropriato e aggiungilo al registro: la sola esistenza del componente React non lo rende automaticamente disponibile al capitolo.
+Per rimuovere o sostituire un'interazione, cerca anche gli import, le registrazioni e i richiami nei contenuti. Non lasciare riferimenti interrotti e non eliminare un modulo prima di aver verificato che non sia usato altrove.
 
-### Modificare grafica, temi o layout
-**Prima di iniziare, leggi sempre tutta la cartella `docs/`.**
-- Token, colori e variabili: `src/styles/tokens.css`.
-- Varianti chiaro/scuro: `src/styles/themes.css`.
-- Regole globali: `src/styles/base.css`.
-- Impaginazione e componenti di lettura: `src/styles/book.css`.
-- Home, catalogo e copertine: `src/styles/home.css`.
-- Punto d'importazione e ordine dei CSS: `src/main.tsx`.
-- Tema e accento del corso: `src/App.tsx`, `src/components/ui.tsx` e `src/data/topics.ts`.
+Le interazioni devono essere comprensibili, accessibili e utilizzabili con mouse, tastiera e touch quando pertinente. Gestisci correttamente stato, eventi, timer, animazioni e pulizia alla rimozione del componente. Considera le preferenze di movimento ridotto e le prestazioni sui dispositivi meno potenti.
 
-Usa le variabili e le classi condivise, evitando stili duplicati nei singoli capitoli. Verifica sempre tema chiaro e scuro e le dimensioni mobile.
+Consulta `docs/interattivita.md` per le convenzioni dedicate; se non contiene indicazioni, ricava il comportamento dal codice esistente e non inventare regole attribuendole alla documentazione.
 
-### Aggiungere o sostituire immagini
-**Prima di iniziare, leggi sempre tutta la cartella `docs/`.**
-- Copertine Home: `public/images/`, referenziate da `image()` in `src/data/topics.ts`.
-- Copertine verticali delle pagine corso: `public/images/topic-covers/`, referenziate da `detailCovers` in `src/components/CourseIndex.tsx`.
-- Immagini di un capitolo: cartella `assets/` vicina al suo `capitolo.mdx`, importate con percorso relativo.
-- Immagini condivise tra capitoli: `assets-condivisi/` del corso, se presente.
-- Immagini importate da componenti React: `src/assets/images/`.
-- Risorse statiche con URL globale: `public/`.
+## 4.4 Modificare componenti didattici o di interfaccia condivisi
 
-Non deformare le immagini; mantieni gli aspect ratio previsti, inserisci descrizioni `alt` significative e usa `loading="lazy"` quando appropriato. Per le copertine della pagina corso rispetta il rapporto 1:2 documentato in `docs/contenuti.md`.
+**Prima di iniziare, leggi integralmente tutti i file della cartella `docs/` e poi rileggi questo `AGENTS.md`.**
 
-### Modificare navigazione, configurazione o pubblicazione
-**Prima di iniziare, leggi sempre tutta la cartella `docs/`.**
-- Routing hash e tema persistente: `src/App.tsx`.
-- Header: `src/components/layout/Header.tsx`.
-- Dipendenze e comandi: `package.json` e `package-lock.json` (aggiorna il lockfile con il package manager, non a mano).
-- Alias, plugin e base path: `vite.config.ts`.
-- TypeScript: `tsconfig.json`.
-- Template HTML: `index.html`.
-- Deploy GitHub Pages: `.github/workflows/deploy.yml`.
+Prima di modificare un componente condiviso, trova tutti i suoi utilizzi. Valuta se la modifica cambia il comportamento o l'aspetto in più pagine o capitoli. Mantieni compatibili le proprietà e le interfacce già usate oppure aggiorna in modo coordinato tutti i punti interessati.
 
-Il `base` di Vite in produzione è `/Libro-Digitale-Online/`: conserva i percorsi compatibili con il sottopercorso GitHub Pages e usa `import.meta.env.BASE_URL` per le risorse pubbliche. Il workflow pubblica su push a `main`, installa con `npm ci`, esegue `npm run build` e distribuisce `dist/`.
+Se introduci un nuovo componente richiamabile dai contenuti, assicurati che sia esportato e registrato nel sistema che rende quei contenuti. La presenza del file nel repository non lo rende automaticamente disponibile.
 
-## 6. Struttura reale delle cartelle
+## 4.5 Modificare grafica, temi, layout o responsive design
 
-- `docs/`: documentazione per agenti e manutentori.
-- `src/contenuti/argomenti/`: contenuti dei corsi, con cartelle e file `capitolo.mdx`.
-- `src/data/`: registro dei corsi, tipi e metadati.
-- `src/components/`: pagine, layout, UI e registri di componenti MDX. Il percorso attivo dei registri è `src/components/content/` (singolare).
-- `src/features/`: implementazioni delle esperienze interattive, raggruppate per area tematica.
-- `src/lib/` e `src/utils/`: helper condivisi.
-- `src/styles/`: fogli di stile.
-- `src/assets/`: risorse importate dal codice React.
-- `public/`: immagini e risorse statiche pubblicate.
-- `.github/workflows/`: automazione della build e del deploy.
+**Prima di iniziare, leggi integralmente tutti i file della cartella `docs/` e poi rileggi questo `AGENTS.md`.**
 
-Non modificare manualmente `dist/` o artefatti generati: modifica i sorgenti e rigenera la build.
+Individua il livello corretto: variabili e token condivisi, temi, regole globali, layout delle pagine oppure stile specifico di un componente. Preferisci le regole condivise quando il cambiamento deve essere coerente in più aree; limita gli stili locali ai casi realmente specifici.
 
-**Prima di usare o spostare una cartella, leggi sempre tutta la cartella `docs/` e verifica che il percorso sia realmente attivo nel codice.**
+Evita duplicazioni, valori discordanti e correzioni che risolvono una viewport rompendo le altre. Controlla almeno:
+- tema chiaro e tema scuro, quando previsti;
+- schermi larghi e stretti;
+- gerarchia tipografica, contrasto e leggibilità;
+- stati interattivi, focus da tastiera e movimento ridotto;
+- coerenza con il linguaggio visivo del prodotto.
 
-## 7. Avvertenze sulla documentazione e sui segnaposto attuali
+Consulta `docs/stile.md` per le convenzioni grafiche; se è vuoto o incompleto, verifica le regole nei fogli di stile e nei componenti effettivamente utilizzati.
 
-La documentazione è stata letta, ma alcuni file non sono ancora allineati all'implementazione:
-- `docs/contenuti.md` è la guida più utile per aggiungere corsi e capitoli; alcune istruzioni sulle interazioni usano però esempi-segnaposto come `src/features/argomento1/` e `src/components/content/argomento1.tsx`. Nel progetto attuale usa le cartelle tematiche reali e i registri descritti sopra.
-- `docs/struttura.md` contiene un modello storico centrato su `Argomento1` e menziona un flusso SSR/prerender che non corrisponde agli entrypoint attuali. Consideralo una panoramica introduttiva, non una mappa letterale aggiornata.
-- `docs/interattivita.md` e `docs/stile.md` sono presenti ma vuoti: leggili come richiesto dalla regola iniziale, ma non attribuire loro istruzioni inesistenti.
-- `src/entry-client.tsx`, `src/entry-server.tsx`, `scripts/prerender.ts` e `src/runtime/carica-interazioni.tsx` sono vuoti e non fanno parte del flusso attivo di avvio/build.
-- Le cartelle `Argomento1`, i relativi file MDX e vari `.gitkeep` sono segnaposto vuoti. I corsi attivi usano gli slug in minuscolo presenti in `src/data/topics.ts`.
-- `src/components/contenuti/` è un segnaposto vuoto; i componenti MDX effettivi sono in `src/components/content/`.
-- `public/favicon.svg` è vuoto: non trattarlo come un'icona già implementata.
-- `README.md` è volutamente minimale e non sostituisce questa guida o i documenti in `docs/`.
+## 4.6 Aggiungere o sostituire immagini e altre risorse
 
-Quando il compito riguarda una di queste aree, verifica prima se i segnaposto sono stati implementati nel frattempo; non riempirli né riorganizzarli senza una richiesta e senza aver verificato i riferimenti.
+**Prima di iniziare, leggi integralmente tutti i file della cartella `docs/` e poi rileggi questo `AGENTS.md`.**
 
-## 8. Checklist finale
+Scegli la posizione in base all'ambito d'uso:
+- risorsa locale a un singolo contenuto: vicino al contenuto che la utilizza;
+- risorsa condivisa tra più contenuti: in una posizione comune appropriata;
+- risorsa importata direttamente dal codice: tra gli asset sorgente;
+- risorsa statica accessibile tramite percorso pubblico: nella cartella pubblica prevista dal progetto.
 
-**Prima di eseguire la verifica, rileggi l'intera cartella `docs/` se il lavoro ha cambiato il comportamento o le istruzioni del progetto.**
-- [ ] Gli ID di corso, capitolo, cartella, metadati e URL sono coerenti.
-- [ ] Ogni componente richiamato da MDX è incluso nel registro corretto.
-- [ ] Le sezioni MDX hanno ID univoci e corrispondono all'indice in `topics.ts`.
-- [ ] Immagini, formule, temi e layout restano corretti.
-- [ ] `npm run build` termina correttamente.
-- [ ] Sono state controllate le rotte interessate, almeno una viewport mobile e i temi chiaro/scuro.
-- [ ] Le interazioni sono state provate con mouse e touch, e non lasciano listener o animazioni attivi dopo lo smontaggio.
-- [ ] Il riepilogo finale distingue verifiche realmente eseguite da quelle non eseguite.
+Segui gli import e gli URL già presenti per individuare la collocazione effettiva. Mantieni le proporzioni, ottimizza peso e formato senza deteriorare la qualità, fornisci testi alternativi significativi e rispetta licenze, attribuzioni e diritti d'uso. Non fare riferimento a URL esterni instabili quando il progetto richiede una risorsa locale.
 
+## 4.7 Modificare navigazione, configurazione, dipendenze o pubblicazione
+
+**Prima di iniziare, leggi integralmente tutti i file della cartella `docs/` e poi rileggi questo `AGENTS.md`.**
+
+Individua il punto che controlla il comportamento e segui il flusso completo prima di intervenire:
+- per la navigazione, controlla definizione dei percorsi, collegamenti e gestione del cambio pagina;
+- per le dipendenze, controlla manifest e lockfile e usa il package manager previsto;
+- per la compilazione, controlla gli script e la configurazione del bundler;
+- per i percorsi delle risorse, verifica gli ambienti di sviluppo e pubblicazione;
+- per il deploy, controlla il workflow e il formato degli artefatti attesi.
+
+Non inserire valori specifici di ambiente senza verificarne la necessità. Evita di modificare configurazioni non pertinenti alla richiesta e non aggiornare manualmente file generati dal package manager.
+
+# 5. Regole trasversali di qualità
+
+**Prima di applicare o modificare queste regole, leggi integralmente tutti i file della cartella `docs/` e poi rileggi questo `AGENTS.md`.**
+
+- **Coerenza:** mantieni allineati dati, contenuti, identificatori, registri, collegamenti e interfacce.
+- **Separazione delle responsabilità:** contenuti editoriali, dati, interfaccia e logica interattiva devono restare separati secondo l'architettura del progetto.
+- **Riuso:** prima di creare un nuovo componente o una nuova regola, cerca una soluzione condivisa già presente.
+- **Accessibilità:** cura semantica HTML, etichette, alternative testuali, contrasto, focus e navigazione da tastiera.
+- **Responsive design:** non progettare soltanto per desktop; verifica come contenuti e controlli si comportano su schermi piccoli.
+- **Prestazioni:** evita aggiornamenti inutili, caricamenti e animazioni superflui, lavoro ripetuto e risorse eccessivamente pesanti.
+- **Robustezza:** gestisci stati vuoti, errori di caricamento, valori mancanti e pulizia delle risorse.
+- **Manutenibilità:** preferisci codice leggibile e modifiche circoscritte; evita astrazioni premature e duplicazioni.
+- **Accuratezza didattica:** non sacrificare la precisione concettuale per semplificare un'interazione o un effetto visivo.
+- **Documentazione:** quando cambia una procedura, aggiorna il documento che la spiega; non copiare in questo file elenchi che devono essere mantenuti altrove.
+
+# 6. Come mantenere questa guida nel tempo
+
+**Prima di modificare questo file o la documentazione, leggi integralmente tutti i file della cartella `docs/` e poi rileggi questo `AGENTS.md`.**
+
+Questo documento deve rimanere valido anche quando cambiano gli argomenti, vengono aggiunti o rimossi capitoli, si sostituiscono componenti o si modificano strumenti e dipendenze.
+
+Per mantenerlo stabile:
+- descrivi responsabilità, relazioni e procedure, non l'inventario degli elementi presenti;
+- non elencare i nomi dei corsi, dei capitoli, delle singole visualizzazioni o dei componenti installati;
+- non fissare versioni, quantità, date, durate, nomi di branch, URL di distribuzione o altri valori soggetti a cambiamento, salvo che siano una convenzione tecnica indispensabile e verificata;
+- rimanda ai file che sono la fonte di verità per i dettagli variabili;
+- quando indichi un percorso come riferimento, chiarisci la responsabilità del modulo e invita a verificarne l'esistenza nel repository;
+- non mantenere in parallelo un inventario già presente nei dati o nel codice;
+- se cambia l'architettura, aggiorna la mappa e le procedure coinvolte, non aggiungere cronache di modifiche passate.
+
+**Principio guida:** questo file deve aiutare l'IA a capire *come ragionare sul progetto e dove cercare*, non costringerla a memorizzare *quali elementi contiene oggi*.
+
+# 7. Procedura di verifica e chiusura del lavoro
+
+**Prima di verificare o concludere un'attività, leggi integralmente tutti i file della cartella `docs/` e poi rileggi questo `AGENTS.md`, soprattutto se la modifica ha cambiato architettura o convenzioni.**
+
+Prima di dichiarare concluso il lavoro:
+1. verifica che tutti i riferimenti modificati puntino a elementi esistenti;
+2. controlla che aggiunte, rinomine e rimozioni siano coerenti in tutti i punti di utilizzo;
+3. consulta il manifest del progetto per individuare i comandi di controllo effettivamente disponibili;
+4. esegui la compilazione e i test pertinenti, se configurati;
+5. prova manualmente i flussi e le interazioni interessati quando possibile;
+6. controlla eventuali errori, avvisi o regressioni introdotti dalla modifica;
+7. aggiorna i documenti coinvolti, senza copiare in `AGENTS.md` dettagli variabili;
+8. comunica in modo trasparente cosa è stato cambiato e quali verifiche sono state realmente eseguite.
+
+Non dichiarare test, build, controlli visivi o verifiche di pubblicazione che non sono stati eseguiti. Se un controllo non è possibile, indica il limite con precisione.
