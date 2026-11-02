@@ -27,10 +27,61 @@ In `src/data/topics.ts` aggiungi un oggetto `Topic` nell'ordine desiderato:
 
 - `id` deve essere kebab-case e identico alla cartella in `src/contenuti/argomenti/<id>/`.
 - `cover` punta a `public/images/...` tramite `image()`; la Home usa questa immagine.
-- La pagina del corso usa `detailCovers` in `src/components/CourseIndex.tsx`, con immagini in `public/images/topic-covers/`. Tutte le copertine della pagina corso hanno lo stesso formato verticale **1:2** (per esempio 1120 × 2240 px); il ritaglio è gestito da `src/styles/home.css`.
+- La pagina del corso usa `detailCovers` in `src/components/CourseIndex.tsx`, con immagini in `public/images/topic-covers/`. Tutte le copertine della pagina corso hanno lo stesso formato verticale **1:2** (1120 × 2240 px); il ritaglio è gestito da `src/styles/home.css`.
 - La pagina del corso mostra copertina, titolo, sottotitolo, descrizione e indice dei capitoli. Non mostra livello, durata complessiva, conteggio sezioni, prerequisiti o riferimenti; alcuni metadati, come disciplina e livello, sono usati nelle schede della Home.
-- Per immagini trovate online, scarica una copia locale in `public/images/topic-covers/`, verifica che la licenza ne consenta il riuso e annota qui autore, fonte e licenza. La copertina di `Il quadro` è `public/images/topic-covers/painting-anna-ruysch.jpg`, un dettaglio di *Still life of fruit, with peaches and grapes* di Anna Ruysch, da [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Still_life_of_fruit,_with_peaches_and_grapes%29.jpg), rilasciata nel pubblico dominio; ritagliata nel formato 1:2.
 - `sections` elenca i titoli nello stesso ordine degli `<h2>` del MDX. Ogni `<section className="book-section">` deve avere un `id` univoco, per esempio `id="sec-sezione-1"`: l'indice fisso a destra usa questi ID per saltare alla sezione e aggiornare l'evidenziazione durante lo scorrimento.
+
+### Immagini: dove salvarle e come usarle
+
+**Immagine statica dentro un capitolo**
+
+1. Salva il file in `src/contenuti/argomenti/argomento1/capitoli/capitolo1/assets/`.
+2. Importalo all'inizio di `capitolo.mdx` con un percorso relativo:
+
+```mdx
+import illustrazione from "./assets/illustrazione.webp";
+```
+
+3. Inseriscilo nel punto giusto, dentro `<Figure>`:
+
+```mdx
+<Figure n="1.1" caption={<>Didascalia breve.</>}>
+  <img
+    src={illustrazione}
+    alt="Descrizione concreta di ciò che mostra l'immagine"
+    loading="lazy"
+    style={{ display: "block", width: "100%", height: "auto" }}
+  />
+</Figure>
+```
+
+Il percorso relativo fa sì che Vite includa il file nella build: non collegare direttamente l'immagine al sito che la ospita. Mantieni le proporzioni originali per le figure dei capitoli; scrivi un `alt` descrittivo (oppure `alt=""` se è solo decorativa).
+
+**Copertina della Home**
+
+1. Salva il file in `public/images/cover-argomento1.webp`.
+2. In `src/data/topics.ts`, usa `cover: image("cover-argomento1.webp")`.
+
+**Copertina nella pagina del corso**
+
+1. Apri la pagina della fonte e verifica licenza e attribuzione. Su Wikimedia Commons, apri **Original file** (non la miniatura), poi salva il file originale nella cartella principale del progetto come `immagine-originale.jpg`. Preferisci pubblico dominio o CC0; per licenze con attribuzione annota autore, titolo, fonte e licenza in questa guida.
+2. Crea un ritaglio verticale **1:2**, senza deformare l'immagine. Verifica che ImageMagick sia disponibile con `magick --version`; poi apri PowerShell nella cartella principale del progetto ed esegui (se necessario, cambia l'estensione del file sorgente):
+
+```powershell
+magick .\immagine-originale.jpg -auto-orient -resize "1120x2240^" -gravity center -extent 1120x2240 -quality 88 public/images/topic-covers/cover-argomento1.jpg
+```
+
+`-auto-orient` corregge l'orientamento, `-resize` adatta l'immagine al riquadro, `-extent` crea il ritaglio finale; cambia `-gravity center` se il soggetto è fuori centro. Mantieni il rapporto 1:2 e non allargare/stirare l'immagine.
+
+3. Registra il percorso in `detailCovers` dentro `src/components/CourseIndex.tsx`:
+
+```ts
+"argomento1": `${import.meta.env.BASE_URL}images/topic-covers/cover-argomento1.jpg`,
+```
+
+Le copertine locali evitano dipendenze dal sito esterno e URL riutilizzati dalla cache: usa un nome file nuovo quando sostituisci un'immagine.
+
+La copertina corrente di `Il quadro` è `public/images/topic-covers/painting-anna-ruysch.jpg`, un dettaglio di *Still life of fruit, with peaches and grapes* attribuito ad Anna Ruysch, da [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Still_life_of_fruit,_with_peaches_and_grapes%29.jpg), in pubblico dominio.
 
 ## 2. Metadati del capitolo
 
@@ -124,7 +175,7 @@ export const mdxComponents = { ...commonComponents, AnimazioneCapitolo };
 - In `ChapterPage.tsx` aggiungi il nuovo `topic.id` nella mappa `componentLoader`, così il MDX riceve i suoi componenti.
 - Le animazioni sono implementate nel componente React, di solito con `framer-motion` (`motion.*`, `animate`, `transition`). Le proprietà grafiche specifiche dell'interazione (forme SVG, dimensioni, movimenti) si impostano lì.
 - Per un'animazione riutilizzabile o condivisa, definisci `@keyframes` e classi in `src/styles/book.css`: qui sono raccolte le animazioni comuni, il rispetto di `prefers-reduced-motion` e la curva condivisa `--ease-book`. Palette e caratteri sono in `src/styles/tokens.css`, con le varianti scure in `src/styles/themes.css`. Non creare una copia delle stesse regole nel capitolo MDX.
-- Le risorse statiche non vanno in `features/`: immagini fisse in `assets-condivisi/` dell'argomento o in `assets/` del capitolo; file globali in `public/`.
+- Non salvare immagini dentro `src/features/`: usa `assets/` del capitolo per le figure MDX, `assets-condivisi/` per risorse di un intero argomento, `src/assets/images/` per file importati dai componenti React e `public/` per URL statici globali come le copertine.
 
 ## 5. Verifica
 
