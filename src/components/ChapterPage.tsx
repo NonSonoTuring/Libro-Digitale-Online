@@ -6,6 +6,7 @@ import { StyleContext } from "./ui";
 
 type MdxModule = { default: ComponentType<any> };
 const chapterSources = import.meta.glob<MdxModule>("../contenuti/argomenti/**/capitolo.mdx");
+const EASE = [0.22, 1, 0.36, 1] as const;
 
 export function ChapterPage({ topic, chapter, onIndex, onOpenChapter }: {
   topic: Topic; chapter: Chapter; onIndex: () => void; onOpenChapter: (id: string) => void;
@@ -46,10 +47,10 @@ export function ChapterPage({ topic, chapter, onIndex, onOpenChapter }: {
     <div className="chapter-page">
       <button className="back-link" onClick={onIndex}>← Indice del corso</button>
       <header className="chapter-heading">
-        <nav className="chapter-breadcrumbs"><span>Corso {topic.numeral} · {topic.title}</span><i>/</i><span>Capitolo {index + 1} di {chapters.length}</span></nav>
-        <div className="chapter-title-row"><span className="chapter-numeral">{index + 1}</span><div><h1>{chapter.title}</h1>{meta?.subtitle && <p className="chapter-subtitle">{meta.subtitle}</p>}</div></div>
-        {meta?.epigraph && <blockquote className="chapter-epigraph"><p>«{meta.epigraph.text}»</p><cite>{meta.epigraph.author}</cite></blockquote>}
-        <div className="chapter-meta"><span>{chapter.sections.length} sezioni</span><span>{chapter.minutes} min di lettura</span><span>{topic.styleLabel}</span></div>
+        <motion.nav initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7 }} className="chapter-breadcrumbs"><span>Corso {topic.numeral} · {topic.title}</span><i>/</i><span>Capitolo {index + 1} di {chapters.length}</span></motion.nav>
+        <motion.div initial={{ opacity: 0, y: 26 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.85, ease: EASE, delay: 0.06 }} className="chapter-title-row"><span className="chapter-numeral">{index + 1}</span><div><h1>{chapter.title}</h1>{meta?.subtitle && <p className="chapter-subtitle">{meta.subtitle}</p>}</div></motion.div>
+        {meta?.epigraph && <motion.blockquote initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.85, ease: EASE, delay: 0.16 }} className="chapter-epigraph"><p>«{meta.epigraph.text}»</p><cite>{meta.epigraph.author}</cite></motion.blockquote>}
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.3 }} className="chapter-meta"><span>{chapter.sections.length} sezioni</span><span>{chapter.minutes} min di lettura</span><span>{topic.styleLabel}</span></motion.div>
       </header>
       <article className="chapter-prose prose-book" style={{ counterReset: `chapter ${index + 1} section 0` }}>
         {Content && components ? <Content components={components} /> : loadError ? <p>Non è stato possibile caricare questo capitolo.</p> : <p className="loading-chapter">Caricamento del capitolo…</p>}
