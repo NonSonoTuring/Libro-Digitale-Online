@@ -27,7 +27,9 @@ In `src/data/topics.ts` aggiungi un oggetto `Topic` nell'ordine desiderato:
 
 - `id` deve essere kebab-case e identico alla cartella in `src/contenuti/argomenti/<id>/`.
 - `cover` punta a `public/images/...` tramite `image()`; la Home usa questa immagine.
-- Per la pagina corso, `CourseIndex.tsx` usa `detailCovers`: aggiungi lì `public/images/topic-covers/argomento1.jpg` se vuoi la copertina verticale.
+- La pagina del corso usa `detailCovers` in `src/components/CourseIndex.tsx`, con immagini in `public/images/topic-covers/`. Tutte le copertine della pagina corso hanno lo stesso formato verticale **1:2** (per esempio 1120 × 2240 px); il ritaglio è gestito da `src/styles/home.css`.
+- La pagina del corso mostra copertina, titolo, sottotitolo, descrizione e indice dei capitoli. Non mostra livello, durata complessiva, conteggio sezioni, prerequisiti o riferimenti; alcuni metadati, come disciplina e livello, sono usati nelle schede della Home.
+- Per immagini trovate online, scarica una copia locale in `public/images/topic-covers/`, verifica che la licenza ne consenta il riuso e annota qui autore, fonte e licenza. La copertina di `Il quadro` è un dettaglio di *Still life of fruit, with peaches and grapes* di Anna Ruysch, da [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Still_life_of_fruit,_with_peaches_and_grapes%29.jpg), rilasciata nel pubblico dominio; ritagliata nel formato 1:2.
 - `sections` elenca i titoli nello stesso ordine degli `<h2>` del MDX. Ogni `<section className="book-section">` deve avere un `id` univoco, per esempio `id="sec-sezione-1"`: l'indice fisso a destra usa questi ID per saltare alla sezione e aggiornare l'evidenziazione durante lo scorrimento.
 
 ## 2. Metadati del capitolo

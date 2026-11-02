@@ -8,7 +8,6 @@ const detailCovers: Record<string, string> = {
 };
 
 export function CourseIndex({ topic, onHome, onOpenChapter }: { topic: Topic; onHome: () => void; onOpenChapter: (id: string) => void }) {
-  const sectionCount = topic.chapters.reduce((total, chapter) => total + chapter.sections.length, 0);
   const cover = detailCovers[topic.id] ?? topic.cover;
 
   return (
@@ -16,28 +15,15 @@ export function CourseIndex({ topic, onHome, onOpenChapter }: { topic: Topic; on
       <button className="back-link" onClick={onHome}>← Tutti i corsi</button>
 
       <div className="topic-layout">
-        <aside className="topic-sidebar" aria-label={`Informazioni sul corso ${topic.title}`}>
+        <aside className="topic-sidebar" aria-label={`Copertina del corso ${topic.title}`}>
           <div className={`topic-cover ${topic.style}`}>
-            <img src={cover} alt={`Copertina: ${topic.title}`} />
+            <img src={cover} alt={topic.id === "il-quadro" ? "Natura morta con pesche e uva di Anna Ruysch" : `Copertina: ${topic.title}`} />
             <span className="topic-cover-numeral">{topic.numeral}</span>
           </div>
-
-          <dl className="topic-facts">
-            <div><dt>Livello</dt><dd>{topic.level}</dd></div>
-            <div><dt>Capitoli</dt><dd>{topic.chapters.length}</dd></div>
-            <div><dt>Sezioni</dt><dd>{sectionCount}</dd></div>
-            <div><dt>Durata</dt><dd>{topic.hours}</dd></div>
-          </dl>
-
-          <section className="topic-prerequisites">
-            <h2>Prerequisiti</h2>
-            <ul>{topic.prerequisites.map((item) => <li key={item}>{item}</li>)}</ul>
-          </section>
         </aside>
 
         <div className="topic-main">
           <header className="topic-heading">
-            <span className="eyebrow">Corso {topic.numeral} · {topic.discipline}</span>
             <h1>{topic.title}</h1>
             <p className="topic-subtitle">{topic.subtitle}</p>
             <p className="topic-abstract">{topic.abstract}</p>
@@ -65,12 +51,6 @@ export function CourseIndex({ topic, onHome, onOpenChapter }: { topic: Topic; on
                 </motion.li>
               ))}
             </ol>
-          </section>
-
-          <section className="topic-references" aria-labelledby="topic-references-title">
-            <span className="eyebrow">Per approfondire</span>
-            <h2 id="topic-references-title">Riferimenti</h2>
-            <ol>{topic.references.map((reference) => <li key={reference}>{reference}</li>)}</ol>
           </section>
         </div>
       </div>
