@@ -8,8 +8,9 @@ export function Header({ theme, topic, chapter, onHome, onCourses, onToggleTheme
   return (
     <header className="site-header">
       <div className="header-inner">
-        <button className="brand" onClick={onHome} aria-label="Torna alla home">
-          <span className="brand-name">Lectio</span><span className="brand-subtitle">quaderni interattivi</span>
+        <button className="brand codex-brand" onClick={onHome} aria-label="Torna alla home">
+          <span className="brand-mark" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21z"/><path d="M4 5.5v15.5M8 7h8M8 11h8"/></svg></span>
+          <span className="codex-brand-copy"><span className="brand-name">CODEX</span><span className="brand-subtitle">biblioteca interattiva</span></span>
         </button>
         <nav className="breadcrumbs" aria-label="Percorso">
           <AnimatePresence mode="wait">
@@ -18,7 +19,7 @@ export function Header({ theme, topic, chapter, onHome, onCourses, onToggleTheme
           </AnimatePresence>
         </nav>
         <div className="header-actions">
-          <button className="courses-button" onClick={onCourses}>Corsi</button>
+          <button className="courses-button" onClick={onCourses}>Catalogo</button>
           <button className="theme-button" onClick={onToggleTheme} aria-label={theme === "dark" ? "Passa al tema chiaro" : "Passa al tema scuro"} title={theme === "dark" ? "Giorno" : "Notte"}>
             <AnimatePresence mode="wait" initial={false}>
               <motion.span key={theme} initial={{ rotate: -90, opacity: 0, scale: .6 }} animate={{ rotate: 0, opacity: 1, scale: 1 }} exit={{ rotate: 90, opacity: 0, scale: .6 }} transition={{ duration: .3 }}>
