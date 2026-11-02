@@ -198,7 +198,63 @@ I dettagli editoriali e le istruzioni specifiche vanno mantenuti nei documenti d
 
 Se un documento in `docs/` è vuoto o non descrive più una procedura, verifica il comportamento nel codice; non inventare indicazioni e, quando opportuno, completa il documento specifico.
 
-# 7. Verifica prima di concludere
+# 7. Cache, build e pubblicazione: procedura obbligatoria a ogni modifica
+
+Questa procedura è **obbligatoria ogni volta che l'agente modifica la repository e porta le modifiche su `main`**. Non basta che il commit esista su GitHub: il sito pubblicato deve essere costruito dal commit corretto e verificato online. Non dichiarare mai una modifica visibile agli utenti basandoti soltanto sul successo del commit o sulla presenza del codice sorgente.
+
+## Cache e versionamento degli asset
+
+- Vite genera nomi con hash per gli asset importati nel codice e inclusi nel bundle (per esempio JavaScript e CSS). Non rinominare manualmente i file generati in `dist/`: lascia che sia la build a produrre gli hash.
+- I file in `public/` vengono copiati mantenendo il loro percorso/nome. **Quando sostituisci il contenuto di un file pubblico già usato dal sito, salva la nuova versione con un nome file nuovo e aggiorna tutti i riferimenti nel codice.** Non sovrascrivere la stessa URL per immagini, copertine, favicon o altri asset che possono restare nella cache.
+- Per immagini importate da `src/`, preferisci gli import gestiti da Vite, così la build può includerle e applicare il fingerprint del contenuto.
+- Non considerare `?v=...` una soluzione permanente al versionamento degli asset: è uno strumento di verifica/cache-busting per una richiesta specifica. La soluzione ordinaria per sostituire un asset pubblico è cambiare il nome del file e aggiornare i riferimenti.
+- Non aggiungere file `_headers` o tag HTML `meta http-equiv="Cache-Control"` dando per scontato che configurino gli header HTTP di GitHub Pages: non equivalgono a una configurazione degli header di risposta del server. Se cambia la piattaforma di hosting, verifica la sua documentazione e configura lì la cache. Su un hosting che consente gli header, l'HTML di ingresso deve essere rivalidato (`Cache-Control: no-cache` o una policy equivalente); gli asset con nome content-hashed possono invece avere cache di lunga durata e `immutable`.
+
+## Passaggi da eseguire dopo ogni modifica
+
+1. **Identifica esattamente la versione da pubblicare.** Controlla branch, stato Git e commit. Le pubblicazioni del sito sono attivate da push su `main` tramite `.github/workflows/deploy.yml`; controlla il workflow reale prima di assumere che il trigger o il nome del workflow siano ancora questi.
+2. **Esegui la build localmente.** Dalla root esegui `npm ci` e `npm run build` (oppure gli equivalenti del package manager solo se il progetto è stato deliberatamente migrato). Se la build fallisce, correggi il problema: non pubblicare e non dichiarare il lavoro concluso.
+3. **Controlla l'output generato.** Verifica che `dist/index.html` e gli asset referenziati esistano. Per modifiche a UI, componenti, stili o testi, controlla anche i file generati in `dist/assets/`: per esempio, quando rimuovi un elemento, assicurati che il relativo markup o selettore non sia rimasto nel bundle prodotto. Non modificare mai `dist/` a mano.
+4. **Pubblica il commit corretto.** Dopo il push, annota lo SHA completo del commit destinato alla pubblicazione. Non confondere il completamento di un aggiornamento file con il completamento del deploy.
+5. **Attendi e controlla GitHub Actions.** Cerca il run di `.github/workflows/deploy.yml` associato esattamente a quello SHA (campo `head_sha`). Il run deve avere `status: completed` e `conclusion: success`; verifica inoltre che i job `build` e `deploy` siano entrambi riusciti. Un run precedente annullato non è un problema se il run più recente associato allo SHA finale termina con successo. Non considerare sufficiente il successo di un run riferito a un commit precedente.
+6. **Verifica il sito realmente pubblicato, non solo GitHub.** Usa l'URL pubblico configurato nel repository/workflow. Per questo progetto l'URL atteso è `https://nonsonoturing.github.io/Libro-Digitale-Online/`, ma ricontrollalo se la configurazione Pages cambia. Richiedi l'HTML con cache-busting e istruzioni di rivalidazione, ad esempio:
+   ```bash
+   COMMIT="$(git rev-parse --short HEAD)"
+   SITE_URL="https://nonsonoturing.github.io/Libro-Digitale-Online/"
+   curl --fail --silent --show-error \
+     -H "Cache-Control: no-cache" \
+     -H "Pragma: no-cache" \
+     "${SITE_URL}?v=${COMMIT}" \
+     -o /tmp/libro-digitale-online-live.html
+   ```
+   Confronta gli URL degli script e dei fogli di stile nell'HTML remoto con quelli in `dist/index.html`. Scarica gli asset principali referenziati dalla pagina live e confrontali con quelli della build locale (per esempio tramite SHA-256); per una modifica specifica, controlla anche che il contenuto atteso sia effettivamente presente o assente nel bundle pubblicato. Una risposta HTTP positiva, da sola, non dimostra che sia stata distribuita la versione giusta.
+7. **Diagnostica una pagina che sembra vecchia senza ripetere modifiche inutili al sorgente.** Se il sorgente e `dist/` sono corretti ma la pagina stabile mostra ancora la versione precedente:
+   - verifica di nuovo SHA del commit, run Actions, URL Pages e asset hash effettivamente serviti;
+   - ripeti la verifica con una query univoca basata sul commit (o sul timestamp della verifica) e con header `Cache-Control: no-cache` e `Pragma: no-cache`;
+   - se la versione con query univoca è aggiornata ma quella all'URL stabile no, segnala che il problema è compatibile con una copia in cache del browser o di un livello intermedio; fornisci all'utente il link con parametro di versione e, se utile, le istruzioni per un hard refresh;
+   - **non rimuovere nuovamente elementi dal codice, non cambiare CSS a tentativi e non creare commit duplicati** finché non hai dimostrato che l'elemento esiste ancora nel sorgente o nel bundle appena generato.
+8. **Comunica lo stato con precisione.** Nel resoconto separa sempre: modifica salvata su GitHub, build locale riuscita, deploy del commit corretto riuscito, versione online verificata. Se non puoi leggere lo stato Actions o verificare gli asset pubblicati, dichiaralo esplicitamente e non dire che la modifica è già visibile online.
+
+### Comandi di controllo suggeriti
+
+Se GitHub CLI (`gh`) è disponibile e autenticata, puoi individuare e seguire il run relativo al commit con:
+
+```bash
+COMMIT="$(git rev-parse HEAD)"
+gh run list --workflow deploy.yml --branch main --commit "$COMMIT" --limit 5 \
+  --json databaseId,headSha,status,conclusion
+```
+
+Seleziona solo il run il cui `headSha` coincide esattamente con `COMMIT`, poi attendilo e controllane i job:
+
+```bash
+gh run watch RUN_ID --exit-status
+gh run view RUN_ID --json headSha,status,conclusion,jobs
+```
+
+Se `gh` non è disponibile, usa l'integrazione GitHub o le API/UI di GitHub Actions per effettuare gli stessi controlli. Non inventare l'esito dei run e non interrompere la verifica dopo il solo controllo della build.
+
+# 8. Verifica prima di concludere
 
 - Controlla che i file importati, i percorsi e i riferimenti esistano.
 - Verifica che i componenti usati nei contenuti siano registrati correttamente.
