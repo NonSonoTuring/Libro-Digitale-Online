@@ -71,4 +71,24 @@ export const topics: Topic[] = [
       { id: "composizione", title: "La composizione", minutes: 20, sections: ["Griglie: terzi, sezione aurea, armatura", "Il percorso dello sguardo", "Peso visivo ed equilibrio", "Analisi guidata di un'opera"] },
     ],
   },
+  {
+    id: "neoclassicismo", numeral: "IV", title: "Neoclassicismo", subtitle: "Canova e David: la forma dell'ideale",
+    discipline: "Storia dell'arte · Scultura e pittura", level: "Corso introduttivo", hours: "≈ 45 min",
+    abstract: "Due artisti, due linguaggi e un dialogo con l'antico. Attraverso quattro sculture di Antonio Canova e tre dipinti di Jacques-Louis David, il corso esplora equilibrio, gesto, memoria e impegno civile; un atelier interattivo aiuta a leggere la composizione delle opere.",
+    cover: image("cover-neoclassic.svg"), style: "solid", styleLabel: "Rilievi di marmo · schemi interattivi di composizione",
+    accent: { light: "#755b3f", dark: "#d0ae78" }, keywords: ["Canova", "David", "ideale classico", "mito", "memoria", "virtù civica"],
+    prerequisites: ["Nessun prerequisito formale", "Curiosità per la scultura e la pittura europea tra Sette e Ottocento"],
+    references: [
+      "Museo del Louvre, schede di collezione: Amore e Psiche; Il giuramento degli Orazi.",
+      "State Hermitage Museum, scheda di collezione: Le Tre Grazie, Antonio Canova.",
+      "Augustinerkirche, Vienna, Monumento funebre di Maria Cristina d'Austria.",
+      "Galleria Borghese, scheda di collezione: Paolina Borghese come Venere vincitrice.",
+      "Royal Museums of Fine Arts of Belgium, schede di collezione: La morte di Marat; Marte disarmato da Venere e dalle Grazie.",
+      "Honour, H. (1968). Neoclassicism. Penguin Books.",
+    ],
+    chapters: [
+      { id: "antonio-canova", title: "Antonio Canova", minutes: 24, sections: ["Amore e Psiche", "Le Tre Grazie", "Monumento funebre di Maria Cristina d'Austria", "Paolina Borghese"] },
+      { id: "jacques-louis-david", title: "Jacques-Louis David", minutes: 21, sections: ["Il giuramento degli Orazi", "La morte di Marat", "Marte disarmato"] },
+    ],
+  },
 ];

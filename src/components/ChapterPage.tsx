@@ -30,7 +30,7 @@ export function ChapterPage({ topic, chapter, onIndex, onOpenChapter }: {
     const key = Object.keys(chapterSources).find((source) => source.endsWith(suffix));
     const loader = key ? chapterSources[key] : undefined;
     if (!loader) { setLoadError(true); return; }
-    const componentLoader = topic.id === "reti-neurali" ? () => import("./content/neural") : topic.id === "il-cubo" ? () => import("./content/cube") : () => import("./content/painting");
+    const componentLoader = topic.id === "reti-neurali" ? () => import("./content/neural") : topic.id === "il-cubo" ? () => import("./content/cube") : topic.id === "neoclassicismo" ? () => import("./content/neoclassic") : () => import("./content/painting");
     Promise.all([loader(), componentLoader()]).then(([module, componentModule]) => {
       if (!cancelled) {
         setContent(() => module.default);

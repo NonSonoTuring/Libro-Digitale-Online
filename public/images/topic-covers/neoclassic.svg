@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 2240" fill="none">
+  <defs>
+    <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#eee5d3"/><stop offset=".52" stop-color="#cbbda4"/><stop offset="1" stop-color="#9b8b70"/></linearGradient>
+    <linearGradient id="shade" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#29251f" stop-opacity="0"/><stop offset="1" stop-color="#29251f" stop-opacity=".68"/></linearGradient>
+    <pattern id="grain" width="12" height="12" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r=".7" fill="#554a39" opacity=".24"/></pattern>
+  </defs>
+  <rect width="1120" height="2240" fill="url(#paper)"/>
+  <rect width="1120" height="2240" fill="url(#grain)" opacity=".6"/>
+  <path d="M88 2050V770a472 472 0 0 1 944 0v1280" stroke="#f5eedf" stroke-width="8" opacity=".7"/>
+  <path d="M122 2050V785a438 438 0 0 1 876 0v1265" stroke="#685a45" stroke-width="4" opacity=".7"/>
+  <path d="M192 2050V1005h107v1045m522 0V1005h107v1045M175 1005h142m488 0h142M179 980h134m496 0h134" fill="#d9cdb7" stroke="#75664f" stroke-width="5"/>
+  <path d="M140 2050h840m-910 45h980" stroke="#645641" stroke-width="7"/>
+  <path d="M529 690c-58 0-98 48-98 105 0 48 31 75 32 103 1 30-49 58-76 112-29 60-36 167-47 270l-49 571h420l-43-560c-9-105-25-214-63-276-29-47-75-72-75-115 0-31 31-58 31-107 0-60-26-103-72-103zm-87 292c52 31 123 29 180-2m-236 314c66 35 171 39 243-4m-262 379c79 39 202 42 280 0m-302 378c96 42 229 48 326 3" fill="#e1d6c2" stroke="#75664f" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M480 772c30 20 69 21 102 1m-118 113c34 21 94 23 129 2M433 1287c57-38 113-40 171-3m-201 284c78-50 154-50 225 2" stroke="#8b7a5f" stroke-width="6" stroke-linecap="round"/>
+  <path d="M359 1700c-70-105-147-125-203-85 48 8 88 37 119 91-65-39-120-24-162 27 76-10 132 14 175 70m473-103c70-105 147-125 203-85-48 8-88 37-119 91 65-39 120-24 162 27-76-10-132 14-175 70" fill="#b7a78c" stroke="#75664f" stroke-width="6" stroke-linejoin="round"/>
+  <circle cx="560" cy="1110" r="268" stroke="#f3ead7" stroke-width="3" stroke-dasharray="3 18" opacity=".8"/>
+  <path d="M0 0h1120v2240H0z" fill="url(#shade)"/>
+  <text x="92" y="142" fill="#514735" font-family="Georgia,serif" font-size="28" letter-spacing="9">LECTIO · CORSO IV</text>
+  <path d="M92 176h936" stroke="#796b52" stroke-width="2" opacity=".7"/>
+  <text x="92" y="1950" fill="#f7f0e2" font-family="Georgia,serif" font-size="68" letter-spacing="5">NEOCLASSICISMO</text>
+  <text x="96" y="2022" fill="#f7f0e2" font-family="Georgia,serif" font-size="29" letter-spacing="7">CANOVA · DAVID</text>
+  <text x="1028" y="2130" text-anchor="end" fill="#f7f0e2" font-family="Georgia,serif" font-size="24" letter-spacing="7">1780 — 1824</text>
+</svg>

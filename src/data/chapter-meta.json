@@ -57,6 +57,20 @@
       }
     }
   },
+  "neoclassicismo": {
+    "antonio-canova": {
+      "title": "Antonio Canova",
+      "subtitle": "Il marmo, il mito e l'ideale classico",
+      "minutes": 24,
+      "epigraph": null
+    },
+    "jacques-louis-david": {
+      "title": "Jacques-Louis David",
+      "subtitle": "La pittura neoclassica tra virtù civile e memoria",
+      "minutes": 21,
+      "epigraph": null
+    }
+  },
   "il-quadro": {
     "luce": {
       "title": "La luce e il valore",
