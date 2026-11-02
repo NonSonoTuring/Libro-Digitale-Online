@@ -196,8 +196,6 @@ I dettagli editoriali e le istruzioni specifiche vanno mantenuti nei documenti d
 
 **Non aggiornare questo file quando cambiano i nomi, il numero o i contenuti dei corsi, dei capitoli, delle immagini o delle singole interazioni.** Questi elementi sono variabili e devono essere gestiti nei rispettivi file sorgente.
 
-Aggiorna `AGENTS.md` soltanto quando cambia la struttura stabile del progetto, la responsabilità delle cartelle, il flusso architetturale o una procedura generale di lavoro. Se cambia un percorso strutturale, aggiorna la mappa e la tabella della sezione 3.
-
 Se un documento in `docs/` è vuoto o non descrive più una procedura, verifica il comportamento nel codice; non inventare indicazioni e, quando opportuno, completa il documento specifico.
 
 # 7. Verifica prima di concludere
