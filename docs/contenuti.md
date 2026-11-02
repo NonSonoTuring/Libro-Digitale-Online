@@ -33,6 +33,19 @@ In `src/data/topics.ts` aggiungi un oggetto `Topic` nell'ordine desiderato:
 
 ### Immagini: dove salvarle e come usarle
 
+**Standard dimensionale per le figure dei capitoli**
+
+Le immagini statiche inserite in una figura seguono la misura visiva del riquadro interattivo nella sezione **«Ombre proprie e ombre portate»** del capitolo *Luce e valore*: un'area massima di **720 × 480 px** (rapporto 3:2). È la larghezza massima della colonna di lettura e l'altezza del riquadro di riferimento.
+
+Per applicare lo standard, assegna all'immagine la classe `chapter-figure-image`:
+- larghezza massima: 100% dello spazio disponibile, fino a 720 px;
+- altezza massima: 480 px;
+- proporzioni originali sempre mantenute, senza deformare né ritagliare l'opera;
+- immagine centrata nella figura;
+- su schermi stretti si riduce automaticamente alla larghezza disponibile.
+
+Non impostare `width: 100%` inline e non assegnare larghezze o altezze fisse nel singolo MDX: la regola condivisa si trova in `src/styles/home.css`. La classe va usata per tutte le immagini statiche dentro `<Figure>`; i componenti interattivi (per esempio `<Painting />`) gestiscono invece autonomamente il proprio riquadro.
+
 **Immagine statica dentro un capitolo**
 
 1. Salva il file in `src/contenuti/argomenti/argomento1/capitoli/capitolo1/assets/`.
@@ -50,7 +63,7 @@ import illustrazione from "./assets/illustrazione.webp";
     src={illustrazione}
     alt="Descrizione concreta di ciò che mostra l'immagine"
     loading="lazy"
-    style={{ display: "block", width: "100%", height: "auto" }}
+    className="chapter-figure-image"
   />
 </Figure>
 ```
