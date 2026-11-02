@@ -1,5 +1,4 @@
 import { useEffect, useState, type CSSProperties } from "react";
-import { AnimatePresence, motion } from "framer-motion";
 import { Header } from "./components/layout/Header";
 import { Home } from "./components/Home";
 import { CourseIndex } from "./components/CourseIndex";
@@ -8,7 +7,6 @@ import { topics } from "./data/topics";
 
 type Route = { view: "home" } | { view: "topic"; topicId: string } | { view: "chapter"; topicId: string; chapterId: string };
 type Theme = "light" | "dark";
-const TRANSITION_EASE = [0.22, 1, 0.36, 1] as const;
 
 function parseRoute(): Route {
   const p = window.location.hash.replace(/^#\/?/, "").split("/").filter(Boolean);
@@ -30,7 +28,6 @@ export default function App() {
   const [route, setRoute] = useState<Route>(parseRoute);
   const topic = route.view === "home" ? undefined : topics.find((t) => t.id === route.topicId);
   const chapter = route.view === "chapter" && topic ? topic.chapters.find((c) => c.id === route.chapterId) : undefined;
-  const routeKey = route.view === "home" ? "home" : route.view === "topic" ? `topic-${route.topicId}` : `chapter-${route.topicId}-${route.chapterId}`;
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
@@ -60,25 +57,15 @@ export default function App() {
       <div className="sheet grain" style={accentStyle}>
         <Header theme={theme} topic={topic} chapter={chapter} onHome={home} onCourses={goCourses} onToggleTheme={() => setTheme((v) => v === "dark" ? "light" : "dark")} />
         <main>
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={routeKey}
-              initial={{ opacity: 0, y: 22, filter: "blur(4px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              exit={{ opacity: 0, y: -14, filter: "blur(3px)" }}
-              transition={{ duration: 0.55, ease: TRANSITION_EASE }}
-            >
-              {route.view === "home" || !topic ? (
-                <Home theme={theme} onOpenTopic={openTopic} onOpenChapter={openChapter} />
-              ) : route.view === "topic" ? (
-                <CourseIndex topic={topic} onHome={home} onOpenChapter={(id) => openChapter(topic.id, id)} />
-              ) : chapter ? (
-                <ChapterPage topic={topic} chapter={chapter} onIndex={() => openTopic(topic.id)} onOpenChapter={(id) => openChapter(topic.id, id)} />
-              ) : (
-                <Home theme={theme} onOpenTopic={openTopic} onOpenChapter={openChapter} />
-              )}
-            </motion.div>
-          </AnimatePresence>
+          {route.view === "home" || !topic ? (
+            <Home theme={theme} onOpenTopic={openTopic} onOpenChapter={openChapter} />
+          ) : route.view === "topic" ? (
+            <CourseIndex topic={topic} onHome={home} onOpenChapter={(id) => openChapter(topic.id, id)} />
+          ) : chapter ? (
+            <ChapterPage topic={topic} chapter={chapter} onIndex={() => openTopic(topic.id)} onOpenChapter={(id) => openChapter(topic.id, id)} />
+          ) : (
+            <Home theme={theme} onOpenTopic={openTopic} onOpenChapter={openChapter} />
+          )}
         </main>
       </div>
     </div>
