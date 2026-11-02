@@ -13,6 +13,8 @@ export function ChapterPage({ topic, chapter, onIndex, onOpenChapter }: {
   const [Content, setContent] = useState<ComponentType<any> | null>(null);
   const [loadError, setLoadError] = useState(false);
   const [components, setComponents] = useState<Record<string, ComponentType<any>> | null>(null);
+  const [sectionLinks, setSectionLinks] = useState<{ id: string; title: string }[]>([]);
+  const [activeSectionId, setActiveSectionId] = useState("");
   const { scrollYProgress } = useScroll();
   const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.3 });
   const chapters = topic.chapters;
@@ -38,8 +40,33 @@ export function ChapterPage({ topic, chapter, onIndex, onOpenChapter }: {
     return () => { cancelled = true; };
   }, [topic.id, chapter.id]);
 
+  useEffect(() => {
+    const sections = Array.from(document.querySelectorAll<HTMLElement>(".chapter-prose .book-section[id]"));
+    const links = sections.map((section, sectionIndex) => ({
+      id: section.id,
+      title: chapter.sections[sectionIndex] ?? section.querySelector("h2")?.textContent ?? `Sezione ${sectionIndex + 1}`,
+    }));
+    setSectionLinks(links);
+    if (!sections.length) {
+      setActiveSectionId("");
+      return;
+    }
+
+    setActiveSectionId(sections[0].id);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.filter((entry) => entry.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+        if (visible[0]) setActiveSectionId((visible[0].target as HTMLElement).id);
+      },
+      { rootMargin: "-18% 0px -62% 0px", threshold: [0, 0.1, 0.5] },
+    );
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, [Content, chapter.id]);
+
   const previous = chapters[index - 1];
   const next = chapters[index + 1];
+  const jumpToSection = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
 
   return <StyleContext.Provider value={topic.style}>
     <motion.div className="reading-progress" style={{ scaleX: progress }} />
@@ -51,13 +78,58 @@ export function ChapterPage({ topic, chapter, onIndex, onOpenChapter }: {
         {meta?.epigraph && <blockquote className="chapter-epigraph"><p>«{meta.epigraph.text}»</p><cite>{meta.epigraph.author}</cite></blockquote>}
         <div className="chapter-meta"><span>{chapter.sections.length} sezioni</span><span>{chapter.minutes} min di lettura</span><span>{topic.styleLabel}</span></div>
       </header>
-      <article className="chapter-prose prose-book" style={{ counterReset: `chapter ${index + 1} section 0` }}>
-        {Content && components ? <Content components={components} /> : loadError ? <p>Non è stato possibile caricare questo capitolo.</p> : <p className="loading-chapter">Caricamento del capitolo…</p>}
-      </article>
-      <nav className="chapter-navigation">
-        <button onClick={previous ? () => onOpenChapter(previous.id) : onIndex}><small>{previous ? "Capitolo precedente" : "Indice del corso"}</small><strong>← {previous?.title ?? topic.title}</strong></button>
-        <button onClick={next ? () => onOpenChapter(next.id) : onIndex}><small>{next ? "Capitolo successivo" : "Fine del corso"}</small><strong>{next?.title ?? "Torna all'indice"} →</strong></button>
-      </nav>
+      <div className="chapter-body-grid">
+        <div className="chapter-reading-column">
+          <article className="chapter-prose prose-book" style={{ counterReset: `chapter ${index + 1} section 0` }}>
+            {Content && components ? <Content components={components} /> : loadError ? <p>Non è stato possibile caricare questo capitolo.</p> : <p className="loading-chapter">Caricamento del capitolo…</p>}
+          </article>
+          <nav className="chapter-navigation">
+            <button onClick={previous ? () => onOpenChapter(previous.id) : onIndex}><small>{previous ? "Capitolo precedente" : "Indice del corso"}</small><strong>← {previous?.title ?? topic.title}</strong></button>
+            <button onClick={next ? () => onOpenChapter(next.id) : onIndex}><small>{next ? "Capitolo successivo" : "Fine del corso"}</small><strong>{next?.title ?? "Torna all'indice"} →</strong></button>
+          </nav>
+        </div>
+
+        <aside className="chapter-toc" aria-label="Indice del capitolo e navigazione">
+          <div className="chapter-toc-sticky">
+            <section>
+              <h2>In questo capitolo</h2>
+              <ol className="chapter-toc-sections">
+                {sectionLinks.map((section, sectionIndex) => (
+                  <li key={section.id}>
+                    <button
+                      type="button"
+                      className={activeSectionId === section.id ? "is-active" : ""}
+                      aria-current={activeSectionId === section.id ? "location" : undefined}
+                      onClick={() => jumpToSection(section.id)}
+                    >
+                      <span>{index + 1}.{sectionIndex + 1}</span>{section.title}
+                    </button>
+                  </li>
+                ))}
+              </ol>
+            </section>
+
+            <section>
+              <h2>Capitoli</h2>
+              <ol className="chapter-toc-chapters">
+                {chapters.map((item, chapterIndex) => (
+                  <li key={item.id}>
+                    <button
+                      type="button"
+                      className={item.id === chapter.id ? "is-current" : ""}
+                      aria-current={item.id === chapter.id ? "page" : undefined}
+                      onClick={() => onOpenChapter(item.id)}
+                    >
+                      <span>{String(chapterIndex + 1).padStart(2, "0")}</span>{item.title}
+                    </button>
+                  </li>
+                ))}
+              </ol>
+              <button className="chapter-toc-back" type="button" onClick={onIndex}>← Indice del corso</button>
+            </section>
+          </div>
+        </aside>
+      </div>
     </div>
   </StyleContext.Provider>;
 }
