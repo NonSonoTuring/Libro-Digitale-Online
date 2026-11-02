@@ -96,6 +96,16 @@ Le copertine locali evitano dipendenze dal sito esterno e URL riutilizzati dalla
 
 La copertina corrente di `Il quadro` è `public/images/topic-covers/painting-anna-ruysch.jpg`, un dettaglio di *Still life of fruit, with peaches and grapes* attribuito ad Anna Ruysch, da [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Still_life_of_fruit,_with_peaches_and_grapes%29.jpg), in pubblico dominio.
 
+### Giustificazione del testo editoriale
+
+Il testo discorsivo di tutte le pagine deve essere **giustificato**, mantenendo un aspetto uniforme tra Home, pagine dei corsi e capitoli. La regola condivisa si trova in fondo a `src/styles/home.css` e comprende:
+- i paragrafi introduttivi della Home e le descrizioni delle schede dei corsi;
+- le descrizioni nelle pagine di presentazione dei corsi;
+- i paragrafi e gli elenchi del contenuto dei capitoli, comprese le citazioni introduttive.
+
+Usa `text-align: justify`, `text-justify: inter-word` e `hyphens: auto` sui blocchi di testo discorsivo. Il documento HTML ha già `lang="it"`, necessario perché il browser applichi la sillabazione italiana. Non estendere la giustificazione a titoli, etichette, metadati, pulsanti, indici di navigazione, formule o controlli interattivi: questi mantengono l'allineamento previsto dal rispettivo componente. Non aggiungere stili inline nei singoli MDX; modifica i selettori condivisi in `src/styles/home.css`.
+
+
 ## 2. Metadati del capitolo
 
 In `src/data/chapter-meta.json` aggiungi:

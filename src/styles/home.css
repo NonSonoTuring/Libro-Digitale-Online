@@ -178,3 +178,19 @@
   @media(max-width:560px){.codex-card-grid{grid-template-columns:1fr;gap:16px}.codex-card{height:auto}.codex-card-image{height:200px}.codex-cover-stack{height:290px}.codex-cover{width:56%}.codex-cover-1{top:12px}.codex-cover-2{top:0}.codex-cover-3{bottom:0}.codex-cover-4{bottom:0}.codex-card-details{grid-template-rows:1fr;opacity:1}.codex-card-main{padding:16px}.codex-home{padding-bottom:30px}.codex-ticker{margin-right:-18px;margin-left:-18px}}
   @media(prefers-reduced-motion:reduce){.codex-ticker-track{animation-duration:180s}.codex-cover,.codex-card,.codex-card-details,.codex-card-image>img{transition:none}}
 }
+
+/* Testo editoriale giustificato in tutte le pagine */
+@layer components {
+  .codex-hero-copy > p,
+  .codex-catalog-heading > p,
+  .codex-card-description,
+  .index-description > p,
+  .topic-abstract,
+  .chapter-epigraph > p,
+  .chapter-prose p,
+  .chapter-prose li {
+    text-align: justify;
+    text-justify: inter-word;
+    hyphens: auto;
+  }
+}
