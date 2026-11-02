@@ -38,7 +38,6 @@ export function Home({ theme, onOpenTopic, onOpenChapter }: {
               <span>{topic.title}</span>
             </button>
           ))}
-          <span className="codex-cover-seal" aria-hidden="true">CODEX</span>
         </div>
       </section>
 
