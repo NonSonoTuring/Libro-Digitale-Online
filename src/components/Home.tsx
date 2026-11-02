@@ -17,14 +17,14 @@ export function Home({ theme, onOpenTopic, onOpenChapter }: {
           <span className="eyebrow">Biblioteca interattiva · Edizione MMXXVI</span>
           <h1 id="home-title">Conoscere è un percorso.<br /><em>Esploralo.</em></h1>
           <p>
-            Tre corsi per attraversare le reti neurali, la geometria del cubo e la lettura del quadro.
+            Quattro corsi per attraversare le reti neurali, la geometria del cubo, la lettura del quadro e il Neoclassicismo.
             Testi, immagini e strumenti interattivi trasformano ogni argomento in un’occasione per osservare,
             provare e capire.
           </p>
           <div className="codex-hero-rule" aria-hidden="true"><span /></div>
         </div>
 
-        <div className="codex-cover-stack" aria-label="Copertine dei tre corsi">
+        <div className="codex-cover-stack" aria-label="Copertine dei corsi">
           {topics.map((topic, index) => (
             <button
               key={topic.id}

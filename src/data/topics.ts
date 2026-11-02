@@ -74,8 +74,8 @@ export const topics: Topic[] = [
   {
     id: "neoclassicismo", numeral: "IV", title: "Neoclassicismo", subtitle: "Canova e David: la forma dell'ideale",
     discipline: "Storia dell'arte · Scultura e pittura", level: "Corso introduttivo", hours: "≈ 45 min",
-    abstract: "Due artisti, due linguaggi e un dialogo con l'antico. Attraverso quattro sculture di Antonio Canova e tre dipinti di Jacques-Louis David, il corso esplora equilibrio, gesto, memoria e impegno civile; un atelier interattivo aiuta a leggere la composizione delle opere.",
-    cover: image("cover-neoclassic.svg"), style: "solid", styleLabel: "Rilievi di marmo · schemi interattivi di composizione",
+    abstract: "Due artisti, due linguaggi e un dialogo con l'antico. Attraverso quattro sculture di Antonio Canova e tre dipinti di Jacques-Louis David, il corso esplora equilibrio, gesto, memoria e impegno civile; le immagini delle opere accompagnano la lettura della composizione e dei loro significati.",
+    cover: image("cover-neoclassic.jpg"), style: "solid", styleLabel: "Riproduzioni delle opere · lettura storico-artistica",
     accent: { light: "#755b3f", dark: "#d0ae78" }, keywords: ["Canova", "David", "ideale classico", "mito", "memoria", "virtù civica"],
     prerequisites: ["Nessun prerequisito formale", "Curiosità per la scultura e la pittura europea tra Sette e Ottocento"],
     references: [

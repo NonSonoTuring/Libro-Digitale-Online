@@ -407,21 +407,3 @@ html[data-theme="dark"] {
     }
   }
 }
-
-@layer components {
-  .opera-lens { padding: clamp(14px, 3vw, 24px); background: var(--paper-2); }
-  .opera-lens-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 14px; margin-bottom: 14px; }
-  .opera-lens-heading strong { font: 600 16px/1.3 var(--font-display); text-align: right; }
-  .opera-lens-controls { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 8px; }
-  .opera-lens-controls button { padding: 7px 11px; border: 1px solid var(--rule); border-radius: 999px; background: var(--paper); color: var(--ink-2); font: 10px var(--font-mono); letter-spacing: .04em; transition: background .2s, color .2s, border-color .2s; }
-  .opera-lens-controls button:hover, .opera-lens-controls button[aria-pressed="true"] { border-color: var(--accent); background: var(--accent); color: var(--paper); }
-  .opera-lens-controls button:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
-  .opera-lens-note { min-height: 3.3em; margin: 5px 0 0; color: var(--ink-2); font-size: 13px; line-height: 1.6; }
-  .opera-lens-note strong { color: var(--ink); font-family: var(--font-display); }
-}
-@media (max-width: 480px) {
-  .opera-lens-heading { align-items: flex-start; flex-direction: column; gap: 5px; }
-  .opera-lens-heading strong { text-align: left; }
-  .opera-lens-controls button { padding: 7px 9px; font-size: 9px; }
-}
-@media (prefers-reduced-motion: reduce) { .opera-lens-controls button { transition: none; } }

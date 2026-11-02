@@ -5,7 +5,7 @@ const detailCovers: Record<string, string> = {
   "reti-neurali": `${import.meta.env.BASE_URL}images/topic-covers/neural.jpg`,
   "il-cubo": `${import.meta.env.BASE_URL}images/topic-covers/cube.jpg`,
   "il-quadro": `${import.meta.env.BASE_URL}images/topic-covers/painting-anna-ruysch.jpg`,
-  "neoclassicismo": `${import.meta.env.BASE_URL}images/topic-covers/neoclassic.svg`,
+  "neoclassicismo": `${import.meta.env.BASE_URL}images/topic-covers/neoclassic.jpg`,
 };
 
 export function CourseIndex({ topic, onHome, onOpenChapter }: { topic: Topic; onHome: () => void; onOpenChapter: (id: string) => void }) {
@@ -18,7 +18,7 @@ export function CourseIndex({ topic, onHome, onOpenChapter }: { topic: Topic; on
       <div className="topic-layout">
         <aside className="topic-sidebar" aria-label={`Copertina del corso ${topic.title}`}>
           <div className={`topic-cover ${topic.style}`}>
-            <img src={cover} alt={topic.id === "il-quadro" ? "Natura morta con pesche e uva di Anna Ruysch" : topic.id === "neoclassicismo" ? "Copertina illustrata del corso sul Neoclassicismo" : `Copertina: ${topic.title}`} />
+            <img src={cover} alt={topic.id === "il-quadro" ? "Natura morta con pesche e uva di Anna Ruysch" : topic.id === "neoclassicismo" ? "Le Tre Grazie di Antonio Canova, immagine di copertina del corso" : `Copertina: ${topic.title}`} />
             <span className="topic-cover-numeral">{topic.numeral}</span>
           </div>
         </aside>
