@@ -2,13 +2,71 @@ import { motion } from "framer-motion";
 import type { Topic } from "../data/topics";
 
 export function CourseIndex({ topic, onHome, onOpenChapter }: { topic: Topic; onHome: () => void; onOpenChapter: (id: string) => void }) {
-  return <div className="index-page">
-    <button className="back-link" onClick={onHome}>← Tutti i corsi</button>
-    <div className={`index-cover ${topic.style}`}><img src={topic.cover} alt={`Copertina: ${topic.title}`} /><div><span>Corso {topic.numeral}</span><h1>{topic.title}</h1><p>{topic.subtitle}</p></div></div>
-    <section className="index-description"><span className="eyebrow">{topic.discipline}</span><p>{topic.abstract}</p><div className="index-facts"><span><small>Livello</small>{topic.level}</span><span><small>Durata</small>{topic.hours}</span><span><small>Capitoli</small>{topic.chapters.length}</span></div>
-      <div className="prerequisites"><h2>Prerequisiti</h2><ul>{topic.prerequisites.map((p)=><li key={p}>{p}</li>)}</ul></div>
-    </section>
-    <section className="index-chapters"><span className="eyebrow">Indice</span><h2>Capitoli</h2><ol>{topic.chapters.map((c,i)=><motion.li key={c.id} initial={{opacity:0,y:10}} animate={{opacity:1,y:0}} transition={{delay:i*.08}}><button onClick={()=>onOpenChapter(c.id)}><span className="index-number">0{i+1}</span><span><strong>{c.title}</strong><small>{c.sections.join(" · ")}</small></span><span className="index-minutes">{c.minutes} min →</span></button></motion.li>)}</ol></section>
-    <section className="index-references"><span className="eyebrow">Letture</span><h2>Riferimenti</h2><ol>{topic.references.map((reference) => <li key={reference}>{reference}</li>)}</ol></section>
-  </div>;
+  const sectionCount = topic.chapters.reduce((total, chapter) => total + chapter.sections.length, 0);
+
+  return (
+    <div className="index-page topic-page">
+      <button className="back-link" onClick={onHome}>← Tutti i corsi</button>
+
+      <div className="topic-layout">
+        <aside className="topic-sidebar" aria-label={`Informazioni sul corso ${topic.title}`}>
+          <div className={`topic-cover ${topic.style}`}>
+            <img src={topic.cover} alt={`Copertina: ${topic.title}`} />
+            <span className="topic-cover-numeral">{topic.numeral}</span>
+          </div>
+
+          <dl className="topic-facts">
+            <div><dt>Livello</dt><dd>{topic.level}</dd></div>
+            <div><dt>Capitoli</dt><dd>{topic.chapters.length}</dd></div>
+            <div><dt>Sezioni</dt><dd>{sectionCount}</dd></div>
+            <div><dt>Durata</dt><dd>{topic.hours}</dd></div>
+          </dl>
+
+          <section className="topic-prerequisites">
+            <h2>Prerequisiti</h2>
+            <ul>{topic.prerequisites.map((item) => <li key={item}>{item}</li>)}</ul>
+          </section>
+        </aside>
+
+        <div className="topic-main">
+          <header className="topic-heading">
+            <span className="eyebrow">Corso {topic.numeral} · {topic.discipline}</span>
+            <h1>{topic.title}</h1>
+            <p className="topic-subtitle">{topic.subtitle}</p>
+            <p className="topic-abstract">{topic.abstract}</p>
+          </header>
+
+          <section className="topic-chapters" aria-labelledby="topic-chapters-title">
+            <div className="topic-section-label"><span>Indice</span><i /></div>
+            <h2 id="topic-chapters-title">Capitoli</h2>
+            <ol>
+              {topic.chapters.map((chapter, index) => (
+                <motion.li
+                  key={chapter.id}
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.08, duration: 0.5 }}
+                >
+                  <button onClick={() => onOpenChapter(chapter.id)}>
+                    <span className="topic-chapter-number">0{index + 1}</span>
+                    <span className="topic-chapter-copy">
+                      <strong>{chapter.title}</strong>
+                      <small>{chapter.sections.join(" · ")}</small>
+                    </span>
+                    <span className="topic-chapter-minutes">{chapter.minutes} min <i aria-hidden="true">→</i></span>
+                  </button>
+                </motion.li>
+              ))}
+            </ol>
+          </section>
+
+          <section className="topic-references" aria-labelledby="topic-references-title">
+            <span className="eyebrow">Per approfondire</span>
+            <h2 id="topic-references-title">Riferimenti</h2>
+            <ol>{topic.references.map((reference) => <li key={reference}>{reference}</li>)}</ol>
+          </section>
+        </div>
+      </div>
+    </div>
+  );
 }
