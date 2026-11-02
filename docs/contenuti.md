@@ -94,11 +94,11 @@ Componenti disponibili da `src/components/content/common.tsx`: `M`, `Eq`, `Figur
 
 - Formula breve dentro una frase: usa `<M>{"\\sigma(z)"}</M>`.
 - Formula centrata su più righe o da spiegare: usa `<Eq>` con `tex`, `note` e `terms` come nell'esempio. Scrivi la formula in LaTeX dentro `String.raw`.
-- `note` è il titolo esplicativo **sopra** la formula; usa una frase normale, non tutto maiuscolo. Non aggiungere numeri o `label`.
-- In `terms`, elenca in ordine i simboli e il loro significato: il simbolo è LaTeX, la descrizione è testo. Mantieni ogni spiegazione breve.
+- `note` è il titolo esplicativo: viene mostrato **in maiuscolo, sopra la formula e dentro lo stesso riquadro**. Scrivilo normalmente nel MDX; non aggiungere numeri o `label`.
+- In `terms`, elenca in ordine i simboli e il loro significato: vengono mostrati **dentro il riquadro, subito sotto la formula**. Il simbolo è LaTeX, la descrizione è testo; mantieni ogni spiegazione breve.
 - Non usare `Eq` per formule brevi nel testo: quelle vanno con `M`.
 
-Il rendering e la struttura HTML sono in `src/lib/math.tsx`; **aspetto di riquadro, titolo e legenda** in `src/styles/book.css` (`.display-equation…`). Colori, caratteri e variabili condivise sono in `src/styles/tokens.css`, con i valori del tema scuro in `src/styles/themes.css`. Se cambi lo stile delle formule, modifica le classi CSS lì, non i singoli capitoli.
+Il rendering e l'ordine di titolo, formula e legenda sono in `src/lib/math.tsx`; **stile e riquadro comune** in `src/styles/book.css` (`.display-equation…`). Colori, caratteri e variabili condivise sono in `src/styles/tokens.css`, con i valori del tema scuro in `src/styles/themes.css`. Se cambi lo stile delle formule, modifica le classi CSS lì, non i singoli capitoli.
 
 ## 4. Interattività e animazioni
 
