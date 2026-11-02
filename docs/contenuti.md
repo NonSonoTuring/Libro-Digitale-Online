@@ -1,6 +1,6 @@
 # Come scrivere argomenti e capitoli
 
-Questa guida usa la struttura reale del progetto: i corsi mostrati in Home sono registrati in `src/data/topics.ts`, mentre i testi vivent in `src/contenuti/argomenti/<Argomento>/capitoli/<Capitolo>/capitolo.mdx`. La cartella `Argomento1` in `src/contenuti` e `src/features` è solo un segnaposto vuoto.
+Questa guida segue la struttura reale del progetto: i corsi mostrati in Home sono registrati in `src/data/topics.ts`, mentre i testi dei capitoli si trovano in `src/contenuti/argomenti/<Argomento>/capitoli/<Capitolo>/capitolo.mdx`. Le cartelle `Argomento1` in `src/contenuti` e `src/features` sono segnaposto.
 
 ## Flusso delle pagine
 
@@ -28,7 +28,7 @@ In `src/data/topics.ts` aggiungi un oggetto `Topic` nell'ordine desiderato:
 - `id` deve essere kebab-case e identico alla cartella in `src/contenuti/argomenti/<id>/`.
 - `cover` punta a `public/images/...` tramite `image()`; la Home usa questa immagine.
 - Per la pagina corso, `CourseIndex.tsx` usa `detailCovers`: aggiungi lì `public/images/topic-covers/argomento1.jpg` se vuoi la copertina verticale.
-- `sections` elenca i titoli delle sezioni **nello stesso ordine** degli `<h2>` del MDX: l'indice laterale del capitolo li abbina per posizione.
+- `sections` elenca i titoli nello stesso ordine degli `<h2>` del MDX. Ogni `<section className="book-section">` deve avere un `id` univoco, per esempio `id="sec-sezione-1"`: l'indice fisso a destra usa questi ID per saltare alla sezione e aggiornare l'evidenziazione durante lo scorrimento.
 
 ## 2. Metadati del capitolo
 
@@ -102,4 +102,4 @@ export const mdxComponents = { ...commonComponents, DiagrammaInterattivo };
 npm run build
 ```
 
-Poi controlla: Home con scheda e striscia, `#/t/argomento1`, `#/t/argomento1/c/capitolo1`, indice laterale del capitolo, tema chiaro/scuro. Se la pagina publicada non mostra le modifiche, ricarica con `Ctrl+F5`.
+Poi controlla: Home con scheda e striscia, `#/t/argomento1`, `#/t/argomento1/c/capitolo1`, indice laterale sempre visibile a destra e aggiornato mentre scorri, tema chiaro/scuro. Se la pagina pubblicata non mostra le modifiche, ricarica con `Ctrl+F5`.

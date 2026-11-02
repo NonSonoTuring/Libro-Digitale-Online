@@ -20,11 +20,11 @@
   .chapter-epigraph p{margin:0;color:var(--ink-2);font:italic 17px/1.6 var(--font-body)}
   .chapter-epigraph cite{display:block;margin-top:8px;color:var(--ink-3);font:10px var(--font-mono);letter-spacing:.12em;text-transform:uppercase}
   .chapter-meta{display:flex;flex-wrap:wrap;gap:10px 22px;margin-top:24px;color:var(--ink-3);font:10px var(--font-mono);letter-spacing:.1em;text-transform:uppercase}
-  .chapter-body-grid{display:grid;grid-template-columns:minmax(0,1fr);align-items:start;gap:48px;margin-top:38px}
+  .chapter-body-grid{display:grid;grid-template-columns:minmax(0,1fr);align-items:start;gap:32px;margin-top:38px}
   .chapter-reading-column{min-width:0}
   .chapter-prose{max-width:720px;margin:0 auto}
   .chapter-toc{display:none}
-  .chapter-toc-sticky{position:sticky;top:100px;max-height:calc(100vh - 116px);overflow-y:auto}
+  .chapter-toc-sticky{max-height:calc(100vh - 116px);overflow-y:auto}
   .chapter-toc section+section{margin-top:30px}
   .chapter-toc h2{margin:0;color:var(--ink-3);font:10px/1.4 var(--font-mono);letter-spacing:.18em;text-transform:uppercase}
   .chapter-toc-sections,.chapter-toc-chapters{margin:12px 0 0;padding:0;list-style:none}
@@ -55,7 +55,7 @@
   .chapter-navigation strong{font:600 17px var(--font-display)}
   .loading-chapter{padding:45px 0;color:var(--ink-3);font-style:italic}
 }
-@media(min-width:1024px){.chapter-body-grid{grid-template-columns:minmax(0,1fr) 220px}.chapter-toc{display:block}}
+@media(min-width:900px){.chapter-body-grid{grid-template-columns:minmax(0,1fr) 210px}.chapter-toc{position:sticky;top:100px;display:block;align-self:start}}
 @media(max-width:600px){.chapter-page{padding:20px 20px 54px}.chapter-title-row{align-items:flex-start;gap:14px}.chapter-numeral{font-size:58px}.chapter-title-row h1{font-size:35px}.book-section h2{grid-template-columns:74px minmax(0,1fr);column-gap:10px;font-size:24px}.book-section h2:before{font-size:48px;-webkit-text-stroke-width:.8px}.book-section h2:after{font-size:9px;letter-spacing:.16em}.chapter-navigation{grid-template-columns:1fr}.chapter-navigation button:last-child{text-align:left}}
 @layer components {
   .index-references{max-width:760px;padding:0 0 60px}
