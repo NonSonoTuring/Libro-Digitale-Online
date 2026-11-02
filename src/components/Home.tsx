@@ -63,13 +63,25 @@ export function Home({ theme, onOpenTopic, onOpenChapter }: {
 
         <div className="codex-card-grid">
           {topics.map((topic) => (
-            <article className="codex-card" key={topic.id} style={accent(topic)}>
-              <div className="codex-card-image">
+            <article
+              className="codex-card"
+              key={topic.id}
+              style={accent(topic)}
+              onClick={(event) => {
+                if (!(event.target as HTMLElement).closest("button")) onOpenTopic(topic.id);
+              }}
+            >
+              <button
+                className="codex-card-image"
+                type="button"
+                onClick={() => onOpenTopic(topic.id)}
+                aria-label={`Apri l'indice del corso ${topic.title}`}
+              >
                 <img src={topic.cover} alt={`Copertina del corso ${topic.title}`} loading="lazy" />
                 <span className="codex-card-shade" />
                 <span className="codex-card-discipline">{topic.discipline}</span>
                 <span className="codex-card-number">{topic.numeral}</span>
-              </div>
+              </button>
 
               <div className="codex-card-main">
                 <button

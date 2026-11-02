@@ -31,6 +31,7 @@ export default function App() {
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
+    document.querySelector('meta[name="theme-color"]')?.setAttribute("content", theme === "dark" ? "#211c15" : "#f4efe3");
     try { localStorage.setItem("lectio:theme", theme); } catch { /* ignora */ }
   }, [theme]);
 
@@ -54,7 +55,7 @@ export default function App() {
 
   return (
     <div className="page-shell">
-      <div className="sheet grain" style={accentStyle}>
+      <div className="sheet" style={accentStyle}>
         <Header theme={theme} topic={topic} chapter={chapter} onHome={home} onCourses={goCourses} onToggleTheme={() => setTheme((v) => v === "dark" ? "light" : "dark")} />
         <main>
           {route.view === "home" || !topic ? (

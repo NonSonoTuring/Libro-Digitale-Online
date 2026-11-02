@@ -1,13 +1,14 @@
 /* Tavolozza e tipografia riprese dal progetto di riferimento Lectio. */
 :root {
-  --desk: #e2d9c8;
-  --paper: #f7f2e9;
-  --paper-2: #efe8db;
+  --desk: #f4efe3;
+  --paper: #f4efe3;
+  --paper-2: #ede5d3;
+  --card: #fdfaf2;
   --paper-3: #e6ddcc;
-  --ink: #2b2824;
-  --ink-2: #5c564d;
+  --ink: #2b2620;
+  --ink-2: #5c554a;
   --ink-3: #8e877b;
-  --rule: #d8cfbe;
+  --rule: #d9cfb8;
   --accent: #7c5e2c;
   --accent-2: #3f6e77;
   --glow: 0 0 0 1px color-mix(in oklab, var(--accent) 35%, transparent), 0 18px 40px -18px color-mix(in oklab, var(--accent) 55%, transparent);

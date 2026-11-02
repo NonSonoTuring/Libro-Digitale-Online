@@ -1,12 +1,13 @@
 html[data-theme="dark"] {
-  --desk: #0c0e11;
-  --paper: #171a1f;
-  --paper-2: #1e2228;
-  --paper-3: #262b33;
-  --ink: #e9e3d7;
-  --ink-2: #b7afa1;
-  --ink-3: #7f786e;
-  --rule: #2f343d;
+  --desk: #211c15;
+  --paper: #211c15;
+  --paper-2: #2a241b;
+  --card: #2a241b;
+  --paper-3: #332b20;
+  --ink: #ece2cc;
+  --ink-2: #b3a888;
+  --ink-3: #8e856c;
+  --rule: #453b2b;
   --accent: #c9a15a;
   --accent-2: #6fb2bf;
   color-scheme: dark;
