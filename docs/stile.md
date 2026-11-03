@@ -1,6 +1,10 @@
 # Catalogo degli stili grafici
 
-Questo documento raccoglie gli stili visivi riutilizzabili del progetto. Ogni stile è descritto come una ricetta autonoma: identità visiva, palette, tipografia, tecniche di disegno e codice di riferimento.
+Questo documento è una **raccolta di linguaggi visivi disponibili per il progetto**, non un foglio di regole obbligatorie. Ogni stile è una proposta riutilizzabile e modificabile: nessuno è definitivo, nessuno si applica automaticamente a tutto il sito e non esiste uno stile da usare sempre per impostazione predefinita.
+
+La scelta si fa di volta in volta, in base al contenuto, alla funzione della figura, al contesto editoriale e alla leggibilità. È possibile usare uno stile per una singola illustrazione, combinarne alcuni elementi oppure adattarne palette, tipografia, densità e tecnica. Gli esempi sono **riferimenti pratici**, non modelli da copiare alla lettera in ogni occasione.
+
+Per ogni stile il catalogo raccoglie le informazioni necessarie a riconoscerlo e ricrearlo: intento visivo, palette, tipografia, strumenti e parametri, comportamento del layout, codice di esempio, varianti e indicazioni per portarlo nei componenti del progetto. Quando si aggiunge un nuovo linguaggio visivo, si crea una nuova scheda; quando si aggiunge un esempio dello stesso linguaggio, lo si inserisce nella scheda esistente evidenziando cosa condivide e cosa cambia.
 
 ---
 
@@ -233,16 +237,213 @@ Questa scheda è un riferimento estetico e non applica automaticamente lo stile 
 - **Posizionamento dinamico**: Il codice calcola lo spazio totale disponibile nell'asse X (chartW) e suddivide equamente lo spazio in base al numero di elementi (5 o 16 barre).
 - **Gestione del valore 0 (Non separabile)**: Se item.val === 0 (es. **XOR** e **XNOR**), il rettangolo non viene disegnato tramite rough.js. Viene invece disegnato direttamente il valore 0 posizionato appena sopra l'asse delle ascisse (margin.top + chartH - 12), rispecchiando la grafica del libro/taccuino.
 
-## Regole per riutilizzare lo stile
 
-Quando si richiede una nuova figura con lo stile **sketch a mano**, usa questa scheda come riferimento per riprendere in modo coerente:
+---
 
-1. **Tratto a mano libera:** usa Rough.js per linee, rettangoli e contorni; come punto di partenza mantieni roughness intorno a 1.3–1.4 per gli assi e 1.3 per le forme.
-2. **Riempimenti disegnati:** preferisci hachure per tratteggi paralleli e cross-hatch per tratteggi incrociati; mantieni hachureAngle intorno a 60° e hachureGap tra 4.5 e 5.
-3. **Gesso e accento:** usa tratti bianco crema #f5f5f4 e azzurro polvere #60a5fa; per altre categorie scegli accenti poco saturi che restino leggibili sul fondo scuro.
-4. **Scrittura:** usa Caveat per titoli, numeri ed etichette; riserva un carattere sans-serif alle sole interfacce di controllo quando serve maggiore leggibilità.
-5. **Superficie:** usa fondo #121319, pannello #1c1e26, bordo chiaro semitrasparente, angoli da 12px e ombra morbida.
-6. **Canvas nitido:** dimensiona il buffer in base a devicePixelRatio e mantieni le dimensioni CSS separate da quelle interne.
-7. **Adattamento:** conserva leggibilità e spaziatura su mobile; quando una rappresentazione contiene molte categorie, riduci moderatamente il font e disponi le etichette inclinate invece di comprimerle.
+## Esempio 2 — Teorema di Eulero sul piano complesso
 
-Per ora questa è una ricetta grafica documentata, non un tema globale e non una dipendenza installata. Quando lo stile verrà implementato in un componente React del progetto, occorrerà adattare il prototipo alle convenzioni Vite/React/TypeScript, alle dipendenze effettivamente installate e al sistema di temi del sito.
+Questo secondo esempio applica lo stesso linguaggio **sketch a mano — lavagna** a un diagramma matematico, non a un grafico a barre. Mostra che lo stile non coincide con un unico tipo di figura: tratto Rough.js, carattere manoscritto e superficie scura possono accompagnare contenuti diversi; geometria, colori semantici e annotazioni si scelgono in funzione del concetto da spiegare.
+
+### Caratteristiche specifiche di questo esempio
+
+- **Soggetto:** piano complesso con assi reale e immaginario, cerchio unitario, vettore posizione e componenti seno/coseno.
+- **Dimensioni di riferimento:** canvas logico 700 × 450 px, con buffer moltiplicato per window.devicePixelRatio.
+- **Geometria:** centro del cerchio in (260, 250), raggio 150 px, angolo θ = π/4 (45°).
+- **Assi:** tratto grigio chiaro da gesso (#e7e5e4), con punte delle frecce disegnate con segmenti separati.
+- **Cerchio unitario:** contorno grigio tenue (#a8a29e), tratteggiato.
+- **Vettore e punto:** vettore bianco crema (#f5f5f4); punto evidenziato in azzurro (#60a5fa).
+- **Componenti:** coseno in blu (#3b82f6), seno immaginario in rosso/terracotta (#ef4444), angolo θ in giallo (#facc15).
+- **Testi:** Caveat in 22–26 px, con colore coerente con l'elemento a cui si riferiscono.
+- **Contenitore:** pannello #1c1e26, bordo tenue e ombra; il canvas può scorrere orizzontalmente quando lo schermo è troppo stretto.
+
+Qui non vengono usati riempimenti hachure o cross-hatch: l'effetto disegnato deriva da assi, cerchio, arco e segmenti tracciati con Rough.js. I tratteggi di riempimento sono quindi facoltativi, non un requisito dello stile.
+
+### Codice sorgente completo — EulerTheoremSketch.tsx
+
+~~~tsx
+import React, { useEffect, useRef } from 'react';
+import rough from 'roughjs';
+
+export default function EulerTheoremSketch() {
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    // Dimensioni del canvas e gestione display ad alta risoluzione (Retina)
+    const width = 700;
+    const height = 450;
+    const dpr = window.devicePixelRatio || 1;
+
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+    canvas.style.width = `${width}px`;
+    canvas.style.height = `${height}px`;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    ctx.scale(dpr, dpr);
+    ctx.clearRect(0, 0, width, height);
+
+    const rc = rough.canvas(canvas);
+
+    // Parametri geometrici per la formula di Eulero sul piano di Gauss
+    const centerX = 260;
+    const centerY = 250;
+    const radius = 150;
+    const angle = Math.PI / 4; // θ = 45 gradi
+
+    const pointX = centerX + radius * Math.cos(angle);
+    const pointY = centerY - radius * Math.sin(angle);
+
+    // 1. Assi Cartesiani (Reale e Immaginario) in stile gesso
+    rc.line(60, centerY, width - 80, centerY, {
+      stroke: '#e7e5e4',
+      strokeWidth: 2,
+      roughness: 1.3,
+    });
+    rc.line(centerX, height - 40, centerX, 50, {
+      stroke: '#e7e5e4',
+      strokeWidth: 2,
+      roughness: 1.3,
+    });
+
+    // Frecce degli assi
+    rc.line(width - 90, centerY - 6, width - 80, centerY, { stroke: '#e7e5e4', strokeWidth: 2, roughness: 1.2 });
+    rc.line(width - 90, centerY + 6, width - 80, centerY, { stroke: '#e7e5e4', strokeWidth: 2, roughness: 1.2 });
+    rc.line(centerX - 6, 60, centerX, 50, { stroke: '#e7e5e4', strokeWidth: 2, roughness: 1.2 });
+    rc.line(centerX + 6, 60, centerX, 50, { stroke: '#e7e5e4', strokeWidth: 2, roughness: 1.2 });
+
+    // 2. Cerchio Unitario (tratto a mano)
+    rc.circle(centerX, centerY, radius * 2, {
+      stroke: '#a8a29e',
+      strokeWidth: 1.5,
+      strokeLineDash: [6, 6],
+      roughness: 1.5,
+    });
+
+    // 3. Componente Immaginaria: sin(θ) (linea verticale tratteggiata rossa/terracotta)
+    rc.line(pointX, pointY, pointX, centerY, {
+      stroke: '#ef4444',
+      strokeWidth: 2,
+      strokeLineDash: [4, 4],
+      roughness: 1.2,
+    });
+
+    // 4. Componente Reale: cos(θ) (segmento blu orizzontale)
+    rc.line(centerX, centerY, pointX, centerY, {
+      stroke: '#3b82f6',
+      strokeWidth: 2.5,
+      roughness: 1.2,
+    });
+
+    // 5. Vettore Posizione e^(iθ)
+    rc.line(centerX, centerY, pointX, pointY, {
+      stroke: '#f5f5f4',
+      strokeWidth: 2.5,
+      roughness: 1.4,
+    });
+
+    // Punto del numero complesso sul cerchio
+    rc.circle(pointX, pointY, 8, {
+      fill: '#60a5fa',
+      fillStyle: 'solid',
+      stroke: '#f5f5f4',
+      strokeWidth: 1.5,
+    });
+
+    // Arco per l'angolo θ
+    rc.arc(centerX, centerY, 70, 70, -angle, 0, false, {
+      stroke: '#facc15',
+      strokeWidth: 2,
+      roughness: 1.2,
+    });
+
+    // 6. Testi ed etichette nel canvas (usando il font "Caveat")
+    ctx.font = '22px "Caveat", cursive';
+    ctx.fillStyle = '#e7e5e4';
+
+    // Etichette assi
+    ctx.fillText('Re (Reale)', width - 75, centerY + 25);
+    ctx.fillText('Im (Immaginario)', centerX - 45, 40);
+
+    // Etichetta Angolo θ
+    ctx.fillStyle = '#facc15';
+    ctx.fillText('θ', centerX + 45, centerY - 15);
+
+    // Etichetta del punto e^(iθ)
+    ctx.fillStyle = '#60a5fa';
+    ctx.font = '26px "Caveat", cursive';
+    ctx.fillText('e^(iθ) = cos(θ) + i·sin(θ)', pointX + 15, pointY - 10);
+
+    // Etichetta cos(θ)
+    ctx.fillStyle = '#60a5fa';
+    ctx.font = '22px "Caveat", cursive';
+    ctx.fillText('cos(θ)', centerX + (pointX - centerX) / 2 - 15, centerY + 25);
+
+    // Etichetta sin(θ)
+    ctx.fillStyle = '#ef4444';
+    ctx.fillText('i·sin(θ)', pointX + 10, centerY - (centerY - pointY) / 2);
+
+  }, []);
+
+  return (
+    <div className="w-full max-w-4xl p-4 sm:p-8 rounded-xl bg-[#1c1e26] border border-stone-700/50 shadow-2xl my-6">
+      <div className="text-stone-400 text-xl sm:text-2xl font-normal mb-2">
+        Teorema di Eulero · Rappresentazione sul piano complesso
+      </div>
+      <div className="w-full flex justify-center items-center py-2 overflow-x-auto">
+        <canvas ref={canvasRef} />
+      </div>
+      <div className="text-center text-stone-400 text-xl sm:text-2xl mt-4 font-hand">
+        Fig. — Identità di Eulero e componenti armoniche nel cerchio unitario.
+      </div>
+    </div>
+  );
+}
+~~~
+
+Il corpo del componente conserva la struttura e le impostazioni dell'esempio ricevuto. Le due assegnazioni di larghezza e altezza CSS sopra sono riportate come template literal JavaScript, come nel codice originale.
+
+### Come riutilizzare questo esempio senza trasformarlo in una regola
+
+Quando il soggetto è geometrico o matematico, si possono riprendere solo gli elementi pertinenti:
+
+- assi e frecce con Rough.js, senza pretendere che ogni segmento sia irregolare allo stesso modo;
+- circonferenze, archi e vettori con contorni leggermente imperfetti;
+- linee continue e tratteggiate per distinguere vettori, proiezioni e costruzioni ausiliarie;
+- una palette semantica in cui ogni colore identifica una grandezza, mantenendo contrasto sul pannello scuro;
+- annotazioni Caveat collocate vicino alla parte del disegno a cui si riferiscono.
+
+Il diagramma non impone che tutte le figure matematiche siano disegnate sul piano complesso, che usino gli stessi colori o che abbiano queste dimensioni: geometria, proporzioni, etichette, palette e densità vanno riprogettate per ogni contenuto.
+
+**Nota per l'adattamento TypeScript:** il codice ricevuto usa useRef(null). In un componente strettamente tipizzato conviene dichiarare il riferimento come useRef<HTMLCanvasElement>(null) e verificare i tipi restituiti da getContext; inoltre, in una versione destinata all'uso stabile, occorre gestire ridimensionamento e cleanup secondo il ciclo di vita React. Queste migliorie appartengono all'implementazione concreta, non cambiano il riferimento estetico.
+
+---
+
+## Indicazioni per ricreare e adattare lo stile
+
+I valori qui sotto sono **punti di partenza desunti dagli esempi**, non specifiche rigide. Scegli di volta in volta solo gli elementi utili alla figura:
+
+1. **Tratto a mano libera:** usa Rough.js per linee, cerchi, archi e contorni quando il soggetto beneficia dell'irregolarità. Negli esempi la roughness varia circa da 1.2 a 1.5; non occorre applicare lo stesso valore a tutte le forme.
+2. **Riempimenti:** usa hachure o cross-hatch quando serve una campitura disegnata. Il tratteggio può anche essere assente: il cerchio unitario, gli assi e i vettori dell'esempio di Eulero usano soprattutto linee semplici, tratteggiate o continue.
+3. **Gesso e accenti:** la base cromatica dell'esempio è #121319 / #1c1e26 con bianco crema #f5f5f4 e testo #e7e5e4. Gli accenti possono essere semantici e cambiare con il contenuto: blu #3b82f6 / #60a5fa, terracotta-rosso #ef4444 e giallo #facc15 compaiono nel diagramma di Eulero.
+4. **Scrittura:** Caveat è il riferimento manoscritto mostrato negli esempi. Dimensione e peso si scelgono in base alla quantità di etichette e alla scala della figura; un carattere sans-serif può restare più adatto ai controlli dell'interfaccia.
+5. **Superficie:** il pannello scuro #1c1e26, il fondo #121319, il bordo chiaro semitrasparente e l'ombra sono una possibile cornice. Non ogni figura deve avere una card o una cornice.
+6. **Canvas nitido:** per Canvas 2D, dimensiona il buffer interno in base a devicePixelRatio e mantieni separate dimensioni CSS e dimensioni fisiche del canvas. Ripristina il contesto correttamente quando ridisegni.
+7. **Layout e leggibilità:** scegli dimensioni, margini, orientamento delle etichette e rapporto d'aspetto in base al soggetto. Prevedi overflow orizzontale quando una figura larga non può essere compressa senza perdere leggibilità.
+
+### Uso nel progetto React / TypeScript
+
+Gli esempi sono prototipi autonomi e non installano né configurano automaticamente le librerie. Quando si decide di adottare questo stile in una figura reale:
+
+- verifica prima le dipendenze presenti in package.json; se Rough.js non è installato e la figura lo richiede, aggiungilo tramite il package manager e aggiorna il lockfile, senza copiare gli script CDN dell'HTML dimostrativo;
+- rendi disponibile Caveat secondo le scelte del progetto (font remoto o risorsa locale), mantenendo un fallback leggibile;
+- porta il disegno in un componente React isolato, usando useRef<HTMLCanvasElement>(null) e un effetto per inizializzare e ridisegnare il canvas;
+- gestisci cleanup, ridimensionamento, densità dello schermo e ridisegno quando cambiano i dati; evita di scalare ripetutamente il contesto senza ripristinarlo;
+- mantieni la logica del disegno separata dal contenitore e dal testo editoriale; non copiare tutto il documento HTML dimostrativo dentro il componente;
+- verifica contrasto, dimensioni e leggibilità su mobile e in entrambi i temi del sito. La variante lavagna scura può essere usata come superficie dedicata, senza forzare il tema globale dell'applicazione.
+
+Queste indicazioni non rendono lo stile obbligatorio: la decisione di usarlo, limitarlo a una figura o modificarlo resta editoriale e specifica del singolo intervento. Per ora la scheda è documentazione e raccolta di esempi, non un tema globale né una dipendenza installata.
