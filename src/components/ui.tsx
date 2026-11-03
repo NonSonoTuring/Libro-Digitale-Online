@@ -33,7 +33,7 @@ export function Ornament({ className }: { className?: string }) {
 }
 
 /* ------------------------------------------------------------------ */
-/*  Figura — la cornice cambia con la famiglia visiva                   */
+/*  Figura — cornice bianca uniforme, senza ombre                       */
 /* ------------------------------------------------------------------ */
 interface FigureProps {
   n: string;
@@ -55,14 +55,10 @@ export function Figure({ n, caption, children, className }: FigureProps) {
     >
       <div
         className={cn(
-          "relative",
-          style === "technical" && "grid-paper rounded-md border border-rule",
-          style === "solid" && "card-3d rounded-sm border border-ink/70 bg-paper-2",
-          style === "sketch" && "halftone-shadow rounded-sm border-[1.5px] border-ink/80 bg-paper-2",
+          "relative overflow-hidden rounded-sm border-2 border-white",
+          style === "technical" ? "grid-paper" : "bg-paper-2",
         )}
       >
-        {style === "technical" && <CornerMarks />}
-        {style === "sketch" && <SketchFrame />}
         <div className="relative overflow-hidden rounded-[inherit]">{children}</div>
       </div>
       <figcaption className="mt-3 flex gap-3 text-[13.5px] leading-relaxed text-ink-2">
@@ -72,36 +68,6 @@ export function Figure({ n, caption, children, className }: FigureProps) {
         <span>{caption}</span>
       </figcaption>
     </motion.figure>
-  );
-}
-
-function CornerMarks() {
-  const mark = "absolute w-3 h-3 border-accent/70 pointer-events-none";
-  return (
-    <>
-      <span className={cn(mark, "top-2 left-2 border-t border-l")} />
-      <span className={cn(mark, "top-2 right-2 border-t border-r")} />
-      <span className={cn(mark, "bottom-2 left-2 border-b border-l")} />
-      <span className={cn(mark, "bottom-2 right-2 border-b border-r")} />
-    </>
-  );
-}
-
-function SketchFrame() {
-  return (
-    <svg className="absolute inset-0 w-full h-full pointer-events-none" aria-hidden>
-      <rect
-        x="6"
-        y="6"
-        width="calc(100% - 12px)"
-        height="calc(100% - 12px)"
-        fill="none"
-        stroke="var(--ink)"
-        strokeWidth="1"
-        opacity="0.45"
-        style={{ filter: "url(#sketchy)" }}
-      />
-    </svg>
   );
 }
 

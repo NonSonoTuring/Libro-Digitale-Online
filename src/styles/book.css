@@ -234,40 +234,6 @@
     background-position: center center;
   }
 
-  /* 2. Ombre a retino — figure "sketchbook" (il quadro) */
-  .halftone-shadow {
-    position: relative;
-  }
-  .halftone-shadow::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    transform: translate(14px, 14px);
-    border-radius: inherit;
-    background-image: radial-gradient(circle, var(--ink) 1.1px, transparent 1.35px);
-    background-size: 7px 7px;
-    opacity: 0.4;
-    transition: transform 0.5s var(--ease-book);
-  }
-  .halftone-shadow:hover::before {
-    transform: translate(18px, 18px);
-  }
-
-  /* 3. Estrusione — figure "3D" (il cubo) */
-  .card-3d {
-    --ex: color-mix(in oklab, var(--accent) 70%, var(--paper));
-    box-shadow:
-      1px 1px 0 var(--ex),
-      2px 2px 0 var(--ex),
-      3px 3px 0 var(--ex),
-      4px 4px 0 var(--ex),
-      5px 5px 0 var(--ex),
-      6px 6px 0 var(--ex),
-      7px 7px 0 var(--ex),
-      8px 8px 0 var(--ex);
-  }
-
   /* ------------------------------------------------------- Controlli */
   input[type="range"] {
     -webkit-appearance: none;

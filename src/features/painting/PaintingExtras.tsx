@@ -1,7 +1,7 @@
 export function ValueScale() {
   return (
     <div className="my-6">
-      <div className="grid grid-cols-9 overflow-hidden rounded-md border border-rule">
+      <div className="grid grid-cols-9 overflow-hidden rounded-md border-2 border-white">
         {Array.from({ length: 9 }, (_, i) => (
           <div key={i} className="group relative aspect-[4/5]" style={{ background: `hsl(0 0% ${8 + i * 10.5}%)` }}>
             <span className="absolute bottom-1 left-0 right-0 text-center font-mono text-[10px] opacity-0 transition-opacity group-hover:opacity-100" style={{ color: i < 5 ? "#f0eae0" : "#1a1816" }}>
@@ -29,7 +29,7 @@ export function Palettes() {
   return (
     <div className="my-7 grid gap-4 sm:grid-cols-3">
       {PALETTES.map((p) => (
-        <div key={p.name} className="rounded-md border border-rule bg-paper p-4 halftone-shadow">
+        <div key={p.name} className="rounded-md border border-rule bg-paper p-4">
           <div className="font-display font-semibold">{p.name}</div>
           <div className="font-mono text-[10.5px] uppercase tracking-wider text-ink-3">{p.note}</div>
           <div className="mt-3 flex gap-1.5">

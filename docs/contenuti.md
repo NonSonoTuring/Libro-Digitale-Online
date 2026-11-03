@@ -101,9 +101,11 @@ Per applicare lo standard, assegna all'immagine la classe `chapter-figure-image`
 - altezza massima: 480 px;
 - proporzioni originali sempre mantenute, senza deformare né ritagliare l'opera;
 - immagine centrata nella figura;
+- cornice bianca continua da **2 px**, applicata dal contenitore condiviso `<Figure>`;
+- nessuna ombra esterna: niente ombre a puntini, estrusioni, `box-shadow` o `drop-shadow`;
 - su schermi stretti si riduce automaticamente alla larghezza disponibile.
 
-Non impostare `width: 100%` inline e non assegnare larghezze o altezze fisse nel singolo MDX: la regola condivisa si trova in `src/styles/home.css`. La classe va usata per tutte le immagini statiche dentro `<Figure>`; i componenti interattivi (per esempio `<Painting />`) gestiscono invece autonomamente il proprio riquadro.
+Non impostare `width: 100%` inline e non assegnare larghezze o altezze fisse nel singolo MDX: la regola dimensionale condivisa si trova in `src/styles/home.css`, mentre la cornice è applicata dal componente `<Figure>` in `src/components/ui.tsx`. La classe va usata per tutte le immagini statiche dentro `<Figure>`; i componenti interattivi (per esempio `<Painting />`) ricevono la stessa cornice dal contenitore comune. I puntini presenti dentro una visualizzazione possono restare soltanto quando descrivono il fenomeno studiato, mai come ombra attorno all'immagine.
 
 **Immagine statica dentro un capitolo**
 

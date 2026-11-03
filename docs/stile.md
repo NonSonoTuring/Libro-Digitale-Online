@@ -41,7 +41,7 @@ La grana è applicata tramite la classe `.grain` sul wrapper a tutta larghezza d
 - `pointer-events: none`, quindi il livello non intercetta clic, focus o interazioni;
 - come nell'esempio originale, la texture è attiva in entrambi i temi; in modalità chiara l'effetto è più delicato.
 
-La grana globale non va confusa con `.halftone-shadow::before`: quest'ultimo è un retino locale a puntini usato come ombra decorativa su alcune figure e palette, e resta indipendente dalla texture uniforme di sfondo. La grana globale non va replicata aggiungendo filtri a ogni singola pagina o componente.
+La grana globale resta una texture di sfondo e non deve mai diventare un'ombra applicata alle immagini. Le vecchie ombre decorative a puntini e le estrusioni colorate non vengono usate sulle figure dei capitoli. I puntini possono comparire dentro un diagramma soltanto quando rappresentano il fenomeno spiegato (per esempio il retino tipografico), non come decorazione dietro o attorno all'immagine.
 
 ## Regole di estensione
 
@@ -50,6 +50,16 @@ La grana globale non va confusa con `.halftone-shadow::before`: quest'ultimo è 
 - Per testo e bordi, usare `--ink`, `--ink-2`, `--ink-3` e `--rule`.
 - Non applicare la palette carbone alle illustrazioni che hanno un proprio sfondo didattico o una palette semantica, a meno che la figura non debba adattarsi esplicitamente al tema.
 - La modalità scura resta una scelta dell'utente e non modifica i colori del tema chiaro.
+
+---
+
+## Cornice uniforme delle immagini nei capitoli
+
+Tutte le figure dei capitoli, statiche o interattive, devono avere una **cornice bianca continua da 2 px** e non devono avere ombre. Il componente condiviso `<Figure>` applica la stessa cornice a grafici, SVG, canvas e immagini, indipendentemente dallo stile del corso. La cornice deve restare bianca anche in modalità scura.
+
+Non usare sulle immagini o sui loro contenitori `box-shadow`, `drop-shadow`, ombre a puntini, retini decorativi esterni, estrusioni o pseudoelementi che simulano un'ombra. Sono quindi esclusi gli effetti `.halftone-shadow` e `.card-3d`. La grana globale della pagina resta sullo sfondo e non modifica le immagini.
+
+I puntini o i tratteggi interni all'illustrazione sono ammessi soltanto quando costituiscono il contenuto didattico (per esempio la retinatura di un'ombra); non devono essere usati come ombra esterna della figura. Gli elementi autonomi non racchiusi in `<Figure>`, come la scala dei valori e le tavolozze, seguono la stessa regola della cornice bianca e dell'assenza di ombre.
 
 ---
 
