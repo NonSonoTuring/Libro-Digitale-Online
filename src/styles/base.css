@@ -1,7 +1,7 @@
 @layer base {
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; scrollbar-gutter: stable; }
-  body { margin: 0; background: var(--desk); color: var(--ink); font-family: var(--font-body); font-feature-settings: "kern", "liga", "onum", "pnum"; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;; }
+  body { margin: 0; background: var(--desk); color: var(--ink); font-family: var(--font-body); font-feature-settings: "kern", "liga", "onum", "pnum"; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
   button { font: inherit; color: inherit; cursor: pointer; }
   img { display: block; max-width: 100%; }
   ::selection { background: color-mix(in oklab, var(--accent) 28%, transparent); }
