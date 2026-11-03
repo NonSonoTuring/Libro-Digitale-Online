@@ -1,0 +1,149 @@
+<section className="book-section" id="sec-indirizzi">
+
+<h2>Indirizzi e dereferenziazione</h2>
+
+<p>
+  Un puntatore è un oggetto che può contenere l'indirizzo di un altro oggetto o la rappresentazione di un puntatore nullo. L'operatore <strong>&amp;</strong> produce l'indirizzo di un oggetto; l'operatore <strong>*</strong>, quando applicato a un puntatore valido, accede all'oggetto puntato. Il tipo del puntatore indica come interpretare l'oggetto raggiunto.
+</p>
+
+```c
+int temperatura = 18;
+int *p = &temperatura;
+
+*p = 21;              /* modifica temperatura */
+printf("%d\n", temperatura);
+```
+
+<Definition term="Dereferenziazione">
+  <p>È l'accesso all'oggetto designato da un puntatore tramite l'operatore *. La dereferenziazione è valida soltanto quando il puntatore identifica un oggetto vivo del tipo compatibile e correttamente allineato. Un puntatore non inizializzato o nullo non può essere dereferenziato.</p>
+</Definition>
+
+<p>
+  Il puntatore nullo si scrive <strong>NULL</strong> e rappresenta l'assenza di un oggetto associato. Prima di usare un puntatore opzionale, si controlla che non sia NULL. Il fatto che un indirizzo sembri plausibile non dimostra che la memoria sia accessibile.
+</p>
+
+</section>
+
+<section className="book-section" id="sec-array-puntatori">
+
+<h2>Puntatori e array</h2>
+
+<p>
+  In molte espressioni un array viene convertito in un puntatore al suo primo elemento. Questa relazione spiega perché una funzione può ricevere un array come puntatore, ma non significa che array e puntatore siano la stessa cosa: l'array possiede il proprio spazio per gli elementi; il puntatore è un oggetto separato che conserva un indirizzo.
+</p>
+
+```c
+int valori[] = { 4, 8, 15, 16 };
+int *inizio = valori;
+
+printf("%d\n", inizio[2]);  /* 15 */
+printf("%d\n", *(inizio + 1)); /* 8 */
+```
+
+<p>
+  L'aritmetica dei puntatori è definita entro lo stesso array: aggiungere uno sposta al prossimo elemento del tipo puntato. Si può formare un puntatore alla posizione immediatamente successiva all'ultimo elemento, utile come limite finale, ma non lo si può dereferenziare. Sottrarre due puntatori è valido se appartengono allo stesso array, e il risultato è una differenza in elementi.
+</p>
+
+<Note title="Non confondere indirizzo e contenuto">
+  <p>Se p è un puntatore a int, p è l'indirizzo; *p è l'intero contenuto in quell'indirizzo; &amp;p è l'indirizzo della variabile puntatore stessa. Sono tre livelli diversi.</p>
+</Note>
+
+</section>
+
+<section className="book-section" id="sec-laboratorio">
+
+<h2>Un puntatore sotto osservazione</h2>
+
+<p>
+  Nel laboratorio, due variabili occupano due celle simboliche. Il puntatore p seleziona una delle due; modificare *p cambia il contenuto della cella selezionata, mentre spostare p non copia né sposta gli oggetti. Le etichette degli indirizzi sono illustrative e non corrispondono agli indirizzi di una macchina reale.
+</p>
+
+<Figure n="4.1" caption={<>Seleziona la cella a cui punta p, poi modifica il valore attraverso *p. Osserva la differenza tra cambiare il puntatore e cambiare l'oggetto.</>}>
+  <MemoryLab />
+</Figure>
+
+<p>
+  Leggi l'espressione da sinistra a destra: <strong>int *p</strong> dichiara p come puntatore a int; <strong>p = &amp;b</strong> fa sì che p designi b; <strong>*p = 40</strong> scrive 40 nell'oggetto designato. Il simbolo * nella dichiarazione indica un tipo puntatore; nella seconda espressione è l'operatore di dereferenziazione.
+</p>
+
+</section>
+
+<section className="book-section" id="sec-dinamica">
+
+<h2>Memoria dinamica</h2>
+
+<p>
+  Gli array locali hanno una durata legata al blocco che li contiene. Quando la dimensione dei dati si conosce soltanto durante l'esecuzione, si può richiedere memoria dinamica alla libreria standard. <strong>malloc</strong> alloca un blocco di byte; <strong>calloc</strong> alloca un insieme di elementi inizializzati a zero; <strong>realloc</strong> tenta di ridimensionare un blocco; <strong>free</strong> rilascia la memoria.
+</p>
+
+```c
+#include <stdio.h>
+#include <stdlib.h>
+
+int main(void)
+{
+    size_t n = 5;
+    int *valori = malloc(n * sizeof *valori);
+
+    if (valori == NULL) {
+        return 1;
+    }
+
+    for (size_t i = 0; i < n; ++i) {
+        valori[i] = (int)i * 10;
+    }
+
+    printf("%d\n", valori[3]);
+    free(valori);
+    valori = NULL;
+    return 0;
+}
+```
+
+<p>
+  <strong>sizeof *valori</strong> segue il tipo dell'oggetto puntato: se il tipo cambia, il calcolo della dimensione si aggiorna. Il cast del risultato di malloc non è necessario in C. Verificare NULL è obbligatorio prima di usare il blocco. Dopo free, il puntatore non designa più un oggetto utilizzabile: assegnargli NULL evita almeno di riutilizzare per sbaglio lo stesso valore attraverso quella variabile.
+</p>
+
+<Example title="Ridimensionare senza perdere l'indirizzo originale">
+  <p>
+    Per realloc è prudente usare un puntatore temporaneo: se l'allocazione fallisce, il blocco originale resta valido. Solo dopo il successo si assegna il nuovo indirizzo al puntatore proprietario. Prima di calcolare n * sizeof(T), si controlla anche che la moltiplicazione non superi SIZE_MAX.
+  </p>
+</Example>
+
+</section>
+
+<section className="book-section" id="sec-durata">
+
+<h2>Durata degli oggetti e sicurezza</h2>
+
+<p>
+  Oggetti automatici, statici e allocati dinamicamente hanno durate diverse. Un oggetto automatico locale termina quando il flusso esce dal blocco; un oggetto statico vive per tutta l'esecuzione; un blocco allocato dinamicamente resta disponibile finché non viene rilasciato. Restituire l'indirizzo di una variabile automatica locale crea un puntatore pendente: la funzione è terminata e l'oggetto non esiste più.
+</p>
+
+<p>
+  Gli errori di memoria più comuni sono: dereferenziare NULL, leggere memoria non inizializzata, oltrepassare un array, usare un blocco dopo free, liberarlo due volte o dimenticare di liberarlo. Sono difetti che possono produrre crash, corruzione dei dati o vulnerabilità. Il compilatore non li elimina tutti: servono disciplina, test e strumenti diagnostici.
+</p>
+
+<DataTable
+  head={["Rischio", "Regola pratica"]}
+  numeric={false}
+  rows={[
+    ["Accesso fuori limite", "Controlla sempre indice e capacità"],
+    ["Use-after-free", "Non usare un oggetto dopo free"],
+    ["Double free", "Ogni blocco va rilasciato una sola volta"],
+    ["Memory leak", "Ogni percorso di uscita deve gestire la proprietà"],
+    ["Puntatore non inizializzato", "Inizializza a NULL o a un indirizzo valido"],
+  ]}
+/>
+
+<p>
+  Per debug e test si possono usare AddressSanitizer e UndefinedBehaviorSanitizer con GCC o Clang, oltre a strumenti di analisi della memoria. Compilare con avvisi attivi, testare casi limite e mantenere chiaro chi possiede ogni blocco sono pratiche fondamentali.
+</p>
+
+</section>
+
+<Takeaways items={["& produce un indirizzo; * accede all'oggetto designato.","Un puntatore nullo o non inizializzato non può essere dereferenziato.","L'aritmetica dei puntatori resta entro i limiti dello stesso array.","Ogni allocazione dinamica richiede un controllo e una strategia di rilascio."]} />
+<Quiz items={[
+  {"question":"Che cosa modifica l'istruzione *p = 21?","options":["L'indirizzo contenuto in p","L'oggetto puntato da p","Il tipo del puntatore"],"answer":1,"explanation":"La dereferenziazione raggiunge l'oggetto designato dal puntatore."},
+  {"question":"Che cosa bisogna fare dopo una malloc riuscita quando il blocco non serve più?","options":["Usare delete","Chiamare free","Assegnare 0 a ogni byte"],"answer":1,"explanation":"La memoria ottenuta dalla famiglia malloc va rilasciata con free."}
+]} />

@@ -1,0 +1,158 @@
+<section className="book-section" id="sec-funzioni">
+
+<h2>Progettare con le funzioni</h2>
+
+<p>
+  Una funzione dà un nome a un'operazione, definisce quali dati riceve e quale risultato restituisce. Scomporre un programma in funzioni riduce la quantità di dettagli da tenere a mente e permette di verificare ogni parte separatamente. La dichiarazione anticipata, detta <strong>prototipo</strong>, comunica al compilatore tipo restituito e parametri.
+</p>
+
+```c
+#include <stdio.h>
+
+int massimo(int a, int b);
+
+int main(void)
+{
+    printf("%d\n", massimo(7, 4));
+    return 0;
+}
+
+int massimo(int a, int b)
+{
+    return (a > b) ? a : b;
+}
+```
+
+<p>
+  I parametri di C sono passati <strong>per valore</strong>: la funzione riceve una copia del valore. Modificare il parametro locale non cambia la variabile del chiamante. Per consentire a una funzione di modificare un oggetto esterno, si passa il suo indirizzo tramite un puntatore, argomento del capitolo successivo.
+</p>
+
+<Note title="Una funzione, una responsabilità">
+  <p>Una funzione ben progettata ha un compito riconoscibile, parametri espliciti e un risultato o un effetto documentato. Evita dipendenze nascoste da variabili globali: rendono più difficile capire da dove arrivano i dati e chi può modificarli.</p>
+</Note>
+
+</section>
+
+<section className="book-section" id="sec-array">
+
+<h2>Array e indici</h2>
+
+<p>
+  Un array contiene un numero fisso di elementi dello stesso tipo, memorizzati in posizioni contigue. Se la lunghezza è n, gli indici validi vanno da zero a n - 1. Il linguaggio non controlla automaticamente che un indice resti entro i limiti: l'accesso fuori dall'array produce comportamento indefinito.
+</p>
+
+```c
+#include <stddef.h>
+
+double media(const int valori[], size_t n)
+{
+    if (n == 0) {
+        return 0.0;
+    }
+
+    long somma = 0;
+    for (size_t i = 0; i < n; ++i) {
+        somma += valori[i];
+    }
+
+    return (double)somma / (double)n;
+}
+```
+
+<p>
+  La funzione riceve anche la lunghezza perché l'array non la porta con sé quando viene passato come argomento. Nella dichiarazione di un parametro, <strong>const int valori[]</strong> viene aggiustato a un puntatore a int const: non è una copia dell'intero array e la funzione non deve modificare gli elementi attraverso quel parametro.
+</p>
+
+<p>
+  <strong>sizeof array / sizeof array[0]</strong> calcola il numero di elementi soltanto quando array è ancora un array visibile nel punto dell'espressione, non quando è un parametro già trasformato in puntatore. Separare sempre puntatore e lunghezza rende l'interfaccia esplicita.
+</p>
+
+</section>
+
+<section className="book-section" id="sec-stringhe">
+
+<h2>Stringhe come sequenze di char</h2>
+
+<p>
+  C non ha un tipo stringa integrato. Una stringa è una sequenza di char che termina con il carattere nullo <strong>'\0'</strong>. Questo terminatore è parte dello spazio richiesto: per memorizzare cinque lettere serve un array di almeno sei char.
+</p>
+
+```c
+#include <stdio.h>
+#include <string.h>
+
+int main(void)
+{
+    char nome[32];
+
+    printf("Nome: ");
+    if (fgets(nome, sizeof nome, stdin) == NULL) {
+        return 1;
+    }
+
+    nome[strcspn(nome, "\n")] = '\0';
+    printf("Ciao, %s!\n", nome);
+    return 0;
+}
+```
+
+<p>
+  <strong>fgets</strong> legge al massimo la capacità indicata meno uno, lasciando spazio al terminatore; può conservare il newline se entra nel buffer. La funzione <strong>strcspn</strong> individua la prima occorrenza di un carattere presente nella seconda stringa: qui permette di sostituire il newline con il terminatore nullo. Se la riga è più lunga del buffer, resta input da consumare e va gestito esplicitamente.
+</p>
+
+<DataTable
+  head={["Funzione", "Header", "Scopo"]}
+  numeric={false}
+  rows={[
+    ["strlen(s)", "string.h", "Lunghezza escluso il terminatore"],
+    ["strcmp(a, b)", "string.h", "Confronto lessicografico"],
+    ["strchr(s, c)", "string.h", "Cerca un carattere"],
+    ["snprintf(dst, n, ...)", "stdio.h", "Scrive con limite di capacità"],
+  ]}
+  caption="Funzioni comuni sulle stringhe. strcmp restituisce un valore negativo, zero o positivo: non necessariamente -1, 0 o 1."
+/>
+
+<p>
+  Non confrontare stringhe con <strong>==</strong>: confronta gli indirizzi, non il contenuto. Usa <strong>strcmp(a, b) == 0</strong>. Prima di copiare o concatenare, verifica la capacità del buffer di destinazione; spesso snprintf offre un controllo più chiaro rispetto a funzioni senza limite.
+</p>
+
+</section>
+
+<section className="book-section" id="sec-parametri">
+
+<h2>Passare dati alle funzioni</h2>
+
+<p>
+  Il passaggio per valore non impedisce di lavorare su array o oggetti grandi: si può passare il puntatore al primo elemento e la lunghezza. Per non modificare il contenuto, il parametro si dichiara const. Quando una funzione deve aggiornare un risultato, il contratto può prevedere un puntatore di uscita e un valore restituito che segnali successo o fallimento.
+</p>
+
+```c
+#include <stddef.h>
+
+int cerca(const int dati[], size_t n, int obiettivo, size_t *posizione)
+{
+    for (size_t i = 0; i < n; ++i) {
+        if (dati[i] == obiettivo) {
+            *posizione = i;
+            return 1;
+        }
+    }
+    return 0;
+}
+```
+
+<p>
+  Il chiamante passa <strong>&amp;posizione</strong>; la funzione scrive il risultato attraverso il puntatore solo quando la ricerca riesce. È importante documentare se un parametro può essere nullo, se viene letto o modificato e chi possiede la memoria. Il tipo del puntatore non comunica da solo la lunghezza dell'array.
+</p>
+
+<p>
+  In un programma più grande, dichiarazioni condivise e prototipi si collocano in un file header, per esempio <strong>ricerca.h</strong>, mentre le definizioni risiedono in un file sorgente. Le guardie <strong>#ifndef</strong>, <strong>#define</strong> e <strong>#endif</strong> impediscono inclusioni ripetute dello stesso header.
+</p>
+
+</section>
+
+<Takeaways items={["Le funzioni hanno parametri e risultati espliciti; C passa gli argomenti per valore.","Gli array sono sequenze contigue indicizzate da zero e non controllano i limiti.","Una stringa C termina con '\\0'; serve spazio anche per il terminatore.","Per confrontare stringhe si usa strcmp, non l'operatore ==."]} />
+<Quiz items={[
+  {"question":"Quale indice è l'ultimo valido per un array di 8 elementi?","options":["8","7","9"],"answer":1,"explanation":"Gli indici partono da zero: l'ultimo è 8 - 1."},
+  {"question":"Come si confronta il contenuto di due stringhe C?","options":["a == b","strcmp(a, b) == 0","sizeof(a) == sizeof(b)"],"answer":1,"explanation":"strcmp confronta i caratteri fino alla differenza o al terminatore."}
+]} />

@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 1400">
+  <defs>
+    <pattern id="grid" width="35" height="35" patternUnits="userSpaceOnUse">
+      <path d="M35 0H0V35" fill="none" stroke="#80a69c" stroke-opacity=".18" stroke-width="1"/>
+    </pattern>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#17211f"/>
+      <stop offset="1" stop-color="#243b36"/>
+    </linearGradient>
+  </defs>
+  <rect width="700" height="1400" fill="url(#bg)"/>
+  <rect width="700" height="1400" fill="url(#grid)"/>
+  <path d="M80 100H620V1300H80Z" fill="none" stroke="#b9cec4" stroke-opacity=".25" stroke-width="2"/>
+  <g font-family="monospace" fill="#b8d2c5">
+    <text x="124" y="180" font-size="22" letter-spacing="5">PROGRAMMAZIONE</text>
+    <text x="124" y="220" font-size="16" letter-spacing="3" fill="#9bb3a8">SORGENTE / COMPILAZIONE / MEMORIA</text>
+  </g>
+  <circle cx="350" cy="570" r="212" fill="#284a42" stroke="#75b6a4" stroke-width="3"/>
+  <circle cx="350" cy="570" r="174" fill="none" stroke="#d0a477" stroke-width="2" stroke-dasharray="6 14"/>
+  <text x="350" y="660" text-anchor="middle" font-family="Georgia,serif" font-size="300" font-weight="bold" fill="#d9e6dc">C</text>
+  <g stroke="#78b8a7" stroke-width="3" fill="none">
+    <path d="M140 860H560"/>
+    <path d="M140 900H470"/>
+    <path d="M140 940H520"/>
+    <path d="M140 980H390"/>
+    <path d="M140 1020H548"/>
+  </g>
+  <g font-family="monospace" font-size="22">
+    <text x="140" y="1120" fill="#d7b18a">int main(void)</text>
+    <text x="140" y="1164" fill="#b8d2c5">{ return 0; }</text>
+    <text x="140" y="1244" fill="#d7b18a">int *p = &amp;dato;</text>
+  </g>
+  <path d="M480 1125L570 1125L570 1205" stroke="#d0a477" stroke-width="3" fill="none"/>
+  <circle cx="570" cy="1205" r="9" fill="#d0a477"/>
+  <text x="350" y="1344" text-anchor="middle" font-family="monospace" font-size="18" letter-spacing="6" fill="#b8d2c5">DAL SORGENTE ALLA MEMORIA</text>
+</svg>

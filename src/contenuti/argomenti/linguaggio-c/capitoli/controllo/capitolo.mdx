@@ -1,0 +1,136 @@
+<section className="book-section" id="sec-numeri">
+
+<h2>Numeri, caratteri e conversioni</h2>
+
+<p>
+  Gli interi non sono tutti equivalenti. <strong>signed</strong> consente valori negativi; <strong>unsigned</strong> rappresenta valori non negativi secondo aritmetica modulare. I tipi <strong>short</strong>, <strong>int</strong>, <strong>long</strong> e <strong>long long</strong> esprimono intervalli minimi garantiti dallo standard, ma la loro dimensione in byte può cambiare tra piattaforme. Quando serve una larghezza precisa si possono usare, se disponibili, i tipi di <strong>stdint.h</strong>, come <strong>int32_t</strong>.
+</p>
+
+<p>
+  I tipi floating point, soprattutto <strong>float</strong> e <strong>double</strong>, approssimano i numeri reali. Molte frazioni decimali non hanno una rappresentazione binaria esatta: confrontare due risultati con l'uguaglianza diretta può quindi essere fragile. Per test numerici si valuta spesso la distanza fra i valori rispetto a una tolleranza adatta al problema.
+</p>
+
+<Example title="Divisione intera">
+  <p>
+    Se entrambi gli operandi sono interi, <strong>7 / 2</strong> produce 3: la parte frazionaria viene eliminata verso zero. Scrivere <strong>7.0 / 2</strong> introduce un operando floating point e il risultato è 3.5. Il tipo degli operandi influenza il significato dell'operazione.
+  </p>
+</Example>
+
+<p>
+  Le conversioni implicite seguono regole di promozione e conversione usuale. Rendere esplicito un cast, per esempio <strong>(double) somma / conteggio</strong>, chiarisce l'intenzione, ma non rende sicura una conversione fuori dall'intervallo del tipo di destinazione. Con i tipi unsigned, sottrarre un valore più grande da uno più piccolo produce un riavvolgimento modulare, non un numero negativo.
+</p>
+
+</section>
+
+<section className="book-section" id="sec-operatori">
+
+<h2>Operatori ed espressioni</h2>
+
+<p>
+  C offre operatori aritmetici, relazionali e logici. La precedenza stabilisce in quale ordine si raggruppano le operazioni; le parentesi rendono esplicita la lettura e riducono gli errori. L'operatore <strong>%</strong> calcola il resto della divisione tra interi; <strong>==</strong> confronta due valori, mentre <strong>=</strong> assegna.
+</p>
+
+```c
+int x = 8;
+int y = 3;
+
+int somma = x + y;
+int resto = x % y;
+int pari = (x % 2) == 0;
+
+if (x > 0 && y > 0) {
+    printf("Entrambi positivi\n");
+}
+```
+
+<p>
+  Gli operatori logici <strong>&amp;&amp;</strong> e <strong>||</strong> valutano da sinistra verso destra con <em>cortocircuito</em>: se il primo operando basta a determinare il risultato, il secondo non viene valutato. È utile per proteggere un accesso, come <strong>p != NULL &amp;&amp; *p &gt; 0</strong>. Gli operatori bit a bit <strong>&amp;</strong>, <strong>|</strong> e <strong>^</strong> lavorano invece sulla rappresentazione intera e non sostituiscono gli operatori logici.
+</p>
+
+<Note title="Overflow signed">
+  <p>
+    Il superamento dell'intervallo di un intero signed ha comportamento indefinito in C. Non fare affidamento sul fatto che il valore «torni negativo» o riparta da zero. Per calcoli che possono eccedere i limiti, controlla prima l'operazione o scegli una rappresentazione adeguata.
+  </p>
+</Note>
+
+</section>
+
+<section className="book-section" id="sec-selezione">
+
+<h2>Selezione: if e switch</h2>
+
+<p>
+  <strong>if</strong> esegue un blocco se la condizione è diversa da zero; <strong>else</strong> gestisce il caso alternativo. Le graffe sono consigliate anche quando il blocco contiene una sola istruzione: mantengono chiaro il perimetro e rendono più sicure le modifiche successive.
+</p>
+
+```c
+if (voto >= 18) {
+    puts("Esame superato");
+} else {
+    puts("Esame non superato");
+}
+```
+
+<p>
+  <strong>switch</strong> è adatto a selezionare tra casi discreti di un'espressione intera o enumerata. Ogni <strong>case</strong> continua nel successivo se non si interrompe esplicitamente il flusso. Il <strong>break</strong> evita il passaggio involontario al caso seguente; <strong>default</strong> raccoglie i valori non elencati.
+</p>
+
+```c
+switch (comando) {
+    case 1:
+        puts("Apri");
+        break;
+    case 2:
+        puts("Salva");
+        break;
+    default:
+        puts("Comando sconosciuto");
+        break;
+}
+```
+
+<p>
+  Una condizione complessa va divisa quando contiene più decisioni indipendenti. Dare nomi intermedi a condizioni significative spesso rende il codice più leggibile di una singola espressione molto lunga.
+</p>
+
+</section>
+
+<section className="book-section" id="sec-iterazione">
+
+<h2>Iterazione: while e for</h2>
+
+<p>
+  Un ciclo ripete un blocco finché una condizione resta vera. <strong>while</strong> controlla prima di entrare; <strong>do ... while</strong> controlla dopo e quindi esegue almeno una volta; <strong>for</strong> raccoglie inizializzazione, condizione e aggiornamento in un'unica intestazione.
+</p>
+
+```c
+int somma = 0;
+
+for (int i = 1; i <= 5; ++i) {
+    somma += i;
+}
+
+printf("Somma: %d\n", somma);
+```
+
+<p>
+  La variabile <strong>i</strong> è dichiarata nell'intestazione e il suo ambito termina con il ciclo. L'operatore <strong>++i</strong> incrementa prima di produrre il valore dell'espressione; in questa istruzione isolata, <strong>i++</strong> darebbe lo stesso effetto osservabile. Non modificare più volte la stessa variabile in un'espressione se l'ordine degli effetti non è chiaro.
+</p>
+
+<p>
+  Un ciclo deve avere una condizione di terminazione raggiungibile. Gli indici partono spesso da zero e l'ultima posizione di un array di lunghezza n è n - 1: usare <strong>i &lt; n</strong> evita l'accesso all'elemento successivo al limite. Cicli infiniti possono essere intenzionali, ma devono offrire una condizione di uscita o una gestione degli eventi.
+</p>
+
+<Definition term="Invariante di ciclo">
+  <p>
+    È una proprietà che rimane vera prima e dopo ogni iterazione. Per esempio, mentre si sommano i primi i elementi di un array, la variabile somma contiene esattamente la somma degli elementi già visitati. È uno strumento semplice per ragionare sulla correttezza.
+  </p>
+</Definition>
+
+</section>
+
+<Takeaways items={["Il tipo degli operandi determina conversioni e risultato: 7 / 2 vale 3.","Parentesi e nomi intermedi rendono le espressioni più leggibili.","if e switch selezionano un ramo; break evita il fall-through in switch.","Progetta i cicli attorno a una condizione di terminazione e a limiti corretti."]} />
+<Quiz items={[
+  {"question":"Quanto vale 7 / 2 se entrambi gli operandi sono int?","options":["3","3.5","4"],"answer":0,"explanation":"La divisione intera elimina la parte frazionaria verso zero."},
+  {"question":"Quale operatore logico valuta il secondo operando solo se necessario?","options":["&","&&","+"],"answer":1,"explanation":"&& usa il cortocircuito: se il primo operando è falso, il secondo non viene valutato."}
+]} />

@@ -1,0 +1,156 @@
+<section className="book-section" id="sec-struct">
+
+<h2>struct, enum e typedef</h2>
+
+<p>
+  Un array raccoglie elementi tutti dello stesso tipo; una <strong>struct</strong> raggruppa invece membri anche diversi sotto un unico oggetto. È utile quando più valori descrivono la stessa entità: un punto, una persona, una misura o un record.
+</p>
+
+```c
+struct Punto {
+    double x;
+    double y;
+};
+
+struct Punto origine = { .x = 0.0, .y = 0.0 };
+origine.x = 2.5;
+```
+
+<p>
+  L'operatore punto accede al membro di una struttura; con un puntatore a struttura si usa <strong>-&gt;</strong>, equivalente a dereferenziare e poi selezionare il membro. L'implementazione può inserire padding tra i membri per rispettare i requisiti di allineamento: non assumere che la dimensione della struct sia la semplice somma delle dimensioni dei campi.
+</p>
+
+<p>
+  <strong>enum</strong> definisce un insieme di costanti intere con nomi; <strong>typedef</strong> introduce un alias di tipo. Non crea un tipo completamente nuovo, ma può rendere le dichiarazioni più chiare.
+</p>
+
+```c
+typedef enum {
+    SPENTO,
+    ACCESO,
+    IN_ERRORE
+} Stato;
+
+typedef struct {
+    const char *nome;
+    Stato stato;
+} Dispositivo;
+```
+
+</section>
+
+<section className="book-section" id="sec-collezioni">
+
+<h2>Collezioni di dati</h2>
+
+<p>
+  Un array di strutture rappresenta una collezione omogenea di record. La dimensione dell'array e il numero di elementi effettivamente usati sono due informazioni distinte: il programma deve conservarle entrambe e rispettare la capacità.
+</p>
+
+```c
+typedef struct {
+    int codice;
+    double prezzo;
+} Prodotto;
+
+double valore_totale(const Prodotto prodotti[], size_t n)
+{
+    double totale = 0.0;
+    for (size_t i = 0; i < n; ++i) {
+        totale += prodotti[i].prezzo;
+    }
+    return totale;
+}
+```
+
+<p>
+  Passare una struct per valore copia tutti i suoi membri; passarne l'indirizzo evita la copia e consente eventualmente di modificarla. Quando la funzione deve soltanto leggere una struttura, una firma come <strong>const Prodotto *p</strong> comunica l'intenzione. Per una collezione, si passa anche il numero di elementi.
+</p>
+
+<p>
+  Se una struct contiene un puntatore, copiarla copia il puntatore, non il blocco a cui punta. Due struct possono quindi riferirsi alla stessa memoria. Prima di copiare oggetti che possiedono risorse dinamiche, bisogna decidere se la copia è superficiale o profonda e chi ne gestisce la proprietà.
+</p>
+
+<Note title="Il tipo non sostituisce l'invariante">
+  <p>Una struct può contenere campi coerenti soltanto quando il programma li aggiorna insieme. Per esempio, un buffer dinamico richiede puntatore, numero di elementi e capacità: mantenere questi valori sincronizzati è responsabilità delle funzioni che lo modificano.</p>
+</Note>
+
+</section>
+
+<section className="book-section" id="sec-file">
+
+<h2>Leggere e scrivere file</h2>
+
+<p>
+  La libreria standard espone i file attraverso <strong>FILE *</strong>. <strong>fopen</strong> apre un percorso in una modalità: <strong>"r"</strong> per leggere, <strong>"w"</strong> per creare o troncare un file, <strong>"a"</strong> per aggiungere in coda. Se l'apertura fallisce, restituisce NULL. Le operazioni successive vanno controllate e ogni file aperto va chiuso con <strong>fclose</strong>.
+</p>
+
+```c
+#include <stdio.h>
+
+int main(void)
+{
+    FILE *file = fopen("risultati.txt", "w");
+    if (file == NULL) {
+        perror("risultati.txt");
+        return 1;
+    }
+
+    if (fprintf(file, "C17\n") < 0) {
+        perror("scrittura");
+        fclose(file);
+        return 1;
+    }
+
+    if (fclose(file) == EOF) {
+        perror("chiusura");
+        return 1;
+    }
+
+    return 0;
+}
+```
+
+<p>
+  Per leggere testo riga per riga si può usare <strong>fgets</strong> con un buffer di capacità nota. Per distinguere la fine del file da un errore, controlla <strong>feof</strong> e <strong>ferror</strong> dopo che una lettura non ha prodotto dati. Per dati strutturati, un formato testuale delimitato e documentato è spesso più ispezionabile di una scrittura binaria grezza della struct, il cui layout può variare tra implementazioni.
+</p>
+
+<Note title="Non fidarti del percorso o del contenuto">
+  <p>Un file può non esistere, essere privo di permessi o contenere dati malformati. Verifica il risultato di fopen, fgets, fprintf e fclose; valida i valori letti prima di usarli. Il contenuto esterno è input, non un dato già affidabile.</p>
+</Note>
+
+</section>
+
+<section className="book-section" id="sec-organizzazione">
+
+<h2>Organizzare un programma robusto</h2>
+
+<p>
+  Un progetto cresce meglio quando divide interfaccia e implementazione. Un header dichiara tipi e prototipi condivisi; un file sorgente contiene le definizioni. Le guardie di inclusione evitano dichiarazioni ripetute. Le funzioni non pubbliche possono essere dichiarate <strong>static</strong> a livello di file, così il loro nome resta confinato a quell'unità di traduzione.
+</p>
+
+<p>
+  Un programma robusto controlla i risultati delle operazioni che possono fallire, definisce chi possiede ogni risorsa e rilascia la memoria e i file anche nei percorsi di errore. I nomi descrivono il ruolo dei dati; le funzioni sono abbastanza piccole da poter essere lette e testate; gli errori non vengono ignorati né nascosti.
+</p>
+
+<p>
+  Per compilare più file sorgente con GCC, per esempio, si possono passare tutti i file alla stessa invocazione: <strong>gcc -std=c17 -Wall -Wextra -Wpedantic main.c archivio.c -o programma</strong>. Ogni file viene tradotto separatamente e il linker risolve i simboli condivisi. Gli header contengono dichiarazioni, non definizioni globali multiple.
+</p>
+
+<p>
+  Il percorso ha seguito lo standard C17 come base. Per progetti reali conviene consultare lo standard adottato dal compilatore, leggere la documentazione delle librerie e attivare gli avvisi. La portabilità nasce dall'uso delle regole del linguaggio, non da supposizioni su un particolare sistema operativo o compilatore.
+</p>
+
+<History title="Riferimenti per continuare">
+  <p>
+    Per approfondire: Brian W. Kernighan e Dennis M. Ritchie, <em>The C Programming Language</em>, seconda edizione; K. N. King, <em>C Programming: A Modern Approach</em>, seconda edizione; ISO/IEC 9899:2018 per il linguaggio C17; il riferimento online di cppreference e la documentazione del compilatore utilizzato.
+  </p>
+</History>
+
+</section>
+
+<Takeaways items={["struct raggruppa campi; enum nomina stati e alternative.","Una copia di struct con puntatori copia gli indirizzi, non la memoria puntata.","Ogni operazione su file può fallire: controlla risultati e chiudi i file.","Header, sorgenti separati, avvisi e gestione esplicita delle risorse rendono il progetto più affidabile."]} />
+<Quiz items={[
+  {"question":"Quale operatore seleziona un membro attraverso un puntatore a struct?","options":[".","->","::"],"answer":1,"explanation":"L'operatore -> accede a un membro attraverso un puntatore a struttura."},
+  {"question":"Che cosa significa che fopen restituisce NULL?","options":["File vuoto","Apertura non riuscita","Fine del file"],"answer":1,"explanation":"NULL segnala che il file non è stato aperto."}
+]} />
