@@ -171,7 +171,7 @@ Il terracotta della Home è il token `--terra` (utility `text-terra`), con varia
 
 # Numerazione dei capitoli e delle sezioni
 
-Il numero nella testata di ogni capitolo e il numero di ogni sezione usano lo stesso stile tipografico **a contorno**: carattere Fraunces leggero, riempimento trasparente e bordo colorato tramite `-webkit-text-stroke`. Il numero del capitolo è un intero (1, 2, 3…), quello della sezione mantiene la forma gerarchica capitolo.sezione (1.1, 1.2…); entrambi devono restare grandi, vuoti all'interno e leggibili sul tema attivo.
+Il numero nella testata di ogni capitolo e il numero di ogni sezione usano lo stesso stile tipografico **a contorno**: carattere Fraunces leggero, riempimento trasparente e bordo colorato tramite `-webkit-text-stroke`. Il numero del capitolo è un intero (1, 2, 3…), quello della sezione mantiene la forma gerarchica capitolo.sezione (1.1, 1.2…). Il numero del capitolo deve essere chiaramente più grande: **104 px su desktop e 72 px su mobile**; i numeri delle sezioni restano a **70 px su desktop e 48 px su mobile**. Questa differenza deve rendere immediata la gerarchia visiva, mantenendo lo stesso riempimento trasparente e lo stesso tratto.
 
 Nelle intestazioni delle sezioni mostrare soltanto il numero grande a contorno a sinistra e il titolo della sezione a destra. **Non aggiungere una piccola etichetta testuale** come «SEZIONE 1.1» sopra al titolo: la numerazione grande è già sufficiente. Il numero viene generato dai contatori CSS, quindi non va scritto manualmente nei file MDX. Su mobile ridurre proporzionalmente dimensione e spessore del contorno, senza reintrodurre l'etichetta.
 
