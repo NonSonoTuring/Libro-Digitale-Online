@@ -86,7 +86,7 @@ In `src/data/topics.ts` aggiungi un oggetto `Topic` nell'ordine desiderato:
 
 - `id` deve essere kebab-case e identico alla cartella in `src/contenuti/argomenti/<id>/`.
 - `cover` punta a `public/images/...` tramite `image()`; la Home usa questa immagine.
-- La pagina del corso usa `detailCovers` in `src/components/CourseIndex.tsx`, con immagini in `public/images/topic-covers/`. Tutte le copertine della pagina corso hanno lo stesso formato verticale **1:2** (1120 × 2240 px); il ritaglio è gestito da `src/styles/home.css`.
+- La pagina del corso usa `detailCovers` in `src/components/CourseIndex.tsx`, con immagini in `public/images/topic-covers/`. Tutte le copertine della pagina corso hanno lo stesso formato verticale **1:2** (1120 × 2240 px); il ritaglio è gestito da `src/styles/home.css`. Il contenitore `.topic-cover` applica una cornice bianca continua da **2 px** e non usa ombre o estrusioni.
 - La pagina del corso mostra copertina, titolo, sottotitolo, descrizione e indice dei capitoli. Non mostra livello, durata complessiva, conteggio sezioni, prerequisiti o riferimenti; alcuni metadati, come disciplina e livello, sono usati nelle schede della Home.
 - `sections` elenca i titoli nello stesso ordine degli `<h2>` del MDX. Ogni `<section className="book-section">` deve avere un `id` univoco, per esempio `id="sec-sezione-1"`: l'indice fisso a destra usa questi ID per saltare alla sezione e aggiornare l'evidenziazione durante lo scorrimento. Il numero capitolo.sezione viene generato automaticamente dal CSS: nel titolo MDX scrivi soltanto il nome della sezione, senza prefissi numerici o etichette come «SEZIONE 1.1».
 

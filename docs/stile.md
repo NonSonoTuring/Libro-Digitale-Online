@@ -55,7 +55,7 @@ La grana globale resta una texture di sfondo e non deve mai diventare un'ombra a
 
 ## Cornice uniforme delle immagini nei capitoli
 
-Tutte le figure dei capitoli, statiche o interattive, devono avere una **cornice bianca continua da 2 px** e non devono avere ombre. Il componente condiviso `<Figure>` applica la stessa cornice a grafici, SVG, canvas e immagini, indipendentemente dallo stile del corso. La cornice deve restare bianca anche in modalità scura.
+Tutte le figure dei capitoli, statiche o interattive, e le copertine verticali nella pagina di selezione dei capitoli devono avere una **cornice bianca continua da 2 px** e non devono avere ombre. Il componente condiviso `<Figure>` applica la stessa cornice a grafici, SVG, canvas e immagini, indipendentemente dallo stile del corso; `.topic-cover` applica la stessa regola alla copertina della pagina del corso. La cornice deve restare bianca anche in modalità scura.
 
 Non usare sulle immagini o sui loro contenitori `box-shadow`, `drop-shadow`, ombre a puntini, retini decorativi esterni, estrusioni o pseudoelementi che simulano un'ombra. Sono quindi esclusi gli effetti `.halftone-shadow` e `.card-3d`. La grana globale della pagina resta sullo sfondo e non modifica le immagini.
 
