@@ -8,14 +8,14 @@
 
 ```c
 int temperatura = 18;
-int *p = &temperatura;
+int &#42;p = &temperatura;
 
-*p = 21;              /* modifica temperatura */
+&#42;p = 21;              /* modifica temperatura */
 printf("%d\n", temperatura);
 ```
 
 <Definition term="Dereferenziazione">
-  <p>È l'accesso all'oggetto designato da un puntatore tramite l'operatore *. La dereferenziazione è valida soltanto quando il puntatore identifica un oggetto vivo del tipo compatibile e correttamente allineato. Un puntatore non inizializzato o nullo non può essere dereferenziato.</p>
+  <p>È l'accesso all'oggetto designato da un puntatore tramite l'operatore &#42;. La dereferenziazione è valida soltanto quando il puntatore identifica un oggetto vivo del tipo compatibile e correttamente allineato. Un puntatore non inizializzato o nullo non può essere dereferenziato.</p>
 </Definition>
 
 <p>
@@ -45,7 +45,7 @@ printf("%d\n", *(inizio + 1)); /* 8 */
 </p>
 
 <Note title="Non confondere indirizzo e contenuto">
-  <p>Se p è un puntatore a int, p è l'indirizzo; *p è l'intero contenuto in quell'indirizzo; &amp;p è l'indirizzo della variabile puntatore stessa. Sono tre livelli diversi.</p>
+  <p>Se p è un puntatore a int, p è l'indirizzo; &#42;p è l'intero contenuto in quell'indirizzo; &amp;p è l'indirizzo della variabile puntatore stessa. Sono tre livelli diversi.</p>
 </Note>
 
 </section>
@@ -55,15 +55,15 @@ printf("%d\n", *(inizio + 1)); /* 8 */
 <h2>Un puntatore sotto osservazione</h2>
 
 <p>
-  Nel laboratorio, due variabili occupano due celle simboliche. Il puntatore p seleziona una delle due; modificare *p cambia il contenuto della cella selezionata, mentre spostare p non copia né sposta gli oggetti. Le etichette degli indirizzi sono illustrative e non corrispondono agli indirizzi di una macchina reale.
+  Nel laboratorio, due variabili occupano due celle simboliche. Il puntatore p seleziona una delle due; modificare il valore puntato cambia il contenuto della cella selezionata, mentre spostare p non copia né sposta gli oggetti. Le etichette degli indirizzi sono illustrative e non corrispondono agli indirizzi di una macchina reale.
 </p>
 
-<Figure n="4.1" caption={<>Seleziona la cella a cui punta p, poi modifica il valore attraverso *p. Osserva la differenza tra cambiare il puntatore e cambiare l'oggetto.</>}>
+<Figure n="4.1" caption={<>Seleziona la cella a cui punta p, poi modifica il valore della cella selezionata. Osserva la differenza tra cambiare il puntatore e cambiare l'oggetto.</>}>
   <MemoryLab />
 </Figure>
 
 <p>
-  Leggi l'espressione da sinistra a destra: <strong>int *p</strong> dichiara p come puntatore a int; <strong>p = &amp;b</strong> fa sì che p designi b; <strong>*p = 40</strong> scrive 40 nell'oggetto designato. Il simbolo * nella dichiarazione indica un tipo puntatore; nella seconda espressione è l'operatore di dereferenziazione.
+  Leggi l'espressione da sinistra a destra: <strong>int &#42;p</strong> dichiara p come puntatore a int; <strong>p = &amp;b</strong> fa sì che p designi b; <strong>&#42;p = 40</strong> scrive 40 nell'oggetto designato. Il simbolo * nella dichiarazione indica un tipo puntatore; nella seconda espressione è l'operatore di dereferenziazione.
 </p>
 
 </section>
@@ -83,7 +83,7 @@ printf("%d\n", *(inizio + 1)); /* 8 */
 int main(void)
 {
     size_t n = 5;
-    int *valori = malloc(n * sizeof *valori);
+    int &#42;valori = malloc(n &#42; sizeof &#42;valori);
 
     if (valori == NULL) {
         return 1;
@@ -101,12 +101,12 @@ int main(void)
 ```
 
 <p>
-  <strong>sizeof *valori</strong> segue il tipo dell'oggetto puntato: se il tipo cambia, il calcolo della dimensione si aggiorna. Il cast del risultato di malloc non è necessario in C. Verificare NULL è obbligatorio prima di usare il blocco. Dopo free, il puntatore non designa più un oggetto utilizzabile: assegnargli NULL evita almeno di riutilizzare per sbaglio lo stesso valore attraverso quella variabile.
+  <strong>sizeof &#42;valori</strong> segue il tipo dell'oggetto puntato: se il tipo cambia, il calcolo della dimensione si aggiorna. Il cast del risultato di malloc non è necessario in C. Verificare NULL è obbligatorio prima di usare il blocco. Dopo free, il puntatore non designa più un oggetto utilizzabile: assegnargli NULL evita almeno di riutilizzare per sbaglio lo stesso valore attraverso quella variabile.
 </p>
 
 <Example title="Ridimensionare senza perdere l'indirizzo originale">
   <p>
-    Per realloc è prudente usare un puntatore temporaneo: se l'allocazione fallisce, il blocco originale resta valido. Solo dopo il successo si assegna il nuovo indirizzo al puntatore proprietario. Prima di calcolare n * sizeof(T), si controlla anche che la moltiplicazione non superi SIZE_MAX.
+    Per realloc è prudente usare un puntatore temporaneo: se l'allocazione fallisce, il blocco originale resta valido. Solo dopo il successo si assegna il nuovo indirizzo al puntatore proprietario. Prima di calcolare n &#42; sizeof(T), si controlla anche che la moltiplicazione non superi SIZE_MAX.
   </p>
 </Example>
 
@@ -144,6 +144,6 @@ int main(void)
 
 <Takeaways items={["& produce un indirizzo; * accede all'oggetto designato.","Un puntatore nullo o non inizializzato non può essere dereferenziato.","L'aritmetica dei puntatori resta entro i limiti dello stesso array.","Ogni allocazione dinamica richiede un controllo e una strategia di rilascio."]} />
 <Quiz items={[
-  {"question":"Che cosa modifica l'istruzione *p = 21?","options":["L'indirizzo contenuto in p","L'oggetto puntato da p","Il tipo del puntatore"],"answer":1,"explanation":"La dereferenziazione raggiunge l'oggetto designato dal puntatore."},
+  {"question":"Che cosa modifica un'assegnazione attraverso un puntatore?","options":["L'indirizzo contenuto in p","L'oggetto puntato da p","Il tipo del puntatore"],"answer":1,"explanation":"La dereferenziazione raggiunge l'oggetto designato dal puntatore."},
   {"question":"Che cosa bisogna fare dopo una malloc riuscita quando il blocco non serve più?","options":["Usare delete","Chiamare free","Assegnare 0 a ogni byte"],"answer":1,"explanation":"La memoria ottenuta dalla famiglia malloc va rilasciata con free."}
 ]} />

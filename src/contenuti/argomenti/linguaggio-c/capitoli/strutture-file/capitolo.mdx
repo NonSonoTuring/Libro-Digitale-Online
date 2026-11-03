@@ -64,7 +64,7 @@ double valore_totale(const Prodotto prodotti[], size_t n)
 ```
 
 <p>
-  Passare una struct per valore copia tutti i suoi membri; passarne l'indirizzo evita la copia e consente eventualmente di modificarla. Quando la funzione deve soltanto leggere una struttura, una firma come <strong>const Prodotto *p</strong> comunica l'intenzione. Per una collezione, si passa anche il numero di elementi.
+  Passare una struct per valore copia tutti i suoi membri; passarne l'indirizzo evita la copia e consente eventualmente di modificarla. Quando la funzione deve soltanto leggere una struttura, una firma come <strong>const Prodotto tramite puntatore</strong> comunica l'intenzione. Per una collezione, si passa anche il numero di elementi.
 </p>
 
 <p>
@@ -82,7 +82,7 @@ double valore_totale(const Prodotto prodotti[], size_t n)
 <h2>Leggere e scrivere file</h2>
 
 <p>
-  La libreria standard espone i file attraverso <strong>FILE *</strong>. <strong>fopen</strong> apre un percorso in una modalità: <strong>"r"</strong> per leggere, <strong>"w"</strong> per creare o troncare un file, <strong>"a"</strong> per aggiungere in coda. Se l'apertura fallisce, restituisce NULL. Le operazioni successive vanno controllate e ogni file aperto va chiuso con <strong>fclose</strong>.
+  La libreria standard espone i file attraverso <strong>FILE &#42;</strong>. <strong>fopen</strong> apre un percorso in una modalità: <strong>"r"</strong> per leggere, <strong>"w"</strong> per creare o troncare un file, <strong>"a"</strong> per aggiungere in coda. Se l'apertura fallisce, restituisce NULL. Le operazioni successive vanno controllate e ogni file aperto va chiuso con <strong>fclose</strong>.
 </p>
 
 ```c
