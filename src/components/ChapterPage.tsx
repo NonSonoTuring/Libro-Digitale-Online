@@ -66,7 +66,7 @@ export function ChapterPage({ topic, chapter, onIndex, onOpenChapter }: {
   const jumpToSection = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
 
   return <StyleContext.Provider value={topic.style}>
-    <div className="chapter-page">
+    <div className="chapter-page book-container">
       <button className="back-link" onClick={onIndex}>← Indice del corso</button>
       <header className="chapter-heading">
         <div className="chapter-title-row"><span className="chapter-numeral">{index + 1}</span><div><h1>{chapter.title}</h1>{meta?.subtitle && <p className="chapter-subtitle">{meta.subtitle}</p>}</div></div>

@@ -492,3 +492,23 @@ Gli esempi sono prototipi autonomi e non installano né configurano automaticame
 - verifica contrasto, dimensioni e leggibilità su mobile e in entrambi i temi del sito. La variante lavagna scura può essere usata come superficie dedicata, senza forzare il tema globale dell'applicazione.
 
 Queste indicazioni non rendono lo stile obbligatorio: la decisione di usarlo, limitarlo a una figura o modificarlo resta editoriale e specifica del singolo intervento. Per ora la scheda è documentazione e raccolta di esempi, non un tema globale né una dipendenza installata.
+
+
+# Home — Forma e Codice
+
+La Home adotta una composizione editoriale a piena larghezza, con contenuti allineati a una colonna massima di 1280 px. Il wrapper dell'applicazione non impone più una larghezza da foglio; `.book-container` contiene solo le parti editoriali. Header e pagine interne condividono lo stesso allineamento, mentre ticker e divisori del catalogo attraversano il viewport.
+
+## Gerarchia della pagina
+
+1. **Hero:** riga di metadati con edizione e stato didattico, seguita da un layout a due colonne. La colonna editoriale usa il kicker mono in terra, il titolo Fraunces `.display-title`, il sottotitolo serif, la descrizione, due azioni e tre indicatori. La colonna visiva usa le copertine dei primi tre percorsi registrati.
+2. **Ticker:** striscia continua a larghezza piena; le voci derivano dai titoli dei capitoli e vengono duplicate per consentire l'animazione lineare fino a `translateX(-50%)`. L'animazione rallenta con `prefers-reduced-motion`.
+3. **Catalogo:** sezione con bordo superiore e fondo `surface` attenuato. La testata allinea titolo e conteggio; la griglia usa tre colonne a partire dal breakpoint medio.
+4. **Schede:** immagini a 240/260 px con scala e desaturazione iniziali, gradiente scuro, disciplina, numerazione e titoli. Al passaggio del puntatore o al focus compare la scheda scura sovrapposta, con abstract, parole chiave, numero di capitoli, minuti e indicatore di apertura. Il pannello inferiore conserva l'abstract completo e il collegamento al percorso.
+
+## Contenuto e aggiornamento
+
+Le schede non sono codificate una per una: `src/components/Home.tsx` legge `topics` da `src/data/topics.ts`. Numero dei percorsi, capitoli, minuti, ticker, copertine, titoli, abstract e parole chiave sono ricavati dai dati. Quando cambia il catalogo, si modificano i dati e non i contatori o la struttura JSX. La griglia resta a tre colonne sui desktop, ma accoglie anche ulteriori percorsi sulle righe successive.
+
+## Token cromatici e accessibilità
+
+Il terracotta della Home è il token `--terra` (utility `text-terra`), con variante più chiara nel tema scuro. `--muted`, `--ink-soft` e `--line` sono alias Tailwind dei token testuali e del bordo condivisi. Il focus da tastiera è visibile; su schermi stretti la hero diventa a colonna singola e le schede si dispongono verticalmente. Le animazioni rispettano `prefers-reduced-motion`.

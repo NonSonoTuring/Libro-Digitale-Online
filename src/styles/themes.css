@@ -19,6 +19,7 @@ html[data-theme="dark"] {
 
   --accent: #c7a66b;
   --accent-2: #84afb1;
+  --terra: #d88e6c;
   --glow:
     0 0 0 1px color-mix(in oklab, var(--accent) 34%, transparent),
     0 18px 40px -18px color-mix(in oklab, var(--accent) 30%, transparent);

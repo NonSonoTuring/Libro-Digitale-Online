@@ -9,6 +9,12 @@ Questa guida segue la struttura reale del progetto: i corsi mostrati in Home son
 - Capitolo: rotta `#/t/<topic-id>/c/<chapter-id>`, pagina `src/components/ChapterPage.tsx`.
 - Il routing è in `src/App.tsx`; non serve aggiungere rotte a mano.
 
+## Home: schede e indicatori derivati dai dati
+
+La Home legge l'array `topics` da `src/data/topics.ts` e ricava automaticamente il numero dei percorsi, il numero dei capitoli, i minuti di lettura, le voci del ticker e una scheda per ogni oggetto `Topic`. Titoli, sottotitoli, discipline, copertine, abstract e parole chiave arrivano dallo stesso dato usato dal routing.
+
+Quando aggiungi, rimuovi o riordini un percorso, aggiorna `src/data/topics.ts` e le risorse richieste: Home, contatori, ticker e griglia si aggiornano senza modificare `Home.tsx`. Non filtrare percorsi per mantenere artificialmente un numero fisso di schede. La griglia usa tre colonne da schermi medi in su e accoglie le schede aggiuntive nelle righe successive.
+
 ## 1. Aggiungi l'argomento in Home
 
 In `src/data/topics.ts` aggiungi un oggetto `Topic` nell'ordine desiderato:

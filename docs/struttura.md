@@ -98,3 +98,12 @@ Contiene file statici serviti con un indirizzo fisso, come favicon e file scaric
 
 ### `dist/`
 Contiene il sito generato dalla build, con le pagine HTML finali e le risorse compilate. Non è una cartella da modificare a mano: si rigenera a partire dai file sorgente.
+
+
+## Composizione della Home e contenitore editoriale
+
+- `src/App.tsx` monta l'applicazione su un wrapper radice a piena larghezza e conserva tema e routing.
+- `src/components/layout/Header.tsx` usa `.book-container` per allineare la testata alla colonna editoriale.
+- `src/components/Home.tsx` compone hero, ticker a tutta larghezza e griglia dei percorsi. Non contiene un catalogo parallelo: legge `src/data/topics.ts` e calcola statistiche e voci del ticker dai capitoli registrati.
+- `.book-container` è definito in `src/styles/home.css`: larghezza 100%, larghezza massima 1280 px, margini laterali automatici e padding fluido. È applicato ai contenuti interni, non ai divisori o alle strisce che devono attraversare l'intero viewport.
+- Gli stili editoriali della Home e delle schede si trovano in `src/styles/home.css`; le varianti cromatiche terra e i token di superficie restano centralizzati in `src/styles/tokens.css`, `src/styles/themes.css` e `src/styles/book.css`.

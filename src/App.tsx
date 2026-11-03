@@ -88,21 +88,19 @@ export default function App() {
   const accentStyle = (topic ? { "--accent": topic.accent[theme] } : {}) as CSSProperties;
 
   return (
-    <div className="page-shell grain">
-      <div className="sheet" style={accentStyle}>
+    <div className="grain flex min-h-screen flex-col bg-paper text-ink" style={accentStyle}>
         <Header theme={theme} topic={topic} chapter={chapter} onHome={home} onCourses={goCourses} onToggleTheme={toggleTheme} />
-        <main>
+        <main className="flex-1">
           {route.view === "home" || !topic ? (
-            <Home theme={theme} onOpenTopic={openTopic} onOpenChapter={openChapter} />
+            <Home theme={theme} onOpenTopic={openTopic} />
           ) : route.view === "topic" ? (
             <CourseIndex topic={topic} onHome={home} onOpenChapter={(id) => openChapter(topic.id, id)} />
           ) : chapter ? (
             <ChapterPage topic={topic} chapter={chapter} onIndex={() => openTopic(topic.id)} onOpenChapter={(id) => openChapter(topic.id, id)} />
           ) : (
-            <Home theme={theme} onOpenTopic={openTopic} onOpenChapter={openChapter} />
+            <Home theme={theme} onOpenTopic={openTopic} />
           )}
         </main>
-      </div>
     </div>
   );
 }

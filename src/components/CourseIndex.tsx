@@ -12,7 +12,7 @@ export function CourseIndex({ topic, onHome, onOpenChapter }: { topic: Topic; on
   const cover = detailCovers[topic.id] ?? topic.cover;
 
   return (
-    <div className="index-page topic-page">
+    <div className="index-page topic-page book-container">
       <button className="back-link" onClick={onHome}>← Tutti i corsi</button>
 
       <div className="topic-layout">

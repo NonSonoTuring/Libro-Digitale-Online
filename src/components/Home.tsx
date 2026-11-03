@@ -1,130 +1,141 @@
 import type { CSSProperties } from "react";
 import { topics, type Topic } from "../data/topics";
 
-export function Home({ theme, onOpenTopic, onOpenChapter }: {
+export function Home({ theme, onOpenTopic }: {
   theme: "light" | "dark";
   onOpenTopic: (id: string) => void;
-  onOpenChapter: (topicId: string, chapterId: string) => void;
 }) {
   const accent = (topic: Topic) => ({ "--course-accent": topic.accent[theme] }) as CSSProperties;
-  const chapterTitles = topics.flatMap((topic) => topic.chapters.map((chapter) => chapter.title));
-  const ticker = [...chapterTitles, ...chapterTitles];
+  const chapters = topics.flatMap((topic) => topic.chapters);
+  const tickerItems = [...chapters, ...chapters];
+  const chapterCount = chapters.length;
+  const readingMinutes = chapters.reduce((total, chapter) => total + chapter.minutes, 0);
+  const featuredTopics = topics.slice(0, 3);
 
   return (
-    <div className="home-content codex-home">
-      <section className="codex-hero" aria-labelledby="home-title">
-        <div className="codex-hero-copy">
-          <span className="eyebrow">Biblioteca interattiva · Edizione MMXXVI</span>
-          <h1 id="home-title">Quaderni di studio di<br /><span className="codex-name-gabry">Gabry</span> e <span className="codex-name-olga">Olga</span></h1>
-          <p>
-            Quattro corsi per attraversare le reti neurali, la geometria del cubo, la lettura del quadro e il Neoclassicismo.
-            Testi, immagini e strumenti interattivi trasformano ogni argomento in un’occasione per osservare,
-            provare e capire.
-          </p>
-          <div className="codex-hero-rule" aria-hidden="true"><span /></div>
-        </div>
+    <div className="home-page w-full">
+      <section className="home-hero" aria-labelledby="home-title">
+        <div className="book-container">
+          <div className="home-hero-topline flex items-center justify-between border-b border-line py-4">
+            <span className="font-mono text-[9px] uppercase tracking-[0.22em] text-muted">Volume I / Edizione 2026</span>
+            <span className="home-live-indicator">
+              <i aria-hidden="true" />
+              didattica interattiva · aggiornata
+            </span>
+          </div>
 
-        <div className="codex-cover-stack" aria-label="Copertine dei corsi">
-          {topics.map((topic, index) => (
-            <button
-              key={topic.id}
-              type="button"
-              className={`codex-cover codex-cover-${index + 1}`}
-              style={accent(topic)}
-              onClick={() => onOpenTopic(topic.id)}
-              aria-label={`Apri il corso: ${topic.title}`}
-            >
-              <img src={topic.cover} alt={`Copertina: ${topic.title}`} />
-              <span>{topic.title}</span>
-            </button>
-          ))}
+          <div className="home-hero-grid grid gap-12 lg:grid-cols-[1.08fr_0.92fr]">
+            <div className="home-hero-copy">
+              <span className="home-kicker font-mono text-[10px] uppercase tracking-[0.22em] text-terra">Un libro per guardare più a lungo</span>
+              <h1 id="home-title" className="display-title">Forma <em>e</em> Codice</h1>
+              <p className="home-hero-subtitle font-serif text-[18px] leading-[1.6] text-ink-soft sm:text-[20px]">
+                Quattro percorsi per capire come una cosa prende forma: <em>nella memoria</em> di una macchina,
+                <em> nella geometria</em> di un solido, <em>nella luce</em> di un dipinto, <em>nella pietra</em>.
+              </p>
+              <p className="home-hero-description mt-4 max-w-[31rem] text-[13.5px] leading-relaxed text-muted">
+                Reti neurali, geometria del cubo, lettura della pittura e Neoclassicismo. Con laboratori interattivi,
+                modelli esplorabili e letture visive. Nessuna semplificazione da manuale per bambini.
+              </p>
+
+              <div className="home-hero-actions">
+                <button type="button" className="home-primary-button" onClick={() => topics[0] && onOpenTopic(topics[0].id)}>
+                  Entra nel volume <span aria-hidden="true">↗</span>
+                </button>
+                <a className="home-secondary-button" href="#corsi">Indice generale <span aria-hidden="true">↓</span></a>
+              </div>
+
+              <div className="home-statistics" aria-label="Statistiche del volume">
+                <div><strong>{String(topics.length).padStart(2, "0")}</strong><span>Percorsi</span></div>
+                <div><strong>{String(chapterCount).padStart(2, "0")}</strong><span>Capitoli</span></div>
+                <div><strong>{String(readingMinutes).padStart(2, "0")}</strong><span>Minuti di lettura</span></div>
+              </div>
+            </div>
+
+            <div className="home-hero-art" aria-hidden="true">
+              <div className="home-art-orbit home-art-orbit-one" />
+              <div className="home-art-orbit home-art-orbit-two" />
+              {featuredTopics.map((topic, index) => (
+                <div className={"home-art-card home-art-card-" + (index + 1)} key={topic.id} style={accent(topic)}>
+                  <img src={topic.cover} alt="" />
+                  <span>{topic.title}</span>
+                </div>
+              ))}
+              <span className="home-art-caption">Appunti · figure · percorsi</span>
+              <span className="home-art-index">I — IV</span>
+            </div>
+          </div>
         </div>
       </section>
 
-      <div className="codex-ticker" aria-label="Argomenti dei corsi">
-        <div className="codex-ticker-track" aria-hidden="true">
-          {ticker.map((title, index) => (
-            <span className="codex-ticker-item" key={`${title}-${index}`}>
-              {title}<i>✦</i>
+      <div className="ticker relative flex w-full overflow-hidden border-t border-line bg-surface/50 py-2.5" aria-label="Titoli dei capitoli">
+        <div className="ticker-track" aria-hidden="true">
+          {tickerItems.map((chapter, index) => (
+            <span className="ticker-item" key={index}>
+              <span>{chapter.title}</span><i>✦</i>
             </span>
           ))}
         </div>
       </div>
 
-      <section className="codex-catalog" id="corsi" aria-labelledby="catalog-title">
-        <div className="codex-catalog-heading">
-          <div>
-            <span className="eyebrow">Indice</span>
-            <h2 id="catalog-title">I corsi</h2>
+      <section className="home-catalog border-t border-line bg-surface/40" id="corsi" aria-labelledby="catalog-title">
+        <div className="book-container py-16 sm:py-20">
+          <div className="home-catalog-heading">
+            <div>
+              <span className="home-kicker font-mono text-[10px] uppercase tracking-[0.22em] text-terra">Percorsi</span>
+              <h2 id="catalog-title" className="display-title display-title-section">Scegli da dove entrare.</h2>
+              <p className="mt-3 max-w-lg font-serif text-[15px] leading-relaxed text-muted">
+                Passa il cursore su una copertina per illuminarla e leggere la scheda. Apri un percorso per trovarne l'indice dei capitoli.
+              </p>
+            </div>
+            <span className="home-catalog-count">{String(topics.length).padStart(2, "0")} percorsi — SELEZIONE</span>
           </div>
-          <p>Passa su una scheda per esplorarne i contenuti; selezionala per aprire il corso.</p>
-        </div>
 
-        <div className="codex-card-grid">
-          {topics.map((topic) => (
-            <article
-              className="codex-card"
-              key={topic.id}
-              style={accent(topic)}
-              onClick={(event) => {
-                if (!(event.target as HTMLElement).closest("button")) onOpenTopic(topic.id);
-              }}
-            >
-              <button
-                className="codex-card-image"
-                type="button"
-                onClick={() => onOpenTopic(topic.id)}
-                aria-label={`Apri l'indice del corso ${topic.title}`}
-              >
-                <img src={topic.cover} alt={`Copertina del corso ${topic.title}`} loading="lazy" />
-                <span className="codex-card-shade" />
-                <span className="codex-card-discipline">{topic.discipline}</span>
-                <span className="codex-card-number">{topic.numeral}</span>
-              </button>
+          <div className="grid gap-5 md:grid-cols-3 lg:gap-6 mt-10">
+            {topics.map((topic, index) => (
+              <article className="home-card group" key={topic.id} style={accent(topic)}>
+                <div className="home-card-image h-[240px] overflow-hidden relative sm:h-[260px]">
+                  <img
+                    className="h-full w-full object-cover grayscale-[.62] brightness-[.93] transition-all duration-700 group-hover:scale-[1.055] group-hover:grayscale-0 group-hover:brightness-100"
+                    src={topic.cover}
+                    alt={"Copertina del percorso " + topic.title}
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#1a1814]/85 via-[#1a1814]/20 to-transparent" />
+                  <div className="home-card-badges">
+                    <span>{topic.discipline}</span>
+                    <i>{String(index + 1).padStart(2, "0")}</i>
+                  </div>
+                  <div className="home-card-heading">
+                    <span>{topic.discipline.split("·")[0].trim()}</span>
+                    <h3>{topic.title}</h3>
+                    <p>{topic.subtitle}</p>
+                  </div>
 
-              <div className="codex-card-main">
-                <button
-                  className="codex-card-summary"
-                  type="button"
-                  onClick={() => onOpenTopic(topic.id)}
-                  aria-label={`Apri l'indice del corso ${topic.title}`}
-                >
-                  <span className="codex-card-kicker">Corso {topic.numeral} · {topic.level}</span>
-                  <span className="codex-card-title">{topic.title}</span>
-                  <span className="codex-card-subtitle">{topic.subtitle}</span>
-                  <span className="codex-card-description">{topic.abstract}</span>
-                </button>
-
-                <div className="codex-card-details">
-                  <div className="codex-card-details-inner">
-                    <span className="codex-card-program-label">Contenuti del corso</span>
-                    <div className="codex-card-chapters">
-                      {topic.chapters.map((chapter, chapterIndex) => (
-                        <button
-                          className="codex-card-chapter"
-                          key={chapter.id}
-                          type="button"
-                          onClick={() => onOpenChapter(topic.id, chapter.id)}
-                        >
-                          <i>{String(chapterIndex + 1).padStart(2, "0")}</i><span>{chapter.title}</span><b aria-hidden="true">→</b>
-                        </button>
-                      ))}
+                  <div className="home-card-overlay absolute inset-0 flex flex-col justify-end bg-[#1a1814]/90 p-5 backdrop-blur-[2px] opacity-0 translate-y-4 pointer-events-none transition-all duration-500 group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto">
+                    <span className="home-card-overlay-label" style={{ color: "var(--course-accent)" }}>Scheda del percorso</span>
+                    <p>{topic.abstract}</p>
+                    <div className="home-card-keywords">
+                      {topic.keywords.slice(0, 5).map((keyword) => <span key={keyword}>{keyword}</span>)}
                     </div>
-                    <div className="codex-card-keywords">
-                      {topic.keywords.map((keyword) => <span key={keyword}>{keyword}</span>)}
+                    <div className="home-card-overlay-footer">
+                      <span>{topic.chapters.length} capitoli · {topic.chapters.reduce((total, chapter) => total + chapter.minutes, 0)} min</span>
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" /></svg>
                     </div>
                   </div>
                 </div>
 
-                <div className="codex-card-footer">
-                  <span>{topic.styleLabel}</span>
-                  <button type="button" onClick={() => onOpenTopic(topic.id)}>
-                    Apri l’indice <b aria-hidden="true">→</b>
-                  </button>
+                <div className="home-card-lower p-5">
+                  <p className="home-card-description">{topic.abstract}</p>
+                  <div className="home-card-bottom">
+                    <button type="button" onClick={() => onOpenTopic(topic.id)}>
+                      <span>Apri il percorso</span>
+                      <i aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" /></svg></i>
+                    </button>
+                  </div>
                 </div>
-              </div>
-            </article>
-          ))}
+              </article>
+            ))}
+          </div>
         </div>
       </section>
     </div>

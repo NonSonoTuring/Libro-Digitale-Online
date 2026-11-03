@@ -13,6 +13,10 @@
   --color-rule: var(--rule);
   --color-accent: var(--accent);
   --color-accent-2: var(--accent-2);
+  --color-terra: var(--terra);
+  --color-muted: var(--ink-3);
+  --color-ink-soft: var(--ink-2);
+  --color-line: var(--rule);
 
   --font-display: "Fraunces", "Iowan Old Style", Georgia, serif;
   --font-body: "Source Serif 4", "Iowan Old Style", Georgia, serif;
