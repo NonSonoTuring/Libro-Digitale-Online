@@ -21,11 +21,7 @@ export function Header({ theme, topic, chapter, onHome, onCourses, onToggleTheme
         <div className="header-actions">
           <button className="courses-button" onClick={onCourses}>Catalogo</button>
           <button className="theme-button" onClick={onToggleTheme} aria-label={theme === "dark" ? "Passa al tema chiaro" : "Passa al tema scuro"} title={theme === "dark" ? "Giorno" : "Notte"}>
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.span key={theme} initial={{ rotate: -90, opacity: 0, scale: .6 }} animate={{ rotate: 0, opacity: 1, scale: 1 }} exit={{ rotate: 90, opacity: 0, scale: .6 }} transition={{ duration: .3 }}>
-                {theme === "dark" ? <SunIcon /> : <MoonIcon />}
-              </motion.span>
-            </AnimatePresence>
+            <span>{theme === "dark" ? <SunIcon /> : <MoonIcon />}</span>
           </button>
         </div>
       </div>

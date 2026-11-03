@@ -67,7 +67,6 @@ html[data-theme="dark"] {
     font-feature-settings: "kern", "liga", "onum", "pnum";
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
-    transition: background-color 0.5s ease, color 0.5s ease;
   }
 
   ::selection {
@@ -93,7 +92,6 @@ html[data-theme="dark"] {
     box-shadow:
       0 0 0 1px color-mix(in oklab, var(--ink) 6%, transparent),
       0 30px 80px -30px color-mix(in oklab, var(--ink) 35%, transparent);
-    transition: background-color 0.5s ease;
   }
 
   /* grana della carta */
