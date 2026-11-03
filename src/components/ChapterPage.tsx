@@ -1,5 +1,4 @@
 import { useEffect, useState, type ComponentType } from "react";
-import { motion, useScroll, useSpring } from "framer-motion";
 import type { Chapter, Topic } from "../data/topics";
 import chapterMeta from "../data/chapter-meta.json";
 import { StyleContext } from "./ui";
@@ -15,8 +14,6 @@ export function ChapterPage({ topic, chapter, onIndex, onOpenChapter }: {
   const [components, setComponents] = useState<Record<string, ComponentType<any>> | null>(null);
   const [sectionLinks, setSectionLinks] = useState<{ id: string; title: string }[]>([]);
   const [activeSectionId, setActiveSectionId] = useState("");
-  const { scrollYProgress } = useScroll();
-  const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.3 });
   const chapters = topic.chapters;
   const index = chapters.findIndex((item) => item.id === chapter.id);
   const meta = (chapterMeta as Record<string, Record<string, { subtitle: string; epigraph: { text: string; author: string } | null }>>)[topic.id]?.[chapter.id];
@@ -69,7 +66,6 @@ export function ChapterPage({ topic, chapter, onIndex, onOpenChapter }: {
   const jumpToSection = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
 
   return <StyleContext.Provider value={topic.style}>
-    <motion.div className="reading-progress" style={{ scaleX: progress }} />
     <div className="chapter-page">
       <button className="back-link" onClick={onIndex}>← Indice del corso</button>
       <header className="chapter-heading">

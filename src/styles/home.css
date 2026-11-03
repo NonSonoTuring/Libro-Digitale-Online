@@ -6,7 +6,6 @@
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.animate-float,.animate-spin-slow,.animate-breathe{animation:none!important}*,*::before,*::after{transition-duration:.01ms!important}}
 
 @layer components {
-  .reading-progress{position:fixed;top:0;left:0;right:0;z-index:60;height:3px;transform-origin:left;background:var(--accent)}
   .chapter-page{max-width:1080px;margin:0 auto;padding:28px 40px 72px}
   .chapter-page .back-link{margin-bottom:26px}
   .chapter-heading{padding-bottom:36px;border-bottom:1px solid var(--rule)}
