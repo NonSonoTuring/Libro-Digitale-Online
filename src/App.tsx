@@ -88,8 +88,8 @@ export default function App() {
   const accentStyle = (topic ? { "--accent": topic.accent[theme] } : {}) as CSSProperties;
 
   return (
-    <div className="page-shell">
-      <div className="sheet grain" style={accentStyle}>
+    <div className="page-shell grain">
+      <div className="sheet" style={accentStyle}>
         <Header theme={theme} topic={topic} chapter={chapter} onHome={home} onCourses={goCourses} onToggleTheme={toggleTheme} />
         <main>
           {route.view === "home" || !topic ? (

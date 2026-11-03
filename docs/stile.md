@@ -33,15 +33,15 @@ I componenti devono preferire questi token a colori hard-coded, così home, indi
 
 ## Grana carbone
 
-In modalità scura la grana è applicata tramite la classe `.grain` sul contenitore principale `.sheet` in `src/App.tsx`. Lo pseudoelemento `.grain::after` è definito in `src/styles/base.css`:
+La grana è applicata tramite la classe `.grain` sul wrapper a tutta larghezza `.page-shell` in `src/App.tsx`, non sul foglio interno `.sheet` (che è centrato, limitato in larghezza e crea un proprio stacking context). Lo pseudoelemento `.grain::after` è definito in `src/styles/base.css` ed è quindi ancorato al viewport:
 
 - posizione `fixed`, `inset: 0`, livello `z-index: 60`;
 - texture SVG tramite `feTurbulence` di tipo `fractalNoise`, frequenza `0.85`, `3` ottave e `stitchTiles: stitch`;
 - fusione `soft-light` e opacità CSS `0.4` (il rettangolo SVG ha opacità `0.5`);
 - `pointer-events: none`, quindi il livello non intercetta clic, focus o interazioni;
-- la regola è attiva solo con `data-theme="dark"`, non aggiunge grana al tema chiaro.
+- come nell'esempio originale, la texture è attiva in entrambi i temi; in modalità chiara l'effetto è più delicato.
 
-La grana è una finitura dell'interfaccia globale: non va confusa con le texture locali delle illustrazioni, né replicata aggiungendo filtri a ogni singola pagina o componente.
+La grana globale non va confusa con `.halftone-shadow::before`: quest'ultimo è un retino locale a puntini usato come ombra decorativa su alcune figure e palette, e resta indipendente dalla texture uniforme di sfondo. La grana globale non va replicata aggiungendo filtri a ogni singola pagina o componente.
 
 ## Regole di estensione
 

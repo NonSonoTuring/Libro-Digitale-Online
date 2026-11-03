@@ -9,8 +9,8 @@
 }
 
 
-/* Grana carbone globale: la classe .grain è applicata al contenitore principale. */
-html[data-theme="dark"] .grain::after {
+/* Texture SVG globale: wrapper viewport, sopra i contenuti e indipendente dalla larghezza del foglio. */
+.grain::after {
   content: "";
   position: fixed;
   inset: 0;
