@@ -71,6 +71,13 @@
       "epigraph": null
     }
   },
+  "linguaggio-c": {
+    "programma": {"title":"Dal sorgente all'eseguibile","subtitle":"Che cosa fa il compilatore, e che cosa deve fare il programmatore","minutes":16,"epigraph":{"text":"Il C è un linguaggio per programmatori: permette di esprimere operazioni vicine alla macchina senza rinunciare alla struttura.","author":"Nota introduttiva"}},
+    "controllo": {"title":"Tipi, espressioni e controllo","subtitle":"Dare un significato preciso ai dati e al flusso del programma","minutes":17,"epigraph":null},
+    "funzioni-array": {"title":"Funzioni, array e stringhe","subtitle":"Scomporre i problemi e organizzare sequenze di dati","minutes":20,"epigraph":null},
+    "puntatori": {"title":"Puntatori e memoria","subtitle":"Indirizzi, oggetti e durata della memoria","minutes":20,"epigraph":{"text":"Con il C, la memoria non è uno sfondo: è parte del modello di programmazione.","author":"Nota introduttiva"}},
+    "strutture-file": {"title":"Strutture e file","subtitle":"Dai dati composti alla persistenza","minutes":17,"epigraph":null}
+  },
   "il-quadro": {
     "luce": {
       "title": "La luce e il valore",

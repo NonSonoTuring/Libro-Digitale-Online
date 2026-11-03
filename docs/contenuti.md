@@ -7,6 +7,8 @@ Questa guida segue la struttura reale del progetto: i corsi mostrati in Home son
 - Home: legge `topics` da `src/data/topics.ts` e crea le schede in `src/components/Home.tsx`.
 - Corso: rotta `#/t/<topic-id>`, pagina `src/components/CourseIndex.tsx`.
 - Capitolo: rotta `#/t/<topic-id>/c/<chapter-id>`, pagina `src/components/ChapterPage.tsx`.
+
+Il percorso **Linguaggio C** usa l'ID `linguaggio-c`, i cinque capitoli in `src/contenuti/argomenti/linguaggio-c/capitoli/` e i metadati in `src/data/topics.ts` e `src/data/chapter-meta.json`. Gli esempi adottano C17 (`-std=c17`); per i programmi introduttivi si consiglia GCC o Clang con `-Wall -Wextra -Wpedantic`.
 - Il routing è in `src/App.tsx`; non serve aggiungere rotte a mano.
 
 ## Home: schede, descrizioni brevi e indicatori derivati dai dati
