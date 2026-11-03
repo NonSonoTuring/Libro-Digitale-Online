@@ -33,9 +33,9 @@ I componenti devono preferire questi token a colori hard-coded, così home, indi
 
 ## Grana carbone
 
-La grana è applicata tramite la classe `.grain` sul wrapper a tutta larghezza `.page-shell` in `src/App.tsx`, non sul foglio interno `.sheet` (che è centrato, limitato in larghezza e crea un proprio stacking context). Lo pseudoelemento `.grain::after` è definito in `src/styles/base.css` ed è quindi ancorato al viewport:
+La grana è applicata tramite la classe `.grain` sul wrapper a tutta larghezza dell’app in `src/App.tsx`. Lo pseudoelemento `.grain::after` è definito in `src/styles/base.css`, ancorato al viewport e confinato nello stacking context del wrapper. Ha livello `z-index: -1`: resta sopra il fondo del wrapper ma dietro a testi, controlli e immagini, così la texture non altera luminosità e colori dei media:
 
-- posizione `fixed`, `inset: 0`, livello `z-index: 60`;
+- posizione `fixed`, `inset: 0`, livello `z-index: -1`;
 - texture SVG tramite `feTurbulence` di tipo `fractalNoise`, frequenza `0.85`, `3` ottave e `stitchTiles: stitch`;
 - fusione `soft-light` e opacità CSS `0.4` (il rettangolo SVG ha opacità `0.5`);
 - `pointer-events: none`, quindi il livello non intercetta clic, focus o interazioni;

@@ -275,7 +275,7 @@ html[data-theme="dark"] .codex-hero h1 .codex-name-gabry {
     box-shadow: 0 20px 45px -26px color-mix(in oklab, var(--ink) 65%, transparent);
     transition: transform .65s cubic-bezier(.22, 1, .36, 1), box-shadow .5s;
   }
-  .home-art-card img { width: 100%; min-height: 0; flex: 1; object-fit: cover; filter: grayscale(.38) saturate(.82); }
+  .home-art-card img { width: 100%; min-height: 0; flex: 1; object-fit: cover; filter: none; }
   .home-art-card span {
     display: block; min-height: 43px; padding: 11px 10px 8px; overflow: hidden; color: var(--ink);
     font: 500 11px/1.25 var(--font-display); text-overflow: ellipsis;
@@ -325,8 +325,8 @@ html[data-theme="dark"] .codex-hero h1 .codex-name-gabry {
     box-shadow: 0 0 0 1px rgba(166,80,45,.22), 0 0 60px -18px rgba(166,80,45,.5), 0 36px 70px -45px rgba(31,30,25,.6);
   }
   .home-card-image { flex: none; background: #1a1814; }
-  .home-card-image > img { display: block; filter: grayscale(.62) brightness(.93); transition: filter .7s, transform .9s cubic-bezier(.22, 1, .36, 1); }
-  .home-card:hover .home-card-image > img, .home-card:focus-within .home-card-image > img { filter: grayscale(0) brightness(1); transform: scale(1.055); }
+  .home-card-image > img { display: block; filter: none; transition: transform .9s cubic-bezier(.22, 1, .36, 1); }
+  .home-card:hover .home-card-image > img, .home-card:focus-within .home-card-image > img { transform: scale(1.055); }
   .home-card-badges {
     position: absolute; z-index: 1; top: 14px; right: 14px; left: 14px;
     display: flex; align-items: flex-start; justify-content: space-between; gap: 12px;

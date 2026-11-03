@@ -95,7 +95,7 @@ export function Home({ theme, onOpenTopic }: {
               <article className="home-card group" key={topic.id} style={accent(topic)}>
                 <div className="home-card-image h-[240px] overflow-hidden relative sm:h-[260px]">
                   <img
-                    className="h-full w-full object-cover grayscale-[.62] brightness-[.93] transition-all duration-700 group-hover:scale-[1.055] group-hover:grayscale-0 group-hover:brightness-100"
+                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.055]"
                     src={topic.cover}
                     alt={"Copertina del percorso " + topic.title}
                     loading="lazy"

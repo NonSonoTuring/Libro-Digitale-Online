@@ -9,12 +9,17 @@
 }
 
 
-/* Texture SVG globale: wrapper viewport, sopra i contenuti e indipendente dalla larghezza del foglio. */
+/* Grana di sfondo: resta nel viewport ma sotto i contenuti e le immagini. */
+.grain {
+  position: relative;
+  isolation: isolate;
+}
+
 .grain::after {
   content: "";
   position: fixed;
   inset: 0;
-  z-index: 60;
+  z-index: -1;
   pointer-events: none;
   opacity: 0.4;
   mix-blend-mode: soft-light;
