@@ -359,7 +359,7 @@ html[data-theme="dark"] .codex-hero h1 .codex-name-gabry {
   }
   .home-card-overlay > p {
     display: -webkit-box; overflow: hidden; margin: 0; color: #f4eee3;
-    font: 13.5px/1.42 var(--font-body); -webkit-box-orient: vertical; -webkit-line-clamp: 4;
+    font: 13.5px/1.42 var(--font-body); -webkit-box-orient: vertical; -webkit-line-clamp: 2;
   }
   .home-card-keywords { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 11px; }
   .home-card-keywords span {
@@ -378,8 +378,9 @@ html[data-theme="dark"] .codex-hero h1 .codex-name-gabry {
     display: flex; min-height: 190px; flex: 1; flex-direction: column; justify-content: space-between; background: var(--paper);
   }
   .home-card-description {
-    margin: 0; color: var(--ink-2); font: 15px/1.62 var(--font-body);
+    display: -webkit-box; overflow: hidden; margin: 0; color: var(--ink-2); font: 15px/1.62 var(--font-body);
     text-align: justify; text-justify: inter-word; hyphens: auto;
+    -webkit-box-orient: vertical; -webkit-line-clamp: 2;
   }
   .home-card-bottom { margin-top: 21px; padding-top: 13px; border-top: 1px solid var(--rule); }
   .home-card-bottom button {

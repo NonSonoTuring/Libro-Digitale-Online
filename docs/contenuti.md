@@ -9,11 +9,45 @@ Questa guida segue la struttura reale del progetto: i corsi mostrati in Home son
 - Capitolo: rotta `#/t/<topic-id>/c/<chapter-id>`, pagina `src/components/ChapterPage.tsx`.
 - Il routing è in `src/App.tsx`; non serve aggiungere rotte a mano.
 
-## Home: schede e indicatori derivati dai dati
+## Home: schede, descrizioni brevi e indicatori derivati dai dati
 
-La Home legge l'array `topics` da `src/data/topics.ts` e ricava automaticamente il numero dei percorsi, il numero dei capitoli, i minuti di lettura, le voci del ticker e una scheda per ogni oggetto `Topic`. Titoli, sottotitoli, discipline, copertine, abstract e parole chiave arrivano dallo stesso dato usato dal routing.
+La Home legge l'array `topics` da `src/data/topics.ts` e genera una scheda per ogni oggetto `Topic`. Numero dei percorsi, numero dei capitoli, minuti di lettura e voci del ticker sono calcolati dai dati; copertine, titoli, sottotitoli, discipline, descrizioni brevi e parole chiave sono letti dallo stesso oggetto usato per il routing.
 
-Quando aggiungi, rimuovi o riordini un percorso, aggiorna `src/data/topics.ts` e le risorse richieste: Home, contatori, ticker e griglia si aggiornano senza modificare `Home.tsx`. Non filtrare percorsi per mantenere artificialmente un numero fisso di schede. La griglia usa tre colonne da schermi medi in su e accoglie le schede aggiuntive nelle righe successive.
+**La scheda Home deve presentare l'argomento con una sola frase breve.** Per questo ogni `Topic` ha due campi distinti:
+
+- `homeDescription`: frase sintetica visibile nella scheda Home, sia nel blocco inferiore sia nell'overlay. Deve descrivere l'identità complessiva del percorso, non riassumere il programma o elencare i capitoli.
+- `abstract`: descrizione estesa, destinata alla pagina interna del percorso (`src/components/CourseIndex.tsx`). Può spiegare obiettivi, contenuti, opere e attività in più frasi; non viene mostrata nelle schede Home.
+
+### Come scrivere `homeDescription`
+
+- Scrivi **una sola frase**, preferibilmente tra **45 e 85 caratteri** (circa 6–13 parole), senza superare le due righe nella card.
+- Scegli 2–3 concetti caratterizzanti e collegali con naturalezza: materia, forma, fenomeno, tema o prospettiva.
+- Usa un tono evocativo ma concreto, editoriale e coerente con il titolo del percorso. La frase deve far intuire di cosa parla l'intero argomento.
+- Evita formule promozionali, introduzioni come «In questo corso…», spiegazioni didattiche lunghe, elenchi di capitoli, nomi di tutte le attività e dettagli bibliografici.
+- Non ripetere semplicemente titolo e sottotitolo. Preferisci parole chiave concettuali e una sintassi compatta.
+- Chiudi con la punteggiatura solo quando la frase la richiede; mantieni una costruzione uniforme tra tutti i percorsi.
+
+Esempi di tono e lunghezza:
+
+| Argomento | `homeDescription` |
+|---|---|
+| Reti neurali artificiali | Segnali, memoria e apprendimento nelle reti artificiali. |
+| Il cubo | Forma, simmetria e geometria oltre la terza dimensione. |
+| Il quadro | Luce, colore e composizione per imparare a leggere un dipinto. |
+| Neoclassicismo | Corpo, luce e allegoria: il momento del Neoclassico. |
+
+### Dimensioni e struttura della scheda
+
+Le schede sono definite in `src/components/Home.tsx` e stilizzate in `src/styles/home.css`. Non assegnare una larghezza fissa alla singola card: la griglia calcola la larghezza in base al contenitore editoriale e allo schermo.
+
+- Il catalogo è racchiuso in `.book-container`: larghezza 100%, massimo 1280 px, margini automatici e padding laterale fluido `clamp(1.15rem, 4vw, 4rem)`.
+- La griglia usa una colonna sui dispositivi stretti e **tre colonne da `md` in su**, con distanza di 20 px (`gap-5`) e 24 px al breakpoint `lg` (`gap-6`). Se i percorsi sono più di tre, le schede continuano sulle righe successive.
+- La copertina occupa tutta la larghezza della card: **240 px di altezza sui viewport più stretti e 260 px da `sm` in su**. L'immagine usa `object-fit: cover`; prepara quindi una copertina in cui il soggetto principale tolleri il ritaglio.
+- Il blocco inferiore usa padding **20 px** (`p-5`) e ha un'altezza minima di **190 px** sui layout più ampi; sotto 560 px l'altezza torna automatica. L'altezza complessiva della scheda è fluida e la griglia allinea le card della stessa riga.
+- La descrizione breve occupa al massimo **due righe**. Sotto resta la linea divisoria e il comando «Apri il percorso». Non aumentare lo spazio con un abstract lungo.
+- Nell'overlay compaiono la stessa frase breve, fino a cinque parole chiave, conteggio dei capitoli e minuti. L'overlay non deve diventare una seconda descrizione estesa.
+
+Quando aggiungi, rimuovi o riordini un percorso, aggiorna `src/data/topics.ts` e le risorse richieste: Home, contatori, ticker e griglia si aggiornano senza modificare `Home.tsx`. Mantieni sempre `homeDescription` per ogni argomento; non usare `abstract` come ripiego nella Home e non filtrare percorsi per conservare un numero fisso di schede.
 
 ## 1. Aggiungi l'argomento in Home
 
@@ -23,7 +57,8 @@ In `src/data/topics.ts` aggiungi un oggetto `Topic` nell'ordine desiderato:
 {
   id: "argomento1", numeral: "IV", title: "Argomento1", subtitle: "Sottotitolo breve",
   discipline: "Materia", level: "Livello", hours: "≈ 30 min",
-  abstract: "Testo breve della scheda.",
+  abstract: "Descrizione estesa del percorso, usata nella pagina interna.",
+  homeDescription: "Una frase sintetica che ne esprime il tema centrale.",
   cover: image("cover-argomento1.svg"), style: "technical",
   styleLabel: "Stile visivo", accent: { light: "#2b2620", dark: "#ece2cc" },
   keywords: ["parola1"], prerequisites: ["Prerequisito"], references: ["Riferimento"],

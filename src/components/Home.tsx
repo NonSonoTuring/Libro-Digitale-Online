@@ -113,7 +113,7 @@ export function Home({ theme, onOpenTopic }: {
 
                   <div className="home-card-overlay absolute inset-0 flex flex-col justify-end bg-[#1a1814]/90 p-5 backdrop-blur-[2px] opacity-0 translate-y-4 pointer-events-none transition-all duration-500 group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto">
                     <span className="home-card-overlay-label" style={{ color: "var(--course-accent)" }}>Scheda del percorso</span>
-                    <p>{topic.abstract}</p>
+                    <p>{topic.homeDescription}</p>
                     <div className="home-card-keywords">
                       {topic.keywords.slice(0, 5).map((keyword) => <span key={keyword}>{keyword}</span>)}
                     </div>
@@ -125,7 +125,7 @@ export function Home({ theme, onOpenTopic }: {
                 </div>
 
                 <div className="home-card-lower p-5">
-                  <p className="home-card-description">{topic.abstract}</p>
+                  <p className="home-card-description">{topic.homeDescription}</p>
                   <div className="home-card-bottom">
                     <button type="button" onClick={() => onOpenTopic(topic.id)}>
                       <span>Apri il percorso</span>

@@ -1,7 +1,7 @@
 export type Chapter = { id: string; title: string; minutes: number; sections: string[] };
 export type Topic = {
   id: string; numeral: string; title: string; subtitle: string; discipline: string; level: string;
-  hours: string; abstract: string; cover: string; style: "technical" | "solid" | "sketch";
+  hours: string; abstract: string; homeDescription: string; cover: string; style: "technical" | "solid" | "sketch";
   styleLabel: string; accent: { light: string; dark: string }; keywords: string[]; prerequisites: string[]; references: string[]; chapters: Chapter[];
 };
 
@@ -12,6 +12,7 @@ export const topics: Topic[] = [
     id: "reti-neurali", numeral: "I", title: "Reti neurali artificiali", subtitle: "Dal neurone al gradiente",
     discipline: "Informatica · Apprendimento automatico", level: "Triennale, secondo anno", hours: "≈ 1 h",
     abstract: "Un percorso rigoroso dal neurone di McCulloch–Pitts alla retropropagazione dell'errore: che cosa calcola una rete, perché la profondità conta e come i pesi vengono appresi dai dati. Con laboratori interattivi per percettrone, funzioni di attivazione e discesa del gradiente.",
+    homeDescription: "Segnali, memoria e apprendimento nelle reti artificiali.",
     cover: image("cover-neural.svg"), style: "technical", styleLabel: "Figure tecniche su carta millimetrata · grafici animati",
     accent: { light: "#2c6e7e", dark: "#5fb3c4" }, keywords: ["percettrone", "attivazioni", "backpropagation", "gradiente", "generalizzazione"],
     prerequisites: ["Algebra lineare: vettori, matrici, prodotto", "Calcolo: derivate parziali e regola della catena", "Nozioni di probabilità elementare"],
@@ -33,6 +34,7 @@ export const topics: Topic[] = [
     id: "il-cubo", numeral: "II", title: "Il cubo", subtitle: "Geometria, simmetria e la quarta dimensione",
     discipline: "Matematica · Geometria", level: "Triennale, primo anno", hours: "≈ 55 min",
     abstract: "Un solo oggetto, osservato fino in fondo: la formula di Eulero, i cinque solidi platonici, il gruppo delle 24 rotazioni, le matrici che le descrivono, e infine il tesseratto — ciò che il cubo diventa quando si aggiunge una dimensione. Modelli tridimensionali manipolabili in ogni capitolo.",
+    homeDescription: "Forma, simmetria e geometria oltre la terza dimensione.",
     cover: image("cover-cube.svg"), style: "solid", styleLabel: "Modelli 3D interattivi · proiezioni isometriche",
     accent: { light: "#b5652a", dark: "#e08a4e" }, keywords: ["Eulero", "solidi platonici", "gruppo S₄", "rotazioni", "tesseratto"],
     prerequisites: ["Geometria euclidea elementare", "Trigonometria di base", "Familiarità con il concetto di matrice (utile, non indispensabile)"],
@@ -54,6 +56,7 @@ export const topics: Topic[] = [
     id: "il-quadro", numeral: "III", title: "Il quadro", subtitle: "Luce, colore e composizione nella pittura",
     discipline: "Storia dell'arte · Teoria della visione", level: "Triennale, corso introduttivo", hours: "≈ 1 h",
     abstract: "Come si legge un dipinto? Attraverso una natura morta analizzata strato per strato: la struttura dei valori, la legge di Lambert e le cinque zone della forma, il cerchio cromatico e il contrasto simultaneo, le griglie compositive e il peso visivo. Ogni strumento è una lente da attivare sull'opera.",
+    homeDescription: "Luce, colore e composizione per imparare a leggere un dipinto.",
     cover: image("cover-painting.svg"), style: "sketch", styleLabel: "Taccuino da disegno · ombre a retino di punti",
     accent: { light: "#8c3a3a", dark: "#d46a6a" }, keywords: ["valore", "chiaroscuro", "cerchio cromatico", "sezione aurea", "peso visivo"],
     prerequisites: ["Nessun prerequisito formale", "Curiosità per la pittura del Seicento", "Un occhio disposto a socchiudersi"],
@@ -75,6 +78,7 @@ export const topics: Topic[] = [
     id: "neoclassicismo", numeral: "IV", title: "Neoclassicismo", subtitle: "Canova e David: la forma dell'ideale",
     discipline: "Storia dell'arte · Scultura e pittura", level: "Corso introduttivo", hours: "≈ 45 min",
     abstract: "Due artisti, due linguaggi e un dialogo con l'antico. Attraverso quattro sculture di Antonio Canova e tre dipinti di Jacques-Louis David, il corso esplora equilibrio, gesto, memoria e impegno civile; le immagini delle opere accompagnano la lettura della composizione e dei loro significati.",
+    homeDescription: "Corpo, luce e allegoria: il momento del Neoclassico.",
     cover: image("cover-neoclassic.jpg"), style: "solid", styleLabel: "Riproduzioni delle opere · lettura storico-artistica",
     accent: { light: "#755b3f", dark: "#d0ae78" }, keywords: ["Canova", "David", "ideale classico", "mito", "memoria", "virtù civica"],
     prerequisites: ["Nessun prerequisito formale", "Curiosità per la scultura e la pittura europea tra Sette e Ottocento"],
