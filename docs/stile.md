@@ -63,7 +63,7 @@ Stile da appunto illustrato su una lavagna: il soggetto è spiegato con forme tr
 
 ## Dipendenze necessarie
 
-Per disegnare contorni e campiture irregolari usare **Rough.js 4.6.6** sopra la **Canvas 2D API**, già disponibile nel browser; nel progetto React la libreria va importata come modulo (import rough from "roughjs"), non richiamata da CDN. Per la scrittura usare **Caveat** da Google Fonts, pesi 400, 600 e 700, caricandolo nel documento prima di disegnare il testo sul canvas e mantenendo cursive come fallback. React e Tailwind CSS sono già presenti nel progetto: React gestisce il componente e Tailwind può comporre il contenitore, ma non servono altre librerie grafiche. **Rough.js e Caveat non sono attualmente installato/caricato nel progetto**: aggiungerli solo quando una figura adotta davvero questo stile; non considerarli dipendenze globali già disponibili.
+Per disegnare contorni e campiture irregolari usare **Rough.js 4.6.6** sopra la **Canvas 2D API**, già disponibile nel browser; nel progetto React la libreria va importata come modulo (import rough from "roughjs"), non richiamata da CDN. Per la scrittura usare **Caveat** da Google Fonts, pesi 400, 600 e 700, caricandolo nel documento prima di disegnare il testo sul canvas e mantenendo cursive come fallback. React e Tailwind CSS sono già presenti nel progetto: React gestisce il componente e Tailwind può comporre il contenitore, ma non servono altre librerie grafiche. **Rough.js e Caveat non sono attualmente installati né caricati nel progetto**: aggiungerli solo quando una figura adotta davvero questo stile; non considerarli dipendenze globali già disponibili.
 
 ## Elementi dello stile
 
