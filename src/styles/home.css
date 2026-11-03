@@ -25,20 +25,14 @@
   .chapter-prose{max-width:720px;margin:0 auto}
   .chapter-toc{display:none}
   .chapter-toc-sticky{max-height:calc(100vh - 116px);overflow-y:auto}
-  .chapter-toc section+section{margin-top:30px}
   .chapter-toc h2{margin:0;color:var(--ink-3);font:10px/1.4 var(--font-mono);letter-spacing:.18em;text-transform:uppercase}
-  .chapter-toc-sections,.chapter-toc-chapters{margin:12px 0 0;padding:0;list-style:none}
+  .chapter-toc-sections{margin:12px 0 0;padding:0;list-style:none}
   .chapter-toc-sections{border-left:1px solid var(--rule)}
   .chapter-toc-sections button{position:relative;display:block;width:100%;padding:7px 2px 7px 13px;border:0;background:transparent;color:var(--ink-3);text-align:left;font-size:13px;line-height:1.4;transition:color .2s}
   .chapter-toc-sections button:hover,.chapter-toc-sections button.is-active{color:var(--ink)}
   .chapter-toc-sections button.is-active{font-weight:600}
   .chapter-toc-sections button.is-active:before{position:absolute;top:0;bottom:0;left:-1px;width:2px;background:var(--accent);content:""}
-  .chapter-toc-sections button span,.chapter-toc-chapters button span{margin-right:8px;color:var(--accent);font:10px var(--font-mono);white-space:nowrap}
-  .chapter-toc-chapters{display:grid;gap:7px}
-  .chapter-toc-chapters button{display:flex;width:100%;align-items:baseline;padding:2px 0;border:0;background:transparent;color:var(--ink-3);text-align:left;font-size:13px;line-height:1.4;transition:color .2s}
-  .chapter-toc-chapters button:hover,.chapter-toc-chapters button.is-current{color:var(--accent)}
-  .chapter-toc-back{margin-top:15px;padding:0;border:0;background:transparent;color:var(--ink-3);font:10px var(--font-mono);letter-spacing:.12em;text-transform:uppercase;transition:color .2s}
-  .chapter-toc-back:hover{color:var(--accent)}
+  .chapter-toc-sections button span{margin-right:8px;color:var(--accent);font:10px var(--font-mono);white-space:nowrap}
   .book-section{scroll-margin-top:92px;margin:0 0 46px;counter-increment:section}
   .book-section h2{display:grid;grid-template-columns:118px minmax(0,1fr);grid-template-rows:auto auto;align-items:end;column-gap:14px;row-gap:0;margin:0 0 22px;padding-bottom:11px;border-bottom:1px solid var(--rule);font:600 29px/1.2 var(--font-display);letter-spacing:-.02em}
   .book-section h2:before{content:counter(chapter) "." counter(section);grid-column:1;grid-row:1 / 3;align-self:center;color:transparent;-webkit-text-stroke:1px var(--accent);font:300 70px/.88 var(--font-display);letter-spacing:-.055em}

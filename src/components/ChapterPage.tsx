@@ -109,24 +109,7 @@ export function ChapterPage({ topic, chapter, onIndex, onOpenChapter }: {
               </ol>
             </section>
 
-            <section>
-              <h2>Capitoli</h2>
-              <ol className="chapter-toc-chapters">
-                {chapters.map((item, chapterIndex) => (
-                  <li key={item.id}>
-                    <button
-                      type="button"
-                      className={item.id === chapter.id ? "is-current" : ""}
-                      aria-current={item.id === chapter.id ? "page" : undefined}
-                      onClick={() => onOpenChapter(item.id)}
-                    >
-                      <span>{String(chapterIndex + 1).padStart(2, "0")}</span>{item.title}
-                    </button>
-                  </li>
-                ))}
-              </ol>
-              <button className="chapter-toc-back" type="button" onClick={onIndex}>← Indice del corso</button>
-            </section>
+
           </div>
         </aside>
       </div>
