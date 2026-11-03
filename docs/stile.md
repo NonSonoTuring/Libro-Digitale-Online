@@ -166,3 +166,14 @@ Le schede non sono codificate una per una: `src/components/Home.tsx` legge `topi
 ## Token cromatici e accessibilità
 
 Il terracotta della Home è il token `--terra` (utility `text-terra`), con variante più chiara nel tema scuro. `--muted`, `--ink-soft` e `--line` sono alias Tailwind dei token testuali e del bordo condivisi. Il focus da tastiera è visibile; su schermi stretti la hero diventa a colonna singola e le schede si dispongono verticalmente. Le animazioni rispettano `prefers-reduced-motion`.
+
+---
+
+# Numerazione dei capitoli e delle sezioni
+
+Il numero nella testata di ogni capitolo e il numero di ogni sezione usano lo stesso stile tipografico **a contorno**: carattere Fraunces leggero, riempimento trasparente e bordo colorato tramite `-webkit-text-stroke`. Il numero del capitolo è un intero (1, 2, 3…), quello della sezione mantiene la forma gerarchica capitolo.sezione (1.1, 1.2…); entrambi devono restare grandi, vuoti all'interno e leggibili sul tema attivo.
+
+Nelle intestazioni delle sezioni mostrare soltanto il numero grande a contorno a sinistra e il titolo della sezione a destra. **Non aggiungere una piccola etichetta testuale** come «SEZIONE 1.1» sopra al titolo: la numerazione grande è già sufficiente. Il numero viene generato dai contatori CSS, quindi non va scritto manualmente nei file MDX. Su mobile ridurre proporzionalmente dimensione e spessore del contorno, senza reintrodurre l'etichetta.
+
+La testata del capitolo applica lo stesso trattamento al numero intero del capitolo, accanto al titolo e al sottotitolo. Le regole sono in `src/styles/home.css`; il componente `src/components/ChapterPage.tsx` fornisce il numero progressivo e il CSS dei blocchi `.book-section` genera la numerazione delle sezioni.
+
