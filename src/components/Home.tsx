@@ -117,10 +117,6 @@ export function Home({ theme, onOpenTopic }: {
                     <div className="home-card-keywords">
                       {topic.keywords.slice(0, 5).map((keyword) => <span key={keyword}>{keyword}</span>)}
                     </div>
-                    <div className="home-card-overlay-footer">
-                      <span>{topic.chapters.length} capitoli · {topic.chapters.reduce((total, chapter) => total + chapter.minutes, 0)} min</span>
-                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9" /></svg>
-                    </div>
                   </div>
                 </div>
 

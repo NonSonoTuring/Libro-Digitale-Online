@@ -503,11 +503,11 @@ La Home adotta una composizione editoriale a piena larghezza, con contenuti alli
 1. **Hero:** riga di metadati con edizione e stato didattico, seguita da un layout a due colonne. La colonna editoriale usa il kicker mono in terra, il titolo Fraunces `.display-title`, il sottotitolo serif, la descrizione, due azioni e tre indicatori. La colonna visiva usa le copertine dei primi tre percorsi registrati.
 2. **Ticker:** striscia continua a larghezza piena; le voci derivano dai titoli dei capitoli e vengono duplicate per consentire l'animazione lineare fino a `translateX(-50%)`. L'animazione rallenta con `prefers-reduced-motion`.
 3. **Catalogo:** sezione con bordo superiore e fondo `surface` attenuato. La testata allinea titolo e conteggio; la griglia usa tre colonne a partire dal breakpoint medio.
-4. **Schede:** immagini a 240/260 px con scala e desaturazione iniziali, gradiente scuro, disciplina, numerazione e titoli. Al passaggio del puntatore o al focus compare la scheda scura sovrapposta, con abstract, parole chiave, numero di capitoli, minuti e indicatore di apertura. Il pannello inferiore conserva l'abstract completo e il collegamento al percorso.
+4. **Schede:** immagini a 240/260 px, gradiente scuro, disciplina, numerazione e titoli. Al passaggio del puntatore o al focus compare la scheda scura sovrapposta: sotto «Scheda del percorso» mostra la sola frase `homeDescription`, giustificata, seguita dalle parole chiave. Non mostra conteggi di capitoli o minuti. Il pannello inferiore ripete la frase breve e il comando per aprire il percorso; la descrizione estesa resta nella pagina interna.
 
 ## Contenuto e aggiornamento
 
-Le schede non sono codificate una per una: `src/components/Home.tsx` legge `topics` da `src/data/topics.ts`. Numero dei percorsi, capitoli, minuti, ticker, copertine, titoli, abstract e parole chiave sono ricavati dai dati. Quando cambia il catalogo, si modificano i dati e non i contatori o la struttura JSX. La griglia resta a tre colonne sui desktop, ma accoglie anche ulteriori percorsi sulle righe successive.
+Le schede non sono codificate una per una: `src/components/Home.tsx` legge `topics` da `src/data/topics.ts`. Numero dei percorsi, capitoli, minuti, ticker, copertine, titoli, `homeDescription` e parole chiave sono ricavati dai dati. Quando cambia il catalogo, si modificano i dati e non i contatori o la struttura JSX. La griglia resta a tre colonne sui desktop, ma accoglie anche ulteriori percorsi sulle righe successive.
 
 ## Token cromatici e accessibilità
 

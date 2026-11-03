@@ -359,30 +359,22 @@ html[data-theme="dark"] .codex-hero h1 .codex-name-gabry {
   }
   .home-card-overlay > p {
     display: -webkit-box; overflow: hidden; margin: 0; color: #f4eee3;
-    font: 13.5px/1.42 var(--font-body); -webkit-box-orient: vertical; -webkit-line-clamp: 2;
+    font: 13.5px/1.42 var(--font-body); text-align: justify; text-justify: inter-word; hyphens: auto;
+    -webkit-box-orient: vertical; -webkit-line-clamp: 2;
   }
   .home-card-keywords { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 11px; }
   .home-card-keywords span {
     padding: 4px 7px; border: 1px solid #ffffff48; color: #f4eee3; font: 8px/1.2 var(--font-mono); letter-spacing: .04em;
   }
-  .home-card-overlay-footer {
-    display: flex; align-items: center; justify-content: space-between; gap: 12px;
-    margin-top: 13px; padding-top: 10px; border-top: 1px solid #ffffff3d;
-    color: #e7dccc; font: 8px/1.4 var(--font-mono); letter-spacing: .08em; text-transform: uppercase;
-  }
-  .home-card-overlay-footer svg {
-    width: 17px; height: 17px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.5;
-    stroke-linecap: round; stroke-linejoin: round;
-  }
   .home-card-lower {
-    display: flex; min-height: 190px; flex: 1; flex-direction: column; justify-content: space-between; background: var(--paper);
+    display: flex; min-height: 0; flex: 1; flex-direction: column; justify-content: flex-start; background: var(--paper);
   }
   .home-card-description {
     display: -webkit-box; overflow: hidden; margin: 0; color: var(--ink-2); font: 15px/1.62 var(--font-body);
     text-align: justify; text-justify: inter-word; hyphens: auto;
     -webkit-box-orient: vertical; -webkit-line-clamp: 2;
   }
-  .home-card-bottom { margin-top: 21px; padding-top: 13px; border-top: 1px solid var(--rule); }
+  .home-card-bottom { margin-top: 14px; padding-top: 13px; border-top: 1px solid var(--rule); }
   .home-card-bottom button {
     display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 12px;
     padding: 0; border: 0; background: transparent; color: var(--ink); font: 9px/1.4 var(--font-mono);

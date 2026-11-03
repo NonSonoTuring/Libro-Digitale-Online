@@ -43,9 +43,9 @@ Le schede sono definite in `src/components/Home.tsx` e stilizzate in `src/styles
 - Il catalogo è racchiuso in `.book-container`: larghezza 100%, massimo 1280 px, margini automatici e padding laterale fluido `clamp(1.15rem, 4vw, 4rem)`.
 - La griglia usa una colonna sui dispositivi stretti e **tre colonne da `md` in su**, con distanza di 20 px (`gap-5`) e 24 px al breakpoint `lg` (`gap-6`). Se i percorsi sono più di tre, le schede continuano sulle righe successive.
 - La copertina occupa tutta la larghezza della card: **240 px di altezza sui viewport più stretti e 260 px da `sm` in su**. L'immagine usa `object-fit: cover`; prepara quindi una copertina in cui il soggetto principale tolleri il ritaglio.
-- Il blocco inferiore usa padding **20 px** (`p-5`) e ha un'altezza minima di **190 px** sui layout più ampi; sotto 560 px l'altezza torna automatica. L'altezza complessiva della scheda è fluida e la griglia allinea le card della stessa riga.
+- Il blocco inferiore usa padding **20 px** (`p-5`) e si dimensiona sul contenuto, senza altezza minima artificiale e senza distribuire gli elementi agli estremi. La linea «Apri il percorso» segue la descrizione con un margine superiore di **14 px**; l'altezza complessiva resta fluida e la griglia allinea le card della stessa riga.
 - La descrizione breve occupa al massimo **due righe**. Sotto resta la linea divisoria e il comando «Apri il percorso». Non aumentare lo spazio con un abstract lungo.
-- Nell'overlay compaiono la stessa frase breve, fino a cinque parole chiave, conteggio dei capitoli e minuti. L'overlay non deve diventare una seconda descrizione estesa.
+- Nell'overlay, sotto «Scheda del percorso», compare la stessa frase breve, con testo giustificato, seguita da un massimo di cinque parole chiave. **Non mostrare conteggi di capitoli o minuti nelle schede**, né nell'overlay né nel blocco sotto la copertina.
 
 Quando aggiungi, rimuovi o riordini un percorso, aggiorna `src/data/topics.ts` e le risorse richieste: Home, contatori, ticker e griglia si aggiornano senza modificare `Home.tsx`. Mantieni sempre `homeDescription` per ogni argomento; non usare `abstract` come ripiego nella Home e non filtrare percorsi per conservare un numero fisso di schede.
 
