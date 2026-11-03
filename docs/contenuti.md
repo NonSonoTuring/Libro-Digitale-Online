@@ -11,11 +11,12 @@ Questa guida segue la struttura reale del progetto: i corsi mostrati in Home son
 
 ## Home: schede, descrizioni brevi e indicatori derivati dai dati
 
-La Home legge l'array `topics` da `src/data/topics.ts` e genera una scheda per ogni oggetto `Topic`. Numero dei percorsi, numero dei capitoli, minuti di lettura e voci del ticker sono calcolati dai dati; copertine, titoli, sottotitoli, discipline, descrizioni brevi e parole chiave sono letti dallo stesso oggetto usato per il routing.
+La Home legge l'array `topics` da `src/data/topics.ts` e genera una scheda per ogni oggetto `Topic`. Numero dei percorsi, numero dei capitoli, minuti di lettura e voci del ticker sono calcolati dai dati; copertine, titoli, sottotitoli, discipline, descrizioni brevi, approfondimenti da hover e parole chiave sono letti dallo stesso oggetto usato per il routing.
 
-**La scheda Home deve presentare l'argomento con una sola frase breve.** Per questo ogni `Topic` ha due campi distinti:
+**La scheda Home usa due livelli di descrizione, con funzioni diverse.** Il tipo `Topic` separa i testi in tre campi:
 
-- `homeDescription`: frase sintetica visibile nella scheda Home, sia nel blocco inferiore sia nell'overlay. Deve descrivere l'identità complessiva del percorso, non riassumere il programma o elencare i capitoli.
+- `homeDescription`: frase sintetica mostrata nel blocco inferiore, sempre visibile sotto la copertina. Deve esprimere l'identità del percorso in modo immediato.
+- `homeHoverDescription`: spiegazione più ricca mostrata nell'overlay al passaggio del puntatore o al focus da tastiera. In una o due frasi aggiunge informazioni concrete sull'argomento e su ciò che si esplora, senza diventare il riassunto completo del corso.
 - `abstract`: descrizione estesa, destinata alla pagina interna del percorso (`src/components/CourseIndex.tsx`). Può spiegare obiettivi, contenuti, opere e attività in più frasi; non viene mostrata nelle schede Home.
 
 ### Come scrivere `homeDescription`
@@ -36,6 +37,23 @@ Esempi di tono e lunghezza:
 | Il quadro | Luce, colore e composizione per imparare a leggere un dipinto. |
 | Neoclassicismo | Corpo, luce e allegoria: il momento del Neoclassico. |
 
+### Come scrivere `homeHoverDescription`
+
+- Scrivi una spiegazione autonoma di **una o due frasi**, indicativamente tra **160 e 210 caratteri**.
+- Aggiungi informazioni che la frase breve non può contenere: un concetto, un metodo, un'opera o una relazione che aiuti a capire cosa si approfondisce nel percorso.
+- Sii specifico per quell'argomento: nomina gli elementi che lo rendono riconoscibile e chiarisci che cosa si potrà comprendere osservandoli.
+- Evita l'elenco dei capitoli, il catalogo delle attività, le formule promozionali e la ripetizione di titolo, sottotitolo o `abstract`.
+- Il testo è giustificato e limitato a **cinque righe** nell'overlay: privilegia frasi compatte e informazioni essenziali, così resta leggibile insieme alle parole chiave.
+
+Esempi per i percorsi attuali:
+
+| Argomento | `homeHoverDescription` |
+|---|---|
+| Reti neurali artificiali | Dal neurone artificiale alle reti di più strati: segnali, pesi e funzioni di attivazione trasformano i dati in previsioni. Il gradiente mostra come la rete corregge i propri pesi durante l’apprendimento. |
+| Il cubo | Dai vertici, spigoli e facce si passa alle rotazioni che conservano il cubo. La quarta dimensione entra in scena con il tesseratto, esplorato attraverso simmetrie e proiezioni. |
+| Il quadro | Leggere un dipinto significa seguire la luce, distinguere i valori tonali e capire come i colori si influenzano. La composizione rivela il percorso dello sguardo e l’equilibrio dell’opera. |
+| Neoclassicismo | Canova e David guardano all’antico per costruire un nuovo ideale: nella scultura contano equilibrio e gesto, nella pittura mito e virtù civica diventano immagini di impegno e memoria. |
+
 ### Dimensioni e struttura della scheda
 
 Le schede sono definite in `src/components/Home.tsx` e stilizzate in `src/styles/home.css`. Non assegnare una larghezza fissa alla singola card: la griglia calcola la larghezza in base al contenitore editoriale e allo schermo.
@@ -44,8 +62,8 @@ Le schede sono definite in `src/components/Home.tsx` e stilizzate in `src/styles
 - La griglia usa una colonna sui dispositivi stretti e **tre colonne da `md` in su**, con distanza di 20 px (`gap-5`) e 24 px al breakpoint `lg` (`gap-6`). Se i percorsi sono più di tre, le schede continuano sulle righe successive.
 - La copertina occupa tutta la larghezza della card: **240 px di altezza sui viewport più stretti e 260 px da `sm` in su**. L'immagine usa `object-fit: cover`; prepara quindi una copertina in cui il soggetto principale tolleri il ritaglio.
 - Il blocco inferiore usa padding **20 px** (`p-5`) e si dimensiona sul contenuto, senza altezza minima artificiale e senza distribuire gli elementi agli estremi. La linea «Apri il percorso» segue la descrizione con un margine superiore di **14 px**; l'altezza complessiva resta fluida e la griglia allinea le card della stessa riga.
-- La descrizione breve occupa al massimo **due righe**. Sotto resta la linea divisoria e il comando «Apri il percorso». Non aumentare lo spazio con un abstract lungo.
-- Nell'overlay, sotto «Scheda del percorso», compare la stessa frase breve, con testo giustificato, seguita da un massimo di cinque parole chiave. **Non mostrare conteggi di capitoli o minuti nelle schede**, né nell'overlay né nel blocco sotto la copertina.
+- La descrizione breve `homeDescription` occupa al massimo **due righe**. Sotto resta la linea divisoria e il comando «Apri il percorso».
+- Nell'overlay, sotto «Scheda del percorso», compare `homeHoverDescription`, con testo giustificato e un limite di **cinque righe**, seguito da un massimo di cinque parole chiave. **Non mostrare conteggi di capitoli o minuti nelle schede**, né nell'overlay né nel blocco sotto la copertina.
 
 Quando aggiungi, rimuovi o riordini un percorso, aggiorna `src/data/topics.ts` e le risorse richieste: Home, contatori, ticker e griglia si aggiornano senza modificare `Home.tsx`. Mantieni sempre `homeDescription` per ogni argomento; non usare `abstract` come ripiego nella Home e non filtrare percorsi per conservare un numero fisso di schede.
 
