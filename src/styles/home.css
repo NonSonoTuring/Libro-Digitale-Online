@@ -244,18 +244,6 @@ html[data-theme="dark"] .codex-hero h1 .codex-name-gabry {
   }
   .home-hero-subtitle em { color: var(--ink); font-style: italic; }
   .home-hero-description { max-width: 31rem; margin-top: 16px; color: var(--ink-3); font-size: 13.5px; line-height: 1.7; }
-  .home-hero-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 29px; }
-  .home-primary-button, .home-secondary-button {
-    display: inline-flex; min-height: 44px; align-items: center; justify-content: center; gap: 12px;
-    padding: 0 17px; border: 1px solid var(--ink); font: 10px/1 var(--font-mono);
-    letter-spacing: .08em; text-transform: uppercase; text-decoration: none;
-    transition: color .25s, background .25s, border-color .25s, transform .25s;
-  }
-  .home-primary-button { background: var(--ink); color: var(--paper); }
-  .home-primary-button:hover { transform: translateY(-2px); border-color: var(--terra); background: var(--terra); color: #fff8ef; }
-  .home-primary-button span, .home-secondary-button span { font-size: 15px; }
-  .home-secondary-button { border-color: var(--rule); color: var(--ink-2); }
-  .home-secondary-button:hover { border-color: var(--terra); color: var(--terra); }
   .home-statistics {
     display: flex; flex-wrap: wrap; gap: clamp(24px, 4vw, 48px); margin-top: 37px;
     padding-top: 17px; border-top: 1px solid var(--rule);
@@ -373,7 +361,7 @@ html[data-theme="dark"] .codex-hero h1 .codex-name-gabry {
     text-align: justify; text-justify: inter-word; hyphens: auto;
     -webkit-box-orient: vertical; -webkit-line-clamp: 2;
   }
-  .home-card:focus-visible, .home-primary-button:focus-visible, .home-secondary-button:focus-visible {
+  .home-card:focus-visible {
     outline: 2px solid var(--terra); outline-offset: 4px;
   }
 

@@ -37,13 +37,6 @@ export function Home({ theme, onOpenTopic }: {
                 modelli esplorabili e letture visive. Nessuna semplificazione da manuale per bambini.
               </p>
 
-              <div className="home-hero-actions">
-                <button type="button" className="home-primary-button" onClick={() => topics[0] && onOpenTopic(topics[0].id)}>
-                  Entra nel volume <span aria-hidden="true">↗</span>
-                </button>
-                <a className="home-secondary-button" href="#corsi">Indice generale <span aria-hidden="true">↓</span></a>
-              </div>
-
               <div className="home-statistics" aria-label="Statistiche del volume">
                 <div><strong>{String(topics.length).padStart(2, "0")}</strong><span>Percorsi</span></div>
                 <div><strong>{String(chapterCount).padStart(2, "0")}</strong><span>Capitoli</span></div>
