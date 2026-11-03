@@ -69,10 +69,8 @@ export function ChapterPage({ topic, chapter, onIndex, onOpenChapter }: {
     <div className="chapter-page">
       <button className="back-link" onClick={onIndex}>← Indice del corso</button>
       <header className="chapter-heading">
-        <nav className="chapter-breadcrumbs"><span>Corso {topic.numeral} · {topic.title}</span><i>/</i><span>Capitolo {index + 1} di {chapters.length}</span></nav>
         <div className="chapter-title-row"><span className="chapter-numeral">{index + 1}</span><div><h1>{chapter.title}</h1>{meta?.subtitle && <p className="chapter-subtitle">{meta.subtitle}</p>}</div></div>
         {meta?.epigraph && <blockquote className="chapter-epigraph"><p>«{meta.epigraph.text}»</p><cite>{meta.epigraph.author}</cite></blockquote>}
-        <div className="chapter-meta"><span>{chapter.sections.length} sezioni</span><span>{chapter.minutes} min di lettura</span><span>{topic.styleLabel}</span></div>
       </header>
       <div className="chapter-body-grid">
         <div className="chapter-reading-column">
