@@ -1,14 +1,22 @@
+/* Tema scuro globale: carta carbone e superfici materiche. */
 html[data-theme="dark"] {
-  --desk: #211c15;
-  --paper: #211c15;
-  --paper-2: #2a241b;
-  --card: #2a241b;
-  --paper-3: #332b20;
-  --ink: #ece2cc;
-  --ink-2: #b3a888;
-  --ink-3: #8e856c;
-  --rule: #453b2b;
-  --accent: #c9a15a;
-  --accent-2: #6fb2bf;
+  --desk: #100f0c;
+  --paper: #171612;
+  --paper-2: #201e19;
+  --surface: #201e19;
+  --card: var(--surface);
+  --paper-3: #2a2721;
+
+  --ink: #e9e5dc;
+  --ink-2: #bdb6a9;
+  --ink-3: #918a7e;
+  --rule: #3b372f;
+
+  --accent: #c7a66b;
+  --accent-2: #84afb1;
+  --glow:
+    0 0 0 1px color-mix(in oklab, var(--accent) 34%, transparent),
+    0 18px 40px -18px color-mix(in oklab, var(--accent) 30%, transparent);
+
   color-scheme: dark;
 }

@@ -1,42 +1,10 @@
 @import "tailwindcss";
 
-/* ------------------------------------------------------------------ */
-/*  Design tokens — carta e inchiostro                                 */
-/* ------------------------------------------------------------------ */
-:root {
-  --desk: #e2d9c8;
-  --paper: #f7f2e9;
-  --paper-2: #efe8db;
-  --paper-3: #e6ddcc;
-  --ink: #2b2824;
-  --ink-2: #5c564d;
-  --ink-3: #8e877b;
-  --rule: #d8cfbe;
-  --accent: #7c5e2c;
-  --accent-2: #3f6e77;
-  --glow: 0 0 0 1px color-mix(in oklab, var(--accent) 35%, transparent),
-    0 18px 40px -18px color-mix(in oklab, var(--accent) 55%, transparent);
-  color-scheme: light;
-}
-
-html[data-theme="dark"] {
-  --desk: #0c0e11;
-  --paper: #171a1f;
-  --paper-2: #1e2228;
-  --paper-3: #262b33;
-  --ink: #e9e3d7;
-  --ink-2: #b7afa1;
-  --ink-3: #7f786e;
-  --rule: #2f343d;
-  --accent: #c9a15a;
-  --accent-2: #6fb2bf;
-  color-scheme: dark;
-}
-
 @theme inline {
   --color-desk: var(--desk);
   --color-paper: var(--paper);
   --color-paper-2: var(--paper-2);
+  --color-surface: var(--surface);
   --color-paper-3: var(--paper-3);
   --color-ink: var(--ink);
   --color-ink-2: var(--ink-2);

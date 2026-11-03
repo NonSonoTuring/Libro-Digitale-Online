@@ -38,7 +38,7 @@ export default function App() {
     root.dataset.theme = theme;
     document.querySelector('meta[name="theme-color"]')?.setAttribute(
       "content",
-      theme === "dark" ? "#211c15" : "#f4efe3",
+      theme === "dark" ? "#171612" : "#f4efe3",
     );
   }, [theme]);
 

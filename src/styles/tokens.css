@@ -3,7 +3,8 @@
   --desk: #f4efe3;
   --paper: #f4efe3;
   --paper-2: #ede5d3;
-  --card: #fdfaf2;
+  --surface: #fdfaf2;
+  --card: var(--surface);
   --paper-3: #e6ddcc;
   --ink: #2b2620;
   --ink-2: #5c554a;

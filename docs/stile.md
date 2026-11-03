@@ -6,6 +6,52 @@ La scelta si fa di volta in volta, in base al contenuto, alla funzione della fig
 
 Per ogni stile il catalogo raccoglie le informazioni necessarie a riconoscerlo e ricrearlo: intento visivo, palette, tipografia, strumenti e parametri, comportamento del layout, codice di esempio, varianti e indicazioni per portarlo nei componenti del progetto. Quando si aggiunge un nuovo linguaggio visivo, si crea una nuova scheda; quando si aggiunge un esempio dello stesso linguaggio, lo si inserisce nella scheda esistente evidenziando cosa condivide e cosa cambia.
 
+
+# Tema globale scuro — carbone materico
+
+Nome breve: **carbone materico** · Ambito: **tema applicativo globale, modalità scura**
+
+Questa è la resa della modalità scura dell'intera piattaforma, distinta dagli stili delle singole figure (per esempio **Sketch a mano — lavagna**). Non usa Rough.js né impone una tipografia manoscritta: mantiene la tipografia editoriale del sito e cambia la superficie dell'interfaccia.
+
+## Palette e token
+
+I valori effettivi sono definiti in `src/styles/themes.css`; i token di base e quelli del tema chiaro sono in `src/styles/tokens.css`.
+
+| Token | Colore | Uso |
+|---|---|---|
+| `--desk` | `#100f0c` | Fondo esterno della pagina |
+| `--paper` | `#171612` | Carta/sfondo principale |
+| `--surface` / `--card` | `#201e19` | Card, pannelli e superfici |
+| `--paper-3` | `#2a2721` | Superficie di contrasto, codice e dettagli |
+| `--ink` | `#e9e5dc` | Testo principale |
+| `--ink-2` | `#bdb6a9` | Testo secondario |
+| `--ink-3` | `#918a7e` | Metadati e testo attenuato |
+| `--rule` | `#3b372f` | Bordi e divisori |
+| `--accent` | `#c7a66b` | Accento caldo |
+| `--accent-2` | `#84afb1` | Accento freddo |
+
+I componenti devono preferire questi token a colori hard-coded, così home, indici, capitoli, card, formule e controlli restano coerenti quando si cambia tema. Le etichette sovrapposte alle copertine possono mantenere colori dedicati solo quando servono a garantire contrasto sull'immagine.
+
+## Grana carbone
+
+In modalità scura viene sovrapposto all'intero viewport un livello fisso definito in `src/styles/base.css` tramite `body::before`:
+
+- texture SVG generata con `feTurbulence` e `fractalNoise`;
+- fusione `soft-light`;
+- opacità CSS `0.4`;
+- livello fisso con `pointer-events: none`, quindi non intercetta clic o interazioni;
+- nessun livello di grana aggiuntivo in modalità chiara.
+
+La grana è una finitura dell'interfaccia globale: non va confusa con le texture locali delle illustrazioni, né replicata aggiungendo filtri a ogni singola pagina o componente.
+
+## Regole di estensione
+
+- Per cambiare l'atmosfera globale, intervenire sui token in `themes.css`, non riscrivere i colori delle singole pagine.
+- Per nuove superfici, usare `--surface`, `--card`, `--paper-2` e `--paper-3` in base alla gerarchia visiva.
+- Per testo e bordi, usare `--ink`, `--ink-2`, `--ink-3` e `--rule`.
+- Non applicare la palette carbone alle illustrazioni che hanno un proprio sfondo didattico o una palette semantica, a meno che la figura non debba adattarsi esplicitamente al tema.
+- La modalità scura resta una scelta dell'utente e non modifica i colori del tema chiaro.
+
 ---
 
 # Sketch a mano — lavagna
