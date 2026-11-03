@@ -73,7 +73,7 @@ In `src/data/topics.ts` aggiungi un oggetto `Topic` nell'ordine desiderato:
 
 ```ts
 {
-  id: "argomento1", title: "Argomento1", subtitle: "Sottotitolo breve",
+  id: "argomento1", numeral: "IV", title: "Argomento1", subtitle: "Sottotitolo breve",
   discipline: "Materia", level: "Livello", hours: "≈ 30 min",
   abstract: "Descrizione estesa del percorso, usata nella pagina interna.",
   homeDescription: "Una frase sintetica che ne esprime il tema centrale.",
