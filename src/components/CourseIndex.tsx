@@ -19,7 +19,6 @@ export function CourseIndex({ topic, onHome, onOpenChapter }: { topic: Topic; on
         <aside className="topic-sidebar" aria-label={`Copertina del corso ${topic.title}`}>
           <div className={`topic-cover ${topic.style}`}>
             <img src={cover} alt={topic.id === "il-quadro" ? "Natura morta con pesche e uva di Anna Ruysch" : topic.id === "neoclassicismo" ? "Le Tre Grazie di Antonio Canova, immagine di copertina del corso" : `Copertina: ${topic.title}`} />
-            <span className="topic-cover-numeral">{topic.numeral}</span>
           </div>
         </aside>
 

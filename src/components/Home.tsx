@@ -84,7 +84,7 @@ export function Home({ theme, onOpenTopic }: {
           </div>
 
           <div className="grid gap-5 md:grid-cols-3 lg:gap-6 mt-10">
-            {topics.map((topic, index) => (
+            {topics.map((topic) => (
               <article
                 className="home-card group"
                 key={topic.id}
@@ -110,7 +110,6 @@ export function Home({ theme, onOpenTopic }: {
                   <div className="absolute inset-0 bg-gradient-to-t from-[#1a1814]/85 via-[#1a1814]/20 to-transparent" />
                   <div className="home-card-badges">
                     <span>{topic.discipline}</span>
-                    <i>{String(index + 1).padStart(2, "0")}</i>
                   </div>
                   <div className="home-card-heading">
                     <span>{topic.discipline.split("·")[0].trim()}</span>

@@ -60,7 +60,7 @@ Le schede sono definite in `src/components/Home.tsx` e stilizzate in `src/styles
 
 - Il catalogo è racchiuso in `.book-container`: larghezza 100%, massimo 1280 px, margini automatici e padding laterale fluido `clamp(1.15rem, 4vw, 4rem)`.
 - La griglia usa una colonna sui dispositivi stretti e **tre colonne da `md` in su**, con distanza di 20 px (`gap-5`) e 24 px al breakpoint `lg` (`gap-6`). Se i percorsi sono più di tre, le schede continuano sulle righe successive.
-- La copertina occupa tutta la larghezza della card: **240 px di altezza sui viewport più stretti e 260 px da `sm` in su**. L'immagine usa `object-fit: cover`; prepara quindi una copertina in cui il soggetto principale tolleri il ritaglio.
+- La copertina occupa tutta la larghezza della card: **240 px di altezza sui viewport più stretti e 260 px da `sm` in su**. L'immagine usa `object-fit: cover`; prepara quindi una copertina in cui il soggetto principale tolleri il ritaglio. Sulla copertina compare soltanto l'etichetta della disciplina: non aggiungere numeri ordinali nell'angolo.
 - Il blocco inferiore usa padding **20 px** (`p-5`) e contiene soltanto la descrizione breve; si dimensiona sul contenuto, senza altezza minima artificiale o barra d'azione.
 - La descrizione breve `homeDescription` occupa al massimo **due righe**. Non aggiungere un pulsante o una fascia «Apri il percorso»: l'intera scheda è attivabile e conduce all'indice dei capitoli. La scheda è un unico elemento attivabile: ogni punto della copertina, dell'overlay, delle parole chiave e della descrizione apre il percorso corrispondente. Deve essere raggiungibile da tastiera e aprirsi con Invio; non inserire pulsanti o link interni alla scheda.
 - Nell'overlay, sotto «Scheda del percorso», compare `homeHoverDescription`, con testo giustificato e un limite di **cinque righe**, seguito da un massimo di cinque parole chiave. **Non mostrare conteggi di capitoli o minuti nelle schede**, né nell'overlay né nel blocco sotto la copertina.
@@ -73,7 +73,7 @@ In `src/data/topics.ts` aggiungi un oggetto `Topic` nell'ordine desiderato:
 
 ```ts
 {
-  id: "argomento1", numeral: "IV", title: "Argomento1", subtitle: "Sottotitolo breve",
+  id: "argomento1", title: "Argomento1", subtitle: "Sottotitolo breve",
   discipline: "Materia", level: "Livello", hours: "≈ 30 min",
   abstract: "Descrizione estesa del percorso, usata nella pagina interna.",
   homeDescription: "Una frase sintetica che ne esprime il tema centrale.",
@@ -87,7 +87,7 @@ In `src/data/topics.ts` aggiungi un oggetto `Topic` nell'ordine desiderato:
 - `id` deve essere kebab-case e identico alla cartella in `src/contenuti/argomenti/<id>/`.
 - `cover` punta a `public/images/...` tramite `image()`; la Home usa questa immagine.
 - La pagina del corso usa `detailCovers` in `src/components/CourseIndex.tsx`, con immagini in `public/images/topic-covers/`. Tutte le copertine della pagina corso hanno lo stesso formato verticale **1:2** (1120 × 2240 px); il ritaglio è gestito da `src/styles/home.css`. Il contenitore `.topic-cover` applica una cornice bianca continua da **2 px** e non usa ombre o estrusioni.
-- La pagina del corso mostra copertina, titolo, sottotitolo, descrizione e indice dei capitoli. Non mostra livello, durata complessiva, conteggio sezioni, prerequisiti o riferimenti; alcuni metadati, come disciplina e livello, sono usati nelle schede della Home.
+- La pagina del corso mostra copertina, titolo, sottotitolo, descrizione e indice dei capitoli. La copertina non sovrappone numeri romani o altre etichette numeriche all'immagine. Non mostra livello, durata complessiva, conteggio sezioni, prerequisiti o riferimenti; alcuni metadati, come disciplina e livello, sono usati nelle schede della Home.
 - `sections` elenca i titoli nello stesso ordine degli `<h2>` del MDX. Ogni `<section className="book-section">` deve avere un `id` univoco, per esempio `id="sec-sezione-1"`: l'indice fisso a destra usa questi ID per saltare alla sezione e aggiornare l'evidenziazione durante lo scorrimento. Il numero capitolo.sezione viene generato automaticamente dal CSS: nel titolo MDX scrivi soltanto il nome della sezione, senza prefissi numerici o etichette come «SEZIONE 1.1».
 
 ### Immagini: dove salvarle e come usarle
