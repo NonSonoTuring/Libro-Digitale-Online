@@ -89,7 +89,7 @@ export default function App() {
 
   return (
     <div className="page-shell">
-      <div className="sheet" style={accentStyle}>
+      <div className="sheet grain" style={accentStyle}>
         <Header theme={theme} topic={topic} chapter={chapter} onHome={home} onCourses={goCourses} onToggleTheme={toggleTheme} />
         <main>
           {route.view === "home" || !topic ? (

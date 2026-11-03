@@ -19,10 +19,9 @@ I valori effettivi sono definiti in `src/styles/themes.css`; i token di base e q
 
 | Token | Colore | Uso |
 |---|---|---|
-| `--desk` | `#100f0c` | Fondo esterno della pagina |
-| `--paper` | `#171612` | Carta/sfondo principale |
-| `--surface` / `--card` | `#201e19` | Card, pannelli e superfici |
-| `--paper-3` | `#2a2721` | Superficie di contrasto, codice e dettagli |
+| `--color-paper` / `--paper` / `--desk` | `#171612` | Sfondo principale della pagina |
+| `--color-surface` / `--surface` / `--card` | `#201e19` | Card, pannelli e contenitori |
+| `--color-surface-2` / `--surface-2` / `--paper-3` | `#292620` | Hover ed elementi elevati |
 | `--ink` | `#e9e5dc` | Testo principale |
 | `--ink-2` | `#bdb6a9` | Testo secondario |
 | `--ink-3` | `#918a7e` | Metadati e testo attenuato |
@@ -34,20 +33,20 @@ I componenti devono preferire questi token a colori hard-coded, così home, indi
 
 ## Grana carbone
 
-In modalità scura viene sovrapposto all'intero viewport un livello fisso definito in `src/styles/base.css` tramite `body::before`:
+In modalità scura la grana è applicata tramite la classe `.grain` sul contenitore principale `.sheet` in `src/App.tsx`. Lo pseudoelemento `.grain::after` è definito in `src/styles/base.css`:
 
-- texture SVG generata con `feTurbulence` e `fractalNoise`;
-- fusione `soft-light`;
-- opacità CSS `0.4`;
-- livello fisso con `pointer-events: none`, quindi non intercetta clic o interazioni;
-- nessun livello di grana aggiuntivo in modalità chiara.
+- posizione `fixed`, `inset: 0`, livello `z-index: 60`;
+- texture SVG tramite `feTurbulence` di tipo `fractalNoise`, frequenza `0.85`, `3` ottave e `stitchTiles: stitch`;
+- fusione `soft-light` e opacità CSS `0.4` (il rettangolo SVG ha opacità `0.5`);
+- `pointer-events: none`, quindi il livello non intercetta clic, focus o interazioni;
+- la regola è attiva solo con `data-theme="dark"`, non aggiunge grana al tema chiaro.
 
 La grana è una finitura dell'interfaccia globale: non va confusa con le texture locali delle illustrazioni, né replicata aggiungendo filtri a ogni singola pagina o componente.
 
 ## Regole di estensione
 
 - Per cambiare l'atmosfera globale, intervenire sui token in `themes.css`, non riscrivere i colori delle singole pagine.
-- Per nuove superfici, usare `--surface`, `--card`, `--paper-2` e `--paper-3` in base alla gerarchia visiva.
+- Per nuove superfici, usare `--color-surface`, `--color-surface-2` e gli alias compatibili `--surface`, `--card`, `--paper-2` e `--paper-3` in base alla gerarchia visiva.
 - Per testo e bordi, usare `--ink`, `--ink-2`, `--ink-3` e `--rule`.
 - Non applicare la palette carbone alle illustrazioni che hanno un proprio sfondo didattico o una palette semantica, a meno che la figura non debba adattarsi esplicitamente al tema.
 - La modalità scura resta una scelta dell'utente e non modifica i colori del tema chiaro.

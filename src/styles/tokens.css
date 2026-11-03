@@ -5,7 +5,8 @@
   --paper-2: #ede5d3;
   --surface: #fdfaf2;
   --card: var(--surface);
-  --paper-3: #e6ddcc;
+  --surface-2: #e6ddcc;
+  --paper-3: var(--surface-2);
   --ink: #2b2620;
   --ink-2: #5c554a;
   --ink-3: #8e877b;
