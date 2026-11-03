@@ -316,7 +316,7 @@ html[data-theme="dark"] .codex-hero h1 .codex-name-gabry {
 
   .home-card {
     display: flex; min-width: 0; flex-direction: column; overflow: hidden; border: 1px solid var(--rule);
-    border-radius: 0; background: var(--paper); color: var(--ink);
+    border-radius: 0; background: var(--paper); color: var(--ink); cursor: pointer; text-align: left;
     transition: transform .5s cubic-bezier(.22, 1, .36, 1), box-shadow .5s;
   }
   .home-card:hover, .home-card:focus-within {
@@ -373,23 +373,7 @@ html[data-theme="dark"] .codex-hero h1 .codex-name-gabry {
     text-align: justify; text-justify: inter-word; hyphens: auto;
     -webkit-box-orient: vertical; -webkit-line-clamp: 2;
   }
-  .home-card-bottom { margin-top: 14px; padding-top: 13px; border-top: 1px solid var(--rule); }
-  .home-card-bottom button {
-    display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 12px;
-    padding: 0; border: 0; background: transparent; color: var(--ink); font: 9px/1.4 var(--font-mono);
-    letter-spacing: .1em; text-align: left; text-transform: uppercase; transition: color .25s;
-  }
-  .home-card-bottom button:hover { color: var(--terra); }
-  .home-card-bottom button > i {
-    display: grid; width: 31px; height: 31px; flex: none; place-items: center;
-    border: 1px solid var(--rule); border-radius: 50%;
-    transition: color .25s, border-color .25s, background .25s, transform .25s;
-  }
-  .home-card-bottom button:hover > i { transform: translate(2px, -2px); border-color: var(--terra); background: var(--terra); color: #fff8ef; }
-  .home-card-bottom svg {
-    width: 13px; height: 13px; fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round;
-  }
-  .home-card button:focus-visible, .home-primary-button:focus-visible, .home-secondary-button:focus-visible {
+  .home-card:focus-visible, .home-primary-button:focus-visible, .home-secondary-button:focus-visible {
     outline: 2px solid var(--terra); outline-offset: 4px;
   }
 

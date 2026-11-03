@@ -84,7 +84,7 @@ export function Home({ theme, onOpenTopic }: {
               <span className="home-kicker font-mono text-[10px] uppercase tracking-[0.22em] text-terra">Percorsi</span>
               <h2 id="catalog-title" className="display-title display-title-section">Scegli da dove entrare.</h2>
               <p className="mt-3 max-w-lg font-serif text-[15px] leading-relaxed text-muted">
-                Passa il cursore su una copertina per illuminarla e leggere la scheda. Apri un percorso per trovarne l'indice dei capitoli.
+                Passa il cursore su una copertina per leggere la scheda. Seleziona una scheda in qualsiasi punto per raggiungere l'indice dei capitoli.
               </p>
             </div>
             <span className="home-catalog-count">{String(topics.length).padStart(2, "0")} percorsi — SELEZIONE</span>
@@ -92,7 +92,21 @@ export function Home({ theme, onOpenTopic }: {
 
           <div className="grid gap-5 md:grid-cols-3 lg:gap-6 mt-10">
             {topics.map((topic, index) => (
-              <article className="home-card group" key={topic.id} style={accent(topic)}>
+              <article
+                className="home-card group"
+                key={topic.id}
+                style={accent(topic)}
+                role="link"
+                tabIndex={0}
+                aria-label={`Apri il percorso ${topic.title}`}
+                onClick={() => onOpenTopic(topic.id)}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter") {
+                    event.preventDefault();
+                    onOpenTopic(topic.id);
+                  }
+                }}
+              >
                 <div className="home-card-image h-[240px] overflow-hidden relative sm:h-[260px]">
                   <img
                     className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.055]"
@@ -122,12 +136,6 @@ export function Home({ theme, onOpenTopic }: {
 
                 <div className="home-card-lower p-5">
                   <p className="home-card-description">{topic.homeDescription}</p>
-                  <div className="home-card-bottom">
-                    <button type="button" onClick={() => onOpenTopic(topic.id)}>
-                      <span>Apri il percorso</span>
-                      <i aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" /></svg></i>
-                    </button>
-                  </div>
                 </div>
               </article>
             ))}
