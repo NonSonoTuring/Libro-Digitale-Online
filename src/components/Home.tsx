@@ -15,7 +15,7 @@ export function Home({ theme, onOpenTopic, onOpenChapter }: {
       <section className="codex-hero" aria-labelledby="home-title">
         <div className="codex-hero-copy">
           <span className="eyebrow">Biblioteca interattiva · Edizione MMXXVI</span>
-          <h1 id="home-title">Conoscere è un percorso.<br /><em>Esploralo.</em></h1>
+          <h1 id="home-title">Quaderni di studio di<br /><span className="codex-name-gabry">Gabry</span> e <span className="codex-name-olga">Olga</span></h1>
           <p>
             Quattro corsi per attraversare le reti neurali, la geometria del cubo, la lettura del quadro e il Neoclassicismo.
             Testi, immagini e strumenti interattivi trasformano ogni argomento in un’occasione per osservare,

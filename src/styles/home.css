@@ -184,3 +184,15 @@
     hyphens: auto;
   }
 }
+
+
+/* Titolo della biblioteca: colori dedicati ai nomi, con contrasto per tema. */
+.codex-hero h1 .codex-name-gabry {
+  color: #3b82f6;
+}
+.codex-hero h1 .codex-name-olga {
+  color: #ef4444;
+}
+html[data-theme="dark"] .codex-hero h1 .codex-name-gabry {
+  color: #60a5fa;
+}
