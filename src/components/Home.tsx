@@ -29,11 +29,11 @@ export function Home({ theme, onOpenTopic }: {
               <span className="home-kicker font-mono text-[10px] uppercase tracking-[0.22em] text-terra">Un libro per guardare più a lungo</span>
               <h1 id="home-title" className="display-title">Forma <em>e</em> Codice</h1>
               <p className="home-hero-subtitle font-serif text-[18px] leading-[1.6] text-ink-soft sm:text-[20px]">
-                Quattro percorsi per capire come una cosa prende forma: <em>nella memoria</em> di una macchina,
-                <em> nella geometria</em> di un solido, <em>nella luce</em> di un dipinto, <em>nella pietra</em>.
+                Cinque percorsi per capire come una cosa prende forma: <em>nella memoria</em> di una macchina,
+                <em> nella geometria</em> di un solido, <em>nella luce</em> di un dipinto, <em>nella pietra</em> e <em>nel codice</em>.
               </p>
               <p className="home-hero-description mt-4 max-w-[31rem] text-[13.5px] leading-relaxed text-muted">
-                Reti neurali, geometria del cubo, lettura della pittura e Neoclassicismo. Con laboratori interattivi,
+                Reti neurali, geometria del cubo, Linguaggio C, lettura della pittura e Neoclassicismo. Con laboratori interattivi,
                 modelli esplorabili e letture visive. Nessuna semplificazione da manuale per bambini.
               </p>
 
@@ -54,7 +54,7 @@ export function Home({ theme, onOpenTopic }: {
                 </div>
               ))}
               <span className="home-art-caption">Appunti · figure · percorsi</span>
-              <span className="home-art-index">I — IV</span>
+              <span className="home-art-index">I — V</span>
             </div>
           </div>
         </div>

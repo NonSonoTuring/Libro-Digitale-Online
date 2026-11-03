@@ -38,6 +38,7 @@ Esempi di tono e lunghezza:
 | Il cubo | Forma, simmetria e geometria oltre la terza dimensione. |
 | Il quadro | Luce, colore e composizione per imparare a leggere un dipinto. |
 | Neoclassicismo | Corpo, luce e allegoria: il momento del Neoclassico. |
+| Linguaggio C | Istruzioni, dati e memoria: imparare a pensare con il C. |
 
 ### Come scrivere `homeHoverDescription`
 
@@ -55,6 +56,7 @@ Esempi per i percorsi attuali:
 | Il cubo | Dai vertici, spigoli e facce si passa alle rotazioni che conservano il cubo. La quarta dimensione entra in scena con il tesseratto, esplorato attraverso simmetrie e proiezioni. |
 | Il quadro | Leggere un dipinto significa seguire la luce, distinguere i valori tonali e capire come i colori si influenzano. La composizione rivela il percorso dello sguardo e l’equilibrio dell’opera. |
 | Neoclassicismo | Canova e David guardano all’antico per costruire un nuovo ideale: nella scultura contano equilibrio e gesto, nella pittura mito e virtù civica diventano immagini di impegno e memoria. |
+| Linguaggio C | Dal primo programma alla gestione esplicita della memoria: il C rende visibili tipi, indirizzi e responsabilità del programmatore. Un percorso pratico tra compilazione, funzioni, array, puntatori e file. |
 
 ### Dimensioni e struttura della scheda
 
