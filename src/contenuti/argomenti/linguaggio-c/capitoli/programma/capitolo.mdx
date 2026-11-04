@@ -3,7 +3,7 @@
 <h2>La forma di un programma C</h2>
 
 <p>
-  Un programma C è testo sorgente che descrive dichiarazioni e istruzioni. Nel modello di programma ospitato, il punto d'ingresso convenzionale è la funzione <strong>main</strong>, che restituisce al sistema un codice di uscita. La forma più semplice è questa:
+  Un programma C è <Term def="Il file di testo scritto dal programmatore, che contiene dichiarazioni e istruzioni. Prima di diventare eseguibile viene tradotto dalla toolchain.">testo sorgente</Term>: istruzioni scritte in modo leggibile. Nel <Term def="Ambiente in cui il programma viene eseguito con il supporto di un sistema operativo, che fornisce librerie, input/output e gestione della memoria.">modello ospitato</Term> il punto d'ingresso convenzionale è la funzione <strong>main</strong>, che restituisce al sistema un codice di uscita. La forma più semplice è questa:
 </p>
 
 ```c
@@ -17,7 +17,15 @@ int main(void)
 ```
 
 <p>
-  La direttiva <strong>#include</strong> rende disponibili le dichiarazioni dell'header standard <strong>stdio.h</strong>. La funzione <strong>printf</strong> scrive sul flusso di output standard; <strong>\n</strong> conclude la riga. Le parentesi graffe delimitano il corpo della funzione e il punto e virgola termina un'istruzione.
+  Seleziona una riga del listato per leggerne il significato:
+</p>
+
+<Figure n="1.1" caption={<>Anatomia del primo programma. Ogni riga è un elemento diverso: una <em>direttiva</em> per il preprocessore, la dichiarazione della funzione d'ingresso, l'apertura di un blocco, una chiamata di funzione e il codice di uscita restituito al sistema.</>}>
+  <HelloExplorer />
+</Figure>
+
+<p>
+  La direttiva <strong>#include</strong> rende disponibili le dichiarazioni dell'header standard <strong>stdio.h</strong>, fra cui <strong>printf</strong>. La funzione <strong>printf</strong> scrive sul flusso di output standard; la sequenza <strong>\n</strong> conclude la riga. Le parentesi graffe delimitano il corpo della funzione e il punto e virgola termina un'istruzione.
 </p>
 
 <Definition term="Funzione main">
@@ -25,8 +33,14 @@ int main(void)
 </Definition>
 
 <p>
-  C distingue maiuscole e minuscole: <strong>main</strong> e <strong>Main</strong> sono identificatori diversi. Le parole chiave, come <strong>int</strong> e <strong>return</strong>, hanno un significato riservato. I commenti con <strong>//</strong> terminano a fine riga; quelli tra <strong>/&#42;</strong> e <strong>&#42;/</strong> possono estendersi su più righe.
+  C distingue maiuscole e minuscole: <strong>main</strong> e <strong>Main</strong> sono identificatori diversi. Le parole chiave, come <strong>int</strong> e <strong>return</strong>, hanno un significato riservato e non possono essere usate come nomi. I commenti con <strong>//</strong> terminano a fine riga; quelli tra <strong>/&#42;</strong> e <strong>&#42;/</strong> possono estendersi su più righe.
 </p>
+
+<History title="1972 — Dal B al C nei Bell Labs">
+  <p>
+    Il C nasce a opera di Dennis Ritchie ai Bell Labs come evoluzione del linguaggio B di Ken Thompson, ideato per riscrivere il sistema operativo Unix. Nel 1973 l'Unix viene riscritto quasi interamente in C: la portabilità del linguaggio ne decreta il successo. Il manuale di Kernighan e Ritchie (1978) ne diffonde la forma, e lo standard ISO/IEC 9899:2018 (C17) ne fissa il comportamento.
+  </p>
+</History>
 
 </section>
 
@@ -35,20 +49,28 @@ int main(void)
 <h2>Compilare e leggere gli errori</h2>
 
 <p>
-  Il file sorgente, per esempio <strong>ciao.c</strong>, non è ancora il programma eseguibile. Una toolchain traduce il testo in più passaggi: il preprocessore espande direttive e macro; il compilatore traduce il C; l'assemblatore produce codice oggetto; il linker collega il codice oggetto alle librerie. I dettagli variano, ma questa distinzione aiuta a capire i messaggi diagnostici.
+  Il file sorgente, per esempio <strong>ciao.c</strong>, non è ancora un programma eseguibile. Una <Term def="L'insieme degli strumenti che trasformano il codice sorgente in un eseguibile: preprocessore, compilatore, assemblatore e linker.">toolchain</Term> traduce il testo in più passaggi: il preprocessore espande direttive e macro; il compilatore traduce il C in assembly; l'assemblatore produce codice macchina in un file oggetto; il linker collega il codice oggetto alle librerie e produce l'eseguibile. I dettagli variano, ma questa distinzione aiuta a capire i messaggi diagnostici.
 </p>
 
 <DataTable
-  head={["Passaggio", "Risultato"]}
+  head={["Passaggio", "Comando (GCC)", "Risultato"]}
   numeric={false}
   rows={[
-    ["Preprocessore", "Direttive e macro espanse"],
-    ["Compilatore", "Traduzione del sorgente"],
-    ["Assemblatore", "File oggetto"],
-    ["Linker", "Programma eseguibile"],
+    ["Preprocessore", "gcc -E ciao.c -o ciao.i", "Testo C con gli header espansi (ciao.i)"],
+    ["Compilatore", "gcc -S ciao.c -o ciao.s", "Assembly della macchina (ciao.s)"],
+    ["Assemblatore", "gcc -c ciao.c -o ciao.o", "Codice macchina in file oggetto (ciao.o)"],
+    ["Linker", "gcc ciao.c -o ciao", "Programma eseguibile (ciao)"],
   ]}
-  caption="Schema concettuale della traduzione: una toolchain può fondere o riorganizzare alcune fasi."
+  caption="Schema concettuale della traduzione con GCC: in un solo comando il driver esegue tutti i passaggi. Una toolchain può fondere o riorganizzare alcune fasi."
 />
+
+<p>
+  Esplora i passaggi uno per uno e osserva come cambia il file intermedio:
+</p>
+
+<Figure n="1.2" caption={<>La toolchain di GCC, passo dopo passo, sullo stesso sorgente ciao.c. Ogni fase produce un file intermedio: dal testo preprocessato (ciao.i) all'assembly (ciao.s), al codice macchina (ciao.o), fino all'eseguibile (ciao).</>}>
+  <CompilePipeline />
+</Figure>
 
 <p>Con GCC o Clang, una riga di comando essenziale è:</p>
 
@@ -58,12 +80,27 @@ gcc -std=c17 -Wall -Wextra -Wpedantic ciao.c -o ciao
 ```
 
 <p>
-  L'opzione <strong>-std=c17</strong> seleziona il dialetto C17; <strong>-Wall</strong>, <strong>-Wextra</strong> e <strong>-Wpedantic</strong> chiedono avvisi aggiuntivi. Un warning non è automaticamente un errore, ma merita attenzione: spesso anticipa un difetto. Se il compilatore indica una riga, leggi anche quelle precedenti: la causa può essere una parentesi o un punto e virgola dimenticato.
+  L'opzione <strong>-std=c17</strong> seleziona il dialetto C17; <strong>-Wall</strong>, <strong>-Wextra</strong> e <strong>-Wpedantic</strong> chiedono avvisi aggiuntivi. Un warning non è automaticamente un errore, ma merita attenzione: spesso anticipa un difetto.
 </p>
+
+<Example title="Anatomia di un messaggio d'errore">
+  <p>
+    Se dimentichi un punto e virgola, GCC può rispondere così: <strong>ciao.c:7:5: error: expected ';' before 'return'</strong>. Si legge: file <strong>ciao.c</strong>, riga <strong>7</strong>, colonna <strong>5</strong>: il compilatore si aspettava un punto e virgola prima di <strong>return</strong>. La causa reale può stare anche qualche riga prima, per una parentesi o una virgola dimenticata: se il compilatore indica una riga, leggi anche quelle precedenti.
+  </p>
+</Example>
+
+<p>
+  Il valore restituito da <strong>main</strong> è il <Term def="Codice numerico che il programma restituisce al sistema operativo al termine: 0 indica successo, un valore diverso da zero segnala un'anomalia. In una shell si legge con echo $?.">codice di uscita</Term> del programma. Dal C99 in poi, se il flusso raggiunge la parentesi graffa che chiude <strong>main</strong> senza un <strong>return</strong> esplicito, il programma restituisce comunque 0; negli altri casi vale l'espressione del return.
+</p>
+
+```sh
+./ciao
+echo $?     # stampa 0: il programma ha restituito successo
+```
 
 <Note title="Errore, warning e comportamento indefinito">
   <p>
-    Un errore impedisce la traduzione; un warning segnala codice sospetto o non portabile. Il <em>comportamento indefinito</em> è diverso: lo standard non impone cosa debba accadere durante l'esecuzione. Il programma può sembrare funzionare e fallire con un'altra ottimizzazione o su un'altra macchina.
+    Un errore impedisce la traduzione; un warning segnala codice sospetto o non portabile. Il <em>comportamento indefinito</em> è diverso: lo standard non impone cosa deve accadere durante l'esecuzione. Il programma può sembrare funzionare e fallire con un'altra ottimizzazione o su un'altra macchina.
   </p>
 </Note>
 
@@ -74,7 +111,7 @@ gcc -std=c17 -Wall -Wextra -Wpedantic ciao.c -o ciao
 <h2>Variabili e tipi fondamentali</h2>
 
 <p>
-  Una variabile è un oggetto identificato da un nome, con un tipo e una durata di vita. Il tipo stabilisce quali valori può rappresentare e quali operazioni hanno significato. Prima di usarla, una variabile automatica va inizializzata: leggere un valore indeterminato non è un modo valido per ottenere un numero casuale.
+  Una <Term def="Oggetto identificato da un nome, con un tipo, un valore e una durata di vita in memoria.">variabile</Term> è un oggetto identificato da un nome, con un tipo e una durata di vita. Il tipo stabilisce quali valori può rappresentare e quali operazioni hanno significato. Prima di usarla, una variabile automatica va inizializzata: leggere un valore indeterminato non è un modo valido per ottenere un numero casuale.
 </p>
 
 ```c
@@ -85,6 +122,14 @@ _Bool pronto = 1;
 
 tentativi = tentativi + 1;
 ```
+
+<p>
+  Scegli un tipo e osserva come il suo valore occupa i byte in memoria:
+</p>
+
+<Figure n="1.3" caption={<>La rappresentazione in memoria di un valore. Ogni quadrato è un byte, in esadecimale, all'indirizzo +0, +1, …: l'ordine è little-endian, cioè il byte meno significativo sta all'indirizzo più basso (tipico di x86-64). Cambia il valore con il cursore e guarda i byte modificarsi.</>}>
+  <TypeExplorer />
+</Figure>
 
 <DataTable
   head={["Tipo", "Uso tipico", "Esempio"]}
@@ -107,6 +152,12 @@ tentativi = tentativi + 1;
   Scegli il tipo in base al significato del dato, non soltanto al numero di cifre atteso. Per quantità non negative e dimensioni si incontrano spesso tipi unsigned o size_t; per valori che possono essere negativi, un tipo signed. Gli header <strong>limits.h</strong> e <strong>float.h</strong> descrivono i limiti disponibili nell'implementazione.
 </p>
 
+<Note title="Mai leggere una variabile non inizializzata">
+  <p>
+    Il contenuto iniziale di una variabile automatica è indeterminato: leggerlo è un <em>comportamento indefinito</em>, non un «numero a caso» affidabile. Inizializza sempre le variabili alla dichiarazione o prima del primo uso.
+  </p>
+</Note>
+
 </section>
 
 <section className="book-section" id="sec-io">
@@ -114,7 +165,7 @@ tentativi = tentativi + 1;
 <h2>Input e output</h2>
 
 <p>
-  <strong>printf</strong> combina testo e specificatori di formato. Il tipo dell'argomento deve corrispondere allo specificatore: per esempio <strong>%d</strong> per int, <strong>%f</strong> per double nelle chiamate variadiche a printf, <strong>%c</strong> per un carattere promosso a int, <strong>%s</strong> per una stringa terminata da zero e <strong>%zu</strong> per size_t.
+  <strong>printf</strong> combina testo e specificatori di formato. Il tipo dell'argomento deve corrispondere allo specificatore: per esempio <strong>%d</strong> per int, <strong>%f</strong> per double nelle chiamate variadiche a printf, <strong>%c</strong> per un carattere promoted a int, <strong>%s</strong> per una stringa terminata da zero e <strong>%zu</strong> per size_t.
 </p>
 
 ```c
@@ -139,6 +190,12 @@ int main(void)
   <strong>scanf</strong> riceve indirizzi perché deve poter scrivere negli oggetti: <strong>&amp;eta</strong> significa «indirizzo di eta». Il valore restituito indica quanti elementi sono stati assegnati. Ignorarlo può lasciare variabili non aggiornate e far proseguire il programma con dati non validi. Per leggere righe di testo e gestire input più articolato, <strong>fgets</strong> è spesso una scelta più controllabile; la useremo nel capitolo sulle stringhe.
 </p>
 
+<Example title="Perché controllare il valore restituito da scanf">
+  <p>
+    Se l'utente digita del testo dove il programma si aspetta un numero, <strong>scanf("%d", &amp;eta)</strong> non assegna nulla e restituisce 0: <strong>eta</strong> resta al valore precedente e il programma continuerebbe con un dato non valido. Controllare il valore restituito permette di intercettare l'errore e reagire, come nel listato qui sopra.
+  </p>
+</Example>
+
 <Note title="Il formato è un contratto">
   <p>
     Un formato errato in printf o scanf può produrre comportamento indefinito. Non usare <strong>%d</strong> per un double e non passare a scanf il valore della variabile quando serve il suo indirizzo. Le funzioni di formato non verificano automaticamente che il testo corrisponda al tipo previsto.
@@ -147,8 +204,11 @@ int main(void)
 
 </section>
 
-<Takeaways items={["Un programma C ospitato comincia da main e restituisce un codice di uscita.","Il sorgente viene preprocessato, compilato, assemblato e collegato.","Ogni variabile ha un tipo: inizializza gli oggetti prima di leggerli.","Controlla il risultato delle operazioni di input e rispetta i formati di printf e scanf."]} />
+<Takeaways items={["Un programma C ospitato parte da main e restituisce al sistema un codice di uscita: 0 è successo.","Il sorgente attraversa la toolchain: preprocessore, compilatore, assemblatore, linker.","Ogni variabile ha un tipo, che decide quanti byte occupa il valore e quali operazioni sono lecite: inizializza sempre prima di leggere.","Il compilatore legge i messaggi con riga e colonna: la causa può stare qualche riga prima di quella indicata.","Controlla sempre il risultato delle operazioni di input e rispetta i formati di printf e scanf."]} />
 <Quiz items={[
   {"question":"Quale dichiarazione è una forma standard di main senza argomenti?","options":["void main()","int main(void)","start()"],"answer":1,"explanation":"Nel modello ospitato, int main(void) è una forma standard e portabile."},
-  {"question":"Perché scanf(\"%d\", ...) riceve &eta?","options":["Per conoscere il tipo","Per poter scrivere nell'oggetto","Per stampare l'indirizzo"],"answer":1,"explanation":"scanf ha bisogno dell'indirizzo dell'oggetto da modificare."}
+  {"question":"Perché scanf(\"%d\", ...) riceve &eta?","options":["Per conoscere il tipo","Per poter scrivere nell'oggetto","Per stampare l'indirizzo"],"answer":1,"explanation":"scanf ha bisogno dell'indirizzo dell'oggetto da modificare."},
+  {"question":"A che serve la riga #include stdio.h?","options":["A collegare il linker alla libreria C","A rendere note al compilatore le funzioni di input/output come printf","A dichiarare la funzione main"],"answer":1,"explanation":"L'header stdio.h dichiara printf e le altre funzioni di I/O: il preprocessore lo inserisce nel sorgente prima della compilazione."},
+  {"question":"In C17, se il flusso raggiunge la fine di main senza un return esplicito, quale codice di uscita restituisce il programma?","options":["Un valore indeterminato","0","Dipende dal compilatore"],"answer":1,"explanation":"Dal C99 in poi, raggiungere la parentesi graffa che chiude main equivale a return 0."},
+  {"question":"Quale sequenza descrive i file intermedi della toolchain su ciao.c?","options":["ciao.c → ciao.i → ciao.s → ciao.o → ciao","ciao.c → ciao.o → ciao.s → ciao","ciao.c → ciao eseguibile direttamente, senza passaggi intermedi"],"answer":0,"explanation":"Preprocessore (ciao.i), compilatore (ciao.s), assemblatore (ciao.o), poi il linker produce l'eseguibile."}
 ]} />
